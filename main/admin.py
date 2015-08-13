@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus
+from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus, EstacionVcub, Vcub
 
 # Register your models here.
 
@@ -37,7 +37,28 @@ class MoviBusAdmin(admin.ModelAdmin):
     list_filter = ['marca','ruta',]
     search_fields = ['placa']
 
+class VcubAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['registro']}),
+        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo'], 'classes': ['collapse']}),
+    ]
+    list_display = ('registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo')
+    list_filter = ['marca','estacion',]
+    search_fields = ['registro']
+
+class EstacionVcubAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['nombre']}),
+        ('Informacion', {'fields': ['fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo'], 'classes': ['collapse']}),
+    ]
+    list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo')
+    list_filter = ['fecha_construccion']
+    search_fields = ['nombre']
+
+
 admin.site.register(ConductorTranvia, ConductorTranviaAdmin)
 admin.site.register(ConductorMoviBus, ConductorMoviBusAdmin)
 admin.site.register(Tranvia, TranviaAdmin)
 admin.site.register(MoviBus, MoviBusAdmin)
+admin.site.register(Vcub, VcubAdmin)
+admin.site.register(EstacionVcub, EstacionVcubAdmin)
