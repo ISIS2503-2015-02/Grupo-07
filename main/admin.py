@@ -3,6 +3,10 @@ from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus, Estaci
 
 # Register your models here.
 
+class ChoiceInline(admin.TabularInline):
+    model = Vcub
+    choice = 0
+
 class ConductorTranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['nombre']}),
@@ -51,6 +55,7 @@ class EstacionVcubAdmin(admin.ModelAdmin):
         (None,               {'fields': ['nombre']}),
         ('Informacion', {'fields': ['fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo'], 'classes': ['collapse']}),
     ]
+    inlines = [ChoiceInline]
     list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo')
     list_filter = ['fecha_construccion']
     search_fields = ['nombre']
