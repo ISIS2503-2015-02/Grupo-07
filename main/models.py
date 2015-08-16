@@ -4,6 +4,7 @@ from datetime import datetime
 from django.utils.translation import gettext as _
 from django.utils import timezone
 
+#Hola
 #Clase que modela un conductor de tranvia de tcb
 
 class ConductorTranvia(models.Model):
@@ -89,3 +90,16 @@ class Vcub(models.Model):
 
     def __unicode__(self):
         return self.registro
+
+#Clase que modela una reserva de un usuario de moviBus
+
+class ReservaMobiBus(models.Model):
+    #usuario = ForeignKey(Usuario)
+    movi_bus = models.OneToOneField(MoviBus, null = True)
+    fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+
+#Clase que modela una alerta de tranvía
+class AlertaTranvia(models.Model):
+    fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+    tranvia =  ForeignKey(Tranvia)
+    solicits_reposicion = models.BooleanField(default=True)
