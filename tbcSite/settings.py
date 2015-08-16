@@ -113,6 +113,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+# Geolibs configuration
+# Buildpack added using heroku buildpacks:set {url} command
+# git://github.com/dulaccc/heroku-buildpack-geodjango.git#1.1
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+
 ############################################################
 ############### HEROKU CONFIG SETTINGS #####################
 ############################################################
