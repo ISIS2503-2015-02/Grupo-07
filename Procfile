@@ -1,1 +1,1 @@
-web: gunicorn -c gunicorn.py.ini --worker-class=gevent tbcSite.wsgi --log-file -
+web: gunicorn hellodjango.wsgi --log-file -
