@@ -1,34 +1,62 @@
 # Grupo-07
-Repositorio de código del grupo 07 de Arquitectura y Diseño de Software, Universidad de los Andes, 2015-20
+Repositorio de código del grupo 07 de Arquitectura y Diseño de Software, Universidad de los Andes, 2015-20.
 
-#Lo que hay que instalar (utilicen pip):
+### Instalación
+Deben tener virtualenv instalado globalmente:
+```sh
+$ [sudo] pip install virtualenv
+```
 
--Python 2.7
--Django 1.8
--gunicorn
--uWSGI
--gevent
+Creen un entorno virtual llamado venv, este contendrá las dependencias requeridas para correr el proyecto de manera satisfactoria y evitará inconvenientes con las versiones:
+```sh
+$ virtualenv venv
+```
 
-Utilicen pip para instalar, es sencillo. Usen sudo para autenticarse.  
+Asegurense de activar su ambiente virtual:
+```sh
+$ source venv/bin/activate
+```
 
-#Para correr la aplicación:
+Pueden desactivar el ambiente virtual en cualquier momento usando:
+```sh
+$ deactivate
+```
 
-Sobre gunicorn (con archivo de config y workers gevent async):
+El repositorio contiene un archivo generado por *pip* llamado **requirements.txt**, este contiene las dependencias necesarias para correr el proyecto junto a sus respectivas versiones. Pueden utilizar *pip* para instalar el contenido de este archivo:
+```sh
+$ pip install -r requirements.txt
+```
 
-gunicorn tbcSite.wsgi -c gunicorn.py.ini --worker-class gevent
+Es necesario tener instaladas las librerias requeridas por *GeoDjango*, las instrucciones para Mac y Windows se encuentran en este enlace:
+- [GeoDjango Installation](https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/)
 
-Sobre uWSGI (con archivo de config):
+### Uso
 
-uwsgi --ini uwsgi.py.ini
+Sobre *gunicorn*:
+```sh
+$ gunicorn -c gunicorn.py.ini tbcSite.wsgi
+```
 
-#Para no tener problemas de cookies o autenticación al hacer pruebas de carga:
+También pueden correrlo de forma local con *Heroku*, este iniciara el contenido de **Procfile**:
+```sh
+$ heroku local
+```
 
-Reemplacen el archivo 'login.html' de Django por el archivo de mismo nombre que está en el folder "recursos_Django" del proyecto. La ruta del archivo de Django en OS es:
+Sobre *uWSGI*:
+```sh
+$ uwsgi --ini uwsgi.py.ini
+```
 
-/Library/Python/2.7/site-packages/django/contrib/admin/templates/admin/login.html
+### Saltar autenticación
 
-Reemplacen el archivo 'middleware.py' de Django por el archivo de mismo nombre que está en el folder "recursos_Django" del proyecto. La ruta del archivo de Django en OS es:
+Reemplacen el archivo **login.html** de *Django* por el archivo de mismo nombre que está en el folder **recursos_Django** del proyecto. Pueden hacer esto desde consola ubicados en la raíz del proyecto:
+```sh
+mv recursos_Django/login.html venv/lib/python2.7/site-packages/django/contrib/admin/templates/admin/
+```
 
-/Library/Python/2.7/site-packages/django/contrib/auth/middleware.py
+Reemplacen el archivo **middleware.py** de *Django* por el archivo de mismo nombre que está en el folder "recursos_Django" del proyecto. Pueden hacer esto desde consola ubicados en la raíz del proyecto:
+```sh
+mv recursos_Django/middleware.py venv/lib/python2.7/site-packages/django/contrib/auth/
+```
 
-De lo contrario cualquier HTTP request va a devolver la página de login. Una vez reemplacen los archivos van a estar autenticados permanentemente como 'ramirezamayas'.
+De lo contrario cualquier *HTTP request* va a devolver la página de login. Una vez reemplacen los archivos van a estar autenticados permanentemente como *ramirezamayas*.
