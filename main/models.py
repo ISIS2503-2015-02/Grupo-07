@@ -98,8 +98,15 @@ class ReservaMobiBus(models.Model):
     movi_bus = models.OneToOneField(MoviBus, null = True)
     fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
 
-#Clase que modela una alerta de tranvía
+    def __unicode__(self):
+        return "Usuario - " + self.fecha
+
+#Clase que modela una alerta de tranvia
+
 class AlertaTranvia(models.Model):
     fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
-    tranvia =  ForeignKey(Tranvia)
-    solicits_reposicion = models.BooleanField(default=True)
+    tranvia =  models.ForeignKey(Tranvia)
+    solicita_reposicion = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.tranvia.placa + " - " + self.fecha
