@@ -1,6 +1,8 @@
 Django==1.8.3
+SQLAlchemy==1.0.8
 dj-database-url==0.3.0
 dj-static==0.0.6
+django-postgrespool==0.3.0
 django-toolbelt==0.0.1
 gevent==1.0.2
 greenlet==0.4.7
