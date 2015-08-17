@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import dj_database_url
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'
 
 # Quick-start development settings - unsuitable for production
@@ -97,6 +96,16 @@ USE_TZ = True
 
 # Parse database configuration from $DATABASE_URL
 DATABASES['default'] =  dj_database_url.config()
+
+# Enable Connection Pooling
+DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
+# Limit the concurrent connections
+DATABASE_POOL_ARGS = {
+    'max_overflow': 15,
+    'pool_size': 5,
+    'recycle': 300
+}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
