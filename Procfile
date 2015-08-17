@@ -1,1 +1,0 @@
-web: gunicorn -c gunicorn.py.ini tbcSite.wsgi --log-file -
