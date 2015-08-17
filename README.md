@@ -12,9 +12,17 @@ Creen un entorno virtual llamado venv, este contendrá las dependencias requerid
 $ virtualenv venv
 ```
 
-Asegurense de activar su ambiente virtual:
+Asegurense de activar su ambiente virtual siempre que vayan a trabajar:
 ```sh
 $ source venv/bin/activate
+```
+
+Pueden verificar que su entorno está activo por el prefijo que les aparecerá en la consola:
+```sh
+# Antes
+$
+# Despues
+(venv) $
 ```
 
 Pueden desactivar el ambiente virtual en cualquier momento usando:
@@ -37,26 +45,32 @@ Sobre *gunicorn*:
 $ gunicorn -c gunicorn.py.ini tbcSite.wsgi
 ```
 
-También pueden correrlo de forma local con *Heroku*, este iniciara el contenido de **Procfile**:
-```sh
-$ heroku local
-```
-
 Sobre *uWSGI*:
 ```sh
 $ uwsgi --ini uwsgi.py.ini
+```
+
+### Nuevas dependencias
+Recuerden que cada vez que hagan *pull*, deben verificar si hay nuevas dependencias corriendo el archivo **requirements.txt**:
+```sh
+$ pip install -r requirements.txt
+```
+
+En el momento que deban agregar nuevas dependencias con pip, deben actualizar el archivo **requirements.txt**
+```sh
+$ pip freeze > requirements.txt
 ```
 
 ### Saltar autenticación
 
 Reemplacen el archivo **login.html** de *Django* por el archivo de mismo nombre que está en el folder **recursos_Django** del proyecto. Pueden hacer esto desde consola ubicados en la raíz del proyecto:
 ```sh
-mv recursos_Django/login.html venv/lib/python2.7/site-packages/django/contrib/admin/templates/admin/
+$ mv recursos_Django/login.html venv/lib/python2.7/site-packages/django/contrib/admin/templates/admin/
 ```
 
 Reemplacen el archivo **middleware.py** de *Django* por el archivo de mismo nombre que está en el folder "recursos_Django" del proyecto. Pueden hacer esto desde consola ubicados en la raíz del proyecto:
 ```sh
-mv recursos_Django/middleware.py venv/lib/python2.7/site-packages/django/contrib/auth/
+$ mv recursos_Django/middleware.py venv/lib/python2.7/site-packages/django/contrib/auth/
 ```
 
 De lo contrario cualquier *HTTP request* va a devolver la página de login. Una vez reemplacen los archivos van a estar autenticados permanentemente como *ramirezamayas*.
