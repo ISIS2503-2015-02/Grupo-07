@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus, EstacionVcub, Vcub
+from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus, EstacionVcub, Vcub, ReservaMobiBus, AlertaTranvia
 
 # Register your models here.
 
@@ -9,7 +9,7 @@ class ChoiceInline(admin.TabularInline):
 
 class Alerta(admin.TabularInline):
     model = AlertaTranvia
-    choice = 0
+    extra = 1
 
 class ConductorTranviaAdmin(admin.ModelAdmin):
     fieldsets = [
