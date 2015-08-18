@@ -82,7 +82,7 @@ class Vcub(models.Model):
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
-    estacion = models.ForeignKey(EstacionVcub, null = True)
+    estacion = models.ForeignKey(EstacionVcub, null = True, blank = True)
     objects = models.GeoManager()
     en_transito = models.BooleanField(default=True)
     estado_operativo = models.BooleanField(default=True)
@@ -103,7 +103,7 @@ class ReservaMobiBus(models.Model):
 #Clase que modela una alerta de tranvia
 
 class AlertaTranvia(models.Model):
-    fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+    fecha = models.DateField(_("Fecha de Alerta"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     tranvia =  models.ForeignKey(Tranvia, null = True)
     solicita_reposicion = models.BooleanField(default=True)
 

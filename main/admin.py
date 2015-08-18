@@ -3,13 +3,15 @@ from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus, Estaci
 
 # Register your models here.
 
-class ChoiceInline(admin.TabularInline):
+class ChoiceInlineEstacion(admin.TabularInline):
     model = Vcub
     choice = 0
+    extra = 0
 
-class Alerta(admin.TabularInline):
+class ChoiceInLineAlerta(admin.TabularInline):
     model = AlertaTranvia
-    extra = 1
+    choice = 0
+    extra = 0
 
 class ConductorTranviaAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -32,7 +34,7 @@ class TranviaAdmin(admin.ModelAdmin):
         (None,               {'fields': ['placa']}),
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','lon','lat','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
-    inlines = [Alerta]
+    inlines = [ChoiceInLineAlerta]
     list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','lon','lat','conductor','estado_operativo')
     list_filter = ['marca','linea',]
     search_fields = ['placa']
@@ -60,7 +62,7 @@ class EstacionVcubAdmin(admin.ModelAdmin):
         (None,               {'fields': ['nombre']}),
         ('Informacion', {'fields': ['fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo'], 'classes': ['collapse']}),
     ]
-    inlines = [ChoiceInline]
+    inlines = [ChoiceInlineEstacion]
     list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo')
     list_filter = ['fecha_construccion']
     search_fields = ['nombre']
