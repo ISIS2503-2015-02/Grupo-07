@@ -7,6 +7,10 @@ class ChoiceInline(admin.TabularInline):
     model = Vcub
     choice = 0
 
+class Alerta(admin.TabularInline):
+    model = AlertaTranvia
+    choice = 0
+
 class ConductorTranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['nombre']}),
@@ -28,6 +32,7 @@ class TranviaAdmin(admin.ModelAdmin):
         (None,               {'fields': ['placa']}),
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','lon','lat','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
+    inlines = [Alerta]
     list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','lon','lat','conductor','estado_operativo')
     list_filter = ['marca','linea',]
     search_fields = ['placa']
@@ -59,7 +64,6 @@ class EstacionVcubAdmin(admin.ModelAdmin):
     list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo')
     list_filter = ['fecha_construccion']
     search_fields = ['nombre']
-
 
 admin.site.register(ConductorTranvia, ConductorTranviaAdmin)
 admin.site.register(ConductorMoviBus, ConductorMoviBusAdmin)
