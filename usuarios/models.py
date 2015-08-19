@@ -10,7 +10,7 @@ from movibuses.models import MoviBus
 
 class Usuario(models.Model):
     login = models.CharField(max_length = 200, unique = True)
-    contrasenia = forms.CharField(max_length = 200)
+    contrasenia = models.CharField(max_length=200)
     nombre = models.CharField(max_length = 200)
     fecha_nacimiento = models.DateField(_("Fecha de Nacimiento"), blank=True, default = datetime(1980, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
 

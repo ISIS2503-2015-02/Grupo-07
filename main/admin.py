@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import Usuario, ReservaMobiBus
+from usuarios.models import Usuario, ReservaMobiBus
 from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia
 from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus
 from vcubs.models import EstacionVcub, Vcub
@@ -80,6 +80,15 @@ class EstacionVcubAdmin(admin.ModelAdmin):
     list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','necesita_refill')
     list_filter = ['fecha_construccion']
     search_fields = ['nombre']
+
+class UsuarioAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['nombre']}),
+        ('Informacion', {'fields': ['nombre','login','fecha_nacimiento'], 'classes': ['collapse']}),
+    ]
+    list_display = ('registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo')
+    list_filter = ['marca','estacion',]
+    search_fields = ['registro']
 
 admin.site.register(ConductorTranvia, ConductorTranviaAdmin)
 admin.site.register(ConductorMoviBus, ConductorMoviBusAdmin)
