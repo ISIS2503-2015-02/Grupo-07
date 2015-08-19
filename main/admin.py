@@ -63,7 +63,7 @@ class EstacionVcubAdmin(admin.ModelAdmin):
         ('Informacion', {'fields': ['fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo'], 'classes': ['collapse']}),
     ]
     inlines = [ChoiceInlineEstacion]
-    list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo')
+    list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','necesita_refill')
     list_filter = ['fecha_construccion']
     search_fields = ['nombre']
 
