@@ -1,0 +1,10 @@
+Reporte MoviBus MKT153
+
+Capacidad Maxima	5
+Kilometraje	1.0
+Marca	Renault
+Fecha Fabricacion	2010-01-01
+Placa	MKT153
+Ruta	
+Modelo	Sandero
+Conductor Actual	Meili Vanegas

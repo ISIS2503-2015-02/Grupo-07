@@ -48,6 +48,9 @@ class MoviBus(models.Model):
         f.write(line)
         f.close()
 
+    generar_reporte.admin_order_field = 'generar_reporte'
+    generar_reporte.short_description = 'Generar Reporte'
+
     def __unicode__(self):
         return self.placa
 

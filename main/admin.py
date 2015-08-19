@@ -11,6 +11,11 @@ class ChoiceInLineCoordTranvia(admin.TabularInline):
     choice  = 0
     extra = 1
 
+class ChoiceInLineReservaMoviBus(admin.TabularInline):
+    model = ReservaMobiBus
+    choice  = 0
+    extra = 0
+
 class ChoiceInLineCoordMoviBus(admin.TabularInline):
     model = CoordenadasMoviBus
     choice  = 0
@@ -48,7 +53,7 @@ class TranviaAdmin(admin.ModelAdmin):
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
     inlines = [ChoiceInLineAlerta, ChoiceInLineCoordTranvia]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo')
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo','generar_reporte')
     list_filter = ['marca','linea',]
     search_fields = ['placa']
 
@@ -57,8 +62,8 @@ class MoviBusAdmin(admin.ModelAdmin):
         (None,               {'fields': ['placa']}),
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
-    inline = [ChoiceInLineCoordMoviBus]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo')
+    inlines = [ChoiceInLineCoordMoviBus]
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo','generar_reporte')
     list_filter = ['marca','ruta',]
     search_fields = ['placa']
 
@@ -83,12 +88,13 @@ class EstacionVcubAdmin(admin.ModelAdmin):
 
 class UsuarioAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['nombre']}),
-        ('Informacion', {'fields': ['nombre','login','fecha_nacimiento'], 'classes': ['collapse']}),
+        (None,               {'fields': ['email','login','contrasenia']}),
+        ('Informacion', {'fields': ['nombre','fecha_nacimiento', 'direccion', 'telefono'], 'classes': ['collapse']}),
     ]
-    list_display = ('registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo')
-    list_filter = ['marca','estacion',]
-    search_fields = ['registro']
+    inlines = [ChoiceInLineReservaMoviBus]
+    list_display = ('nombre','login','fecha_nacimiento', 'direccion', 'telefono', 'email')
+    list_filter = ['nombre','login','fecha_nacimiento', 'direccion', 'telefono', 'email']
+    search_fields = ['nombre','login','fecha_nacimiento', 'direccion', 'telefono', 'email']
 
 admin.site.register(ConductorTranvia, ConductorTranviaAdmin)
 admin.site.register(ConductorMoviBus, ConductorMoviBusAdmin)
@@ -97,4 +103,4 @@ admin.site.register(MoviBus, MoviBusAdmin)
 admin.site.register(Vcub, VcubAdmin)
 admin.site.register(EstacionVcub, EstacionVcubAdmin)
 admin.site.register(Linea)
-admin.site.register(Usuario)
+admin.site.register(Usuario, UsuarioAdmin)
