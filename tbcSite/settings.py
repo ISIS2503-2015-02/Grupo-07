@@ -37,7 +37,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'main',
-    'pruebas'
+    'pruebas',
+    'users',
+    'vcubs',
+    'movibuses',
+    'tranvias',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,7 +1,20 @@
 from django.contrib import admin
-from .models import ConductorTranvia, ConductorMoviBus, Tranvia, MoviBus, EstacionVcub, Vcub, ReservaMobiBus, AlertaTranvia
+from users.models import Usuario, ReservaMobiBus
+from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia
+from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus
+from vcubs.models import EstacionVcub, Vcub
 
 # Register your models here.
+
+class ChoiceInLineCoordTranvia(admin.TabularInline):
+    model = CoordenadasTranvia
+    choice  = 0
+    extra = 1
+
+class ChoiceInLineCoordMoviBus(admin.TabularInline):
+    model = CoordenadasMoviBus
+    choice  = 0
+    extra = 1
 
 class ChoiceInlineEstacion(admin.TabularInline):
     model = Vcub
@@ -32,19 +45,20 @@ class ConductorMoviBusAdmin(admin.ModelAdmin):
 class TranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['placa']}),
-        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','lon','lat','conductor','estado_operativo'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
-    inlines = [ChoiceInLineAlerta]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','lon','lat','conductor','estado_operativo')
+    inlines = [ChoiceInLineAlerta, ChoiceInLineCoordTranvia]
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo')
     list_filter = ['marca','linea',]
     search_fields = ['placa']
 
 class MoviBusAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['placa']}),
-        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','ruta','lon','lat','conductor','estado_operativo'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','lon','lat','conductor','estado_operativo')
+    inline = [ChoiceInLineCoordMoviBus]
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo')
     list_filter = ['marca','ruta',]
     search_fields = ['placa']
 
@@ -73,3 +87,5 @@ admin.site.register(Tranvia, TranviaAdmin)
 admin.site.register(MoviBus, MoviBusAdmin)
 admin.site.register(Vcub, VcubAdmin)
 admin.site.register(EstacionVcub, EstacionVcubAdmin)
+admin.site.register(Linea)
+admin.site.register(Usuario)
