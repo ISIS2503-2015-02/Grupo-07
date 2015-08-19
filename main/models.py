@@ -40,22 +40,24 @@ class Tranvia(models.Model):
     conductor = models.OneToOneField(ConductorTranvia, null = True)
     estado_operativo = models.BooleanField(default = True)
 
+    #Genera un reporte en un archivo txt
+
     def generar_reporte(self):
         reporte = {}
         reporte['Placa'] = str(self.placa)
         reporte['Marca'] = str(self.marca)
         reporte['Modelo'] = str(self.modelo)
-        #reporte['Kilometraje'] = str(self.kilometraje)
+#       reporte['Kilometraje'] = str(self.kilometraje)
         reporte['Fecha Fabricacion'] = str(self.fecha_fabricacion)
         reporte['Capacidad Maxima'] = str(self.cap_max)
         reporte['Linea'] = str(self.linea)
         reporte['Ubicacion Actual'] = "Lon: " + str(self.lon) + " -  Lat: " + str(self.lat)
         reporte['Conductor Actual'] = str(self.conductor)
 
-        f = open('reporte_tranvia.txt','w')
+        f = open('Reporte_Tranvia_' + self.placa + '.txt','w')
         f.write('Reporte Tranvia ' + self.placa + '\n' + '\n')
         f.write('')
-        line = "\n".join("%0s\t%15s" % (i, reporte[i]) for i in reporte)
+        line = "\n".join("%s\t%s" % (i, reporte[i]) for i in reporte)
         f.write(line)
         f.close()
 
@@ -68,7 +70,7 @@ class MoviBus(models.Model):
     placa = models.CharField(max_length = 200, unique = True)
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)
-    kilometraje = models.FloatField(blank=True)
+#   kilometraje = models.FloatField(blank=True)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_max = models.IntegerField()
     ruta = models.CharField(max_length = 1, blank = True)
@@ -77,6 +79,27 @@ class MoviBus(models.Model):
     objects = models.GeoManager()
     conductor = models.OneToOneField(ConductorMoviBus, null = True)
     estado_operativo = models.BooleanField(default=True)
+
+    #Genera un reporte en un archivo txt
+
+    def generar_reporte(self):
+        reporte = {}
+        reporte['Placa'] = str(self.placa)
+        reporte['Marca'] = str(self.marca)
+        reporte['Modelo'] = str(self.modelo)
+        #reporte['Kilometraje'] = str(self.kilometraje)
+        reporte['Fecha Fabricacion'] = str(self.fecha_fabricacion)
+        reporte['Capacidad Maxima'] = str(self.cap_max)
+        reporte['Ruta'] = str(self.ruta)
+        reporte['Ubicacion Actual'] = "Lon: " + str(self.lon) + " -  Lat: " + str(self.lat)
+        reporte['Conductor Actual'] = str(self.conductor)
+
+        f = open('Reporte_MoviBus_' + self.placa + '.txt','w')
+        f.write('Reporte MoviBus ' + self.placa + '\n' + '\n')
+        f.write('')
+        line = "\n".join("%s\t%s" % (i, reporte[i]) for i in reporte)
+        f.write(line)
+        f.close()
 
     def __unicode__(self):
         return self.placa
