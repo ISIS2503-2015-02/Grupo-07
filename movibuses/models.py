@@ -70,4 +70,4 @@ class CoordenadasMoviBus(models.Model):
     longitud = models.FloatField(default = 1)
 
     def __unicode__(self):
-        return  self.fecha + ": " + self.movibus.placa
+        return self.movibus.placa
