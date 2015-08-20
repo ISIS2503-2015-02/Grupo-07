@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.core import serializers
 from django.http import QueryDict
 from movibuses.models import MoviBus
+import requests
 
 cache = {}
 
@@ -11,7 +12,7 @@ class CacheView(View):
 
 	# POST view
 	def post(self, request):
-		for deserialized_object in serializers.deserialize("json", [request.body,]):
+		for deserialized_object in serializers.deserialize("json", request.POST[ ]):
 		    deserialized_object.save();
 		return HttpResponse(deserialized_object);
 
