@@ -47,7 +47,7 @@ class Tranvia(models.Model):
 
     #Genera un reporte en un archivo txt
 
-    def generar_reporte(self, fecha):
+    def generar_reporte(self):
         reporte = {}
         reporte['Placa'] = str(self.placa)
         reporte['Marca'] = str(self.marca)
@@ -59,7 +59,7 @@ class Tranvia(models.Model):
         reporte['Conductor Actual'] = str(self.conductor)
 
         f = open('Reporte_Tranvia_' + self.placa + '.txt','w')
-        f.write('Reporte Tranvia ' + self.placa + " " + str(fecha) + '\n' + '\n')
+        f.write('Reporte Tranvia ' + self.placa + '\n' + '\n')
         f.write('')
         line = "\n".join("%s\t%s" % (i, reporte[i]) for i in reporte)
         f.write(line)
