@@ -1,29 +1,44 @@
 from django.http import HttpResponse
 from django.views.generic import View
+from django.core import serializers
+from django.http import QueryDict
 
-from .models import BusPrueba
-
-cache = []
+cache = {}
 
 # Create your views here.
 class CacheView(View):
-	def post(self, request):
-		msg = "Soy la rta de cache"
-		if (len(cache) > 0): cache[0] = msg
-		else: cache.append(msg)
-		return HttpResponse(cache[0])
-	def get(self, request):
-		msg = "No hay"
-		if (len(cache) > 0): msg = cache[0]
-		return HttpResponse(msg)
 
-class DBView(View):
+	# POST view
 	def post(self, request):
-		b = BusPrueba(msg="Soy la rta de bus1")
+		k1, k2, k3 = obtenerDatos(request.POST)
+		b = Bus(datos)
 		b.save()
-		return HttpResponse(b.msg)
-	def get(self, request):
-		msg = "No hay"
-		all_ent = BusPrueba.objects.all()
-		if len(all_ent) > 0: msg = all_ent[0].msg
-		return HttpResponse(msg)
+		data = serializers.serialize("json", b)
+		return HttpResponse(data)
+
+	# GET view
+	def get(self, request, pk=-1):
+		if pk != -1:
+			data = serializers.serialize("json", Bus.objects.get(pk=pk))
+		else:
+			data = serializers.serialize("json", Bus.objects.all())
+		return HttpResponse(data)
+
+	# PUT view
+	def put(self, request, pk=-1):
+		k1, k2, k3 = obtenerDatos(request.body)
+		if pk != -1:
+			b = Bus.objects.all(pk=pk)
+			b.k1 = k1
+			b.k2 = k2
+			# ...
+			b.save()
+			return HttpResponse(b)
+		else:
+			return HttpResponse(status=403)
+
+
+	# DELETE view
+	def delete(self, request):
+		print request
+		return HttpResponse("")

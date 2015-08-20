@@ -21,8 +21,8 @@ from pruebas.views import *
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^cache/', CacheView.as_view()),
-    url(r'^db/', DBView.as_view()),
+    url(r'^cache/$', CacheView.as_view()),
+    url(r'^cache/(?P<pk>[0-9]+)/$', CacheView.as_view())
 ]
 
 urlpatterns += staticfiles_urlpatterns()
