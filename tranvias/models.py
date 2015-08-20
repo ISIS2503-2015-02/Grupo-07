@@ -17,9 +17,9 @@ class ConductorTranvia(models.Model):
 #Clase que modela una linea de tranvia
 
 class Linea(models.Model):
-    numero = models.IntegerField(unique = True)
-    estacion_llegada = models.CharField(null = True, max_length = 200)
-    estacion_salida = models.CharField(null = True, max_length = 200)
+    numero = models.CharField(unique = True, max_length = 200)
+    estacion_llegada = models.CharField(max_length = 200, null = True)
+    estacion_salida = models.CharField(max_length = 200, null = True)
 
     def __unicode__(self):
         return self.numero
@@ -57,6 +57,9 @@ class Tranvia(models.Model):
         line = "\n".join("%s\t%s" % (i, reporte[i]) for i in reporte)
         f.write(line)
         f.close()
+
+    generar_reporte.admin_order_field = 'generar_reporte'
+    generar_reporte.short_description = 'Generar Reporte'
 
     def __unicode__(self):
         return self.placa

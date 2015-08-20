@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0008_auto_20150816_1748'),
+        ('tranvias', '0001_initial'),
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='alertatranvia',
-            old_name='solicits_reposicion',
-            new_name='solicita_reposicion',
+        migrations.AlterField(
+            model_name='linea',
+            name='numero',
+            field=models.CharField(unique=True, max_length=200),
         ),
     ]
