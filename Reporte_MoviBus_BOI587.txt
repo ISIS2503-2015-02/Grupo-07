@@ -1,10 +1,10 @@
-Reporte Tranvia BOI597
+Reporte Tranvia BOI587
 
 Capacidad Maxima	5
 Kilometraje	1.0
 Marca	Chevrolet
 Fecha Fabricacion	2010-01-01
-Placa	BOI597
+Placa	BOI587
+Ruta	
 Modelo	Corsa
-Linea	<bound method Linea.__unicode__ of <Linea: A>>
 Conductor Actual	Simon Ramirez

@@ -3,6 +3,7 @@ from usuarios.models import Usuario, ReservaMobiBus
 from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia
 from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus
 from vcubs.models import EstacionVcub, Vcub
+from reportes.models import ReporteMoviBus, ReporteTranvia
 
 # Register your models here.
 
@@ -34,17 +35,19 @@ class ChoiceInLineAlerta(admin.TabularInline):
 class ConductorTranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['nombre']}),
-        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento', 'fecha_ingreso_sistema','calificacion'], 'classes': ['collapse']}),
     ]
-    list_display = ('nombre', 'cedula', 'fecha_de_nacimiento')
+    list_display = ('nombre', 'cedula', 'fecha_de_nacimiento','fecha_ingreso_sistema','calificacion','dar_kilometros_recorridos')
+    list_filter = ['calificacion']
     search_fields = ['cedula']
 
 class ConductorMoviBusAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['nombre']}),
-        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento', 'fecha_ingreso_sistema','calificacion'], 'classes': ['collapse']}),
     ]
-    list_display = ('nombre', 'cedula', 'fecha_de_nacimiento')
+    list_display = ('nombre', 'cedula', 'fecha_de_nacimiento','fecha_ingreso_sistema','calificacion','dar_kilometros_recorridos')
+    list_filter = ['calificacion']
     search_fields = ['cedula']
 
 class TranviaAdmin(admin.ModelAdmin):
@@ -53,7 +56,7 @@ class TranviaAdmin(admin.ModelAdmin):
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
     inlines = [ChoiceInLineAlerta, ChoiceInLineCoordTranvia]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo','generar_reporte')
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo')
     list_filter = ['marca','linea',]
     search_fields = ['placa']
 
@@ -63,7 +66,7 @@ class MoviBusAdmin(admin.ModelAdmin):
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo'], 'classes': ['collapse']}),
     ]
     inlines = [ChoiceInLineCoordMoviBus]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo','generar_reporte')
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo')
     list_filter = ['marca','ruta',]
     search_fields = ['placa']
 
@@ -96,6 +99,22 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_filter = ['nombre','login','fecha_nacimiento', 'direccion', 'telefono', 'email']
     search_fields = ['nombre','login','fecha_nacimiento', 'direccion', 'telefono', 'email']
 
+class ReporteMoviBusAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['movibus','fecha']}),
+    ]
+    list_display = ('movibus','fecha')
+    list_filter = ['movibus','fecha']
+    search_fields = ['movibus','fecha']
+
+class ReporteTranviaAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['tranvia','fecha']}),
+    ]
+    list_display = ('tranvia','fecha')
+    list_filter = ['tranvia','fecha']
+    search_fields = ['tranvia','fecha']
+
 admin.site.register(ConductorTranvia, ConductorTranviaAdmin)
 admin.site.register(ConductorMoviBus, ConductorMoviBusAdmin)
 admin.site.register(Tranvia, TranviaAdmin)
@@ -104,3 +123,5 @@ admin.site.register(Vcub, VcubAdmin)
 admin.site.register(EstacionVcub, EstacionVcubAdmin)
 admin.site.register(Linea)
 admin.site.register(Usuario, UsuarioAdmin)
+admin.site.register(ReporteMoviBus, ReporteMoviBusAdmin)
+admin.site.register(ReporteTranvia, ReporteTranviaAdmin)

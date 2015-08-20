@@ -9,7 +9,13 @@ from django.utils import timezone
 class ConductorTranvia(models.Model):
     nombre = models.CharField(max_length = 200)
     cedula = models.CharField(max_length = 200, unique = True)
+    calificacion = models.IntegerField(default = 0)
+    kilometros_recorridos = models.FloatField(default = 0)
+    fecha_ingreso_sistema = models.DateField(_("Fecha de ingreso al sistema"), blank=True, default = datetime(1980, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     fecha_de_nacimiento = models.DateField(_("Fecha de Nacimiento"), blank=True, default = datetime(1980, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+
+    def dar_kilometros_recorridos(self):
+        return self.kilometros_recorridos
 
     def __unicode__(self):
         return self.nombre
@@ -20,6 +26,7 @@ class Linea(models.Model):
     numero = models.CharField(unique = True, max_length = 200)
     estacion_llegada = models.CharField(max_length = 200, null = True)
     estacion_salida = models.CharField(max_length = 200, null = True)
+    kilometros_totales = models.FloatField(default = 0)
 
     def __unicode__(self):
         return self.numero
@@ -40,7 +47,7 @@ class Tranvia(models.Model):
 
     #Genera un reporte en un archivo txt
 
-    def generar_reporte(self):
+    def generar_reporte(self, fecha):
         reporte = {}
         reporte['Placa'] = str(self.placa)
         reporte['Marca'] = str(self.marca)
@@ -52,11 +59,13 @@ class Tranvia(models.Model):
         reporte['Conductor Actual'] = str(self.conductor)
 
         f = open('Reporte_Tranvia_' + self.placa + '.txt','w')
-        f.write('Reporte Tranvia ' + self.placa + '\n' + '\n')
+        f.write('Reporte Tranvia ' + self.placa + " " + str(fecha) + '\n' + '\n')
         f.write('')
         line = "\n".join("%s\t%s" % (i, reporte[i]) for i in reporte)
         f.write(line)
         f.close()
+
+        return ""
 
     generar_reporte.admin_order_field = 'generar_reporte'
     generar_reporte.short_description = 'Generar Reporte'
