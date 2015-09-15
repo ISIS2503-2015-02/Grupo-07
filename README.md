@@ -74,3 +74,17 @@ $ mv recursos_Django/middleware.py venv/lib/python2.7/site-packages/django/contr
 ```
 
 De lo contrario cualquier *HTTP request* va a devolver la página de login. Una vez reemplacen los archivos van a estar autenticados permanentemente como *ramirezamayas*.
+
+### Django Rest Framewok
+Deben instalar *djangorestframework*:
+```sh
+$ sudo pip install djangorestframework
+```
+Deben instalar *markdown*:
+```sh
+$ sudo pip install markdown
+```
+Deben instalar *django-filter*:
+```sh
+$ sudo pip install django-filter
+```
