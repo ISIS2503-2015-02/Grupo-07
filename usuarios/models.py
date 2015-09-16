@@ -27,5 +27,8 @@ class ReservaMobiBus(models.Model):
     movi_bus = models.OneToOneField(MoviBus, null = True, related_name='reserva')
     fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
 
+    class Meta:
+        unique_together = ('usuario', 'fecha')
+
     def __unicode__(self):
         return "Usuario:" + self.fecha

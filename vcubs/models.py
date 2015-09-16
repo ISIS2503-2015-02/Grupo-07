@@ -33,7 +33,7 @@ class Vcub(models.Model):
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
-    estacion = models.ForeignKey(EstacionVcub, null = True, blank = True)
+    estacion = models.ForeignKey(EstacionVcub, null = True, blank = True, related_name='vcubs')
     objects = models.GeoManager()
     en_transito = models.BooleanField(default=True)
     estado_operativo = models.BooleanField(default=True)

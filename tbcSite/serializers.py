@@ -72,3 +72,14 @@ class ReservaMobiBusSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReservaMobiBus
         fields = ('fecha')
+
+class EstacionVcubSerializer(serializers.ModelSerializer):
+    vcubs = serializers.StringRelatedField(many=True)
+    class Meta:
+        model = EstacionVcubSerializer
+        fields = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','vcubs')
+
+class VcubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vcub
+        fields = ('registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo')
