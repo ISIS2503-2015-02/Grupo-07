@@ -64,10 +64,13 @@ class MoviBus(models.Model):
 #Clase que guarda las coordenadas de los movibuses
 
 class CoordenadasMoviBus(models.Model):
-    movibus = models.ForeignKey(MoviBus, null = True)
+    movibus = models.ForeignKey(MoviBus, null = True, related_name='coordenadas')
     fecha = models.DateField(_("Fecha"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     latitud = models.FloatField(default = 1)
     longitud = models.FloatField(default = 1)
+
+    class Meta:
+        unique_together = ('movibus', 'fecha')
 
     def __unicode__(self):
         return self.movibus.placa

@@ -76,7 +76,7 @@ class Tranvia(models.Model):
 #Clase que guarda las coordenadas de los movibuses
 
 class CoordenadasTranvia(models.Model):
-    tranvia = models.ForeignKey(Tranvia, null = True)
+    tranvia = models.ForeignKey(Tranvia, null = True, related_name='coordenadas')
     fecha = models.DateField(_("Fecha"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     latitud = models.FloatField(default = 1)
     longitud = models.FloatField(default = 1)
@@ -88,7 +88,7 @@ class CoordenadasTranvia(models.Model):
 
 class AlertaTranvia(models.Model):
     fecha = models.DateField(_("Fecha de Alerta"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
-    tranvia =  models.ForeignKey(Tranvia, null = True)
+    tranvia =  models.ForeignKey(Tranvia, null = True, related_name='alerta')
     solicita_reposicion = models.BooleanField(default=True)
 
     def __unicode__(self):
