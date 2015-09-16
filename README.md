@@ -88,3 +88,7 @@ Deben instalar *django-filter*:
 ```sh
 $ sudo pip install django-filter
 ```
+Deben instalar *pygments*:
+```sh
+$ sudo pip install pygments
+```
