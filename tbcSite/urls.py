@@ -19,6 +19,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from pruebas.views import *
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+from tbcSite import views
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,9 +39,37 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cache/$', CacheView.as_view()),
-    url(r'^cache/(?P<ide>[0-9]+)/$', CacheView.as_view())
+    url(r'^cache/(?P<ide>[0-9]+)/$', CacheView.as_view()),
     url(r'^', include(router.urls)),
-    url(r'^tbcSite/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^tbcSite/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^tbcSite/$', views.usuario_list),
+    url(r'^tbcSite/$', views.reservasMobiBus_list),
+    url(r'^tbcSite/$', views.conductoresTranvia_list),
+    url(r'^tbcSite/$', views.tranvias_list),
+    url(r'^tbcSite/$', views.lineas_list),
+    url(r'^tbcSite/$', views.alertasTranvia_list),
+    url(r'^tbcSite/$', views.coordenadasTranvia_list),
+    url(r'^tbcSite/$', views.conductoresMoviBus_list),
+    url(r'^tbcSite/$', views.moviBuses_list),
+    url(r'^tbcSite/$', views.coordenadasMoviBus_list),
+    url(r'^tbcSite/$', views.estacionesVcubs_list),
+    url(r'^tbcSite/$', views.vcubs_list),
+    url(r'^tbcSite/$', views.reportesMoviBus_list),
+    url(r'^tbcSite/$', views.reportesTranvia_list),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.usuario_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.reservaMobiBus_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.conductorTranvia_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.tranvia_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.linea_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.alertaTranvia_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.coordenadasTranvia_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.conductorMoviBus_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.moviBus_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.coordenadasTranvia_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.estacionesVcubs_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.vcubs_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.reportesMoviBus_detail),
+    url(r'^tbcSite/(?P<pk>[0-9]+)/$', views.reportesTranvia_detail),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
