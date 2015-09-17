@@ -3,8 +3,7 @@ import multiprocessing
 # The number of worker processes for handling
 # requests. A positive integer generally in
 # the 2-4 x $(NUM_CORES) range.
-#workers = multiprocessing.cpu_count() * 2 + 1
-workers = multiprocessing.cpu_count() * 3
+workers = multiprocessing.cpu_count() * 2 + 1
 
 # The type of workers to use.
 # A string referring to one of the following
