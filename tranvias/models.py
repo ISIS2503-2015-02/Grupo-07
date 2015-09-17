@@ -42,7 +42,7 @@ class Tranvia(models.Model):
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_max = models.IntegerField()
     linea = models.ForeignKey(Linea, null = True, blank = True)
-    objects = models.CharField(max_length = 200)
+    #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default = True)
 
     #Genera un reporte en un archivo txt
