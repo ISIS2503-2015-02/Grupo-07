@@ -13,6 +13,7 @@ class ConductorTranvia(models.Model):
     kilometros_recorridos = models.FloatField(default = 0)
     fecha_ingreso_sistema = models.DateField(_("Fecha de ingreso al sistema"), blank=True, default = datetime(1980, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     fecha_de_nacimiento = models.DateField(_("Fecha de Nacimiento"), blank=True, default = datetime(1980, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+    tranvia = models.ForeignKey('Tranvia',related_name='conductor')
 
     def dar_kilometros_recorridos(self):
         return self.kilometros_recorridos
@@ -42,7 +43,6 @@ class Tranvia(models.Model):
     cap_max = models.IntegerField()
     linea = models.ForeignKey(Linea, null = True, blank = True)
     objects = models.GeoManager()
-    conductor = models.OneToOneField(ConductorTranvia, null = True)
     estado_operativo = models.BooleanField(default = True)
 
     #Genera un reporte en un archivo txt
@@ -56,7 +56,6 @@ class Tranvia(models.Model):
         reporte['Fecha Fabricacion'] = str(self.fecha_fabricacion)
         reporte['Capacidad Maxima'] = str(self.cap_max)
         reporte['Linea'] = str(self.linea.__unicode__)
-        reporte['Conductor Actual'] = str(self.conductor)
 
         f = open('Reporte_Tranvia_' + self.placa + '.txt','w')
         f.write('Reporte Tranvia ' + self.placa + '\n' + '\n')
@@ -76,7 +75,7 @@ class Tranvia(models.Model):
 #Clase que guarda las coordenadas de los movibuses
 
 class CoordenadasTranvia(models.Model):
-    tranvia = models.ForeignKey(Tranvia, null = True, related_name='coordenadas')
+    tranvia = models.ForeignKey('Tranvia',related_name='coordenada')
     fecha = models.DateField(_("Fecha"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     latitud = models.FloatField(default = 1)
     longitud = models.FloatField(default = 1)
@@ -91,7 +90,7 @@ class CoordenadasTranvia(models.Model):
 
 class AlertaTranvia(models.Model):
     fecha = models.DateField(_("Fecha de Alerta"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
-    tranvia =  models.ForeignKey(Tranvia, null = True, related_name='alerta')
+    tranvia =  models.ForeignKey('Tranvia', related_name='alerta')
     solicita_reposicion = models.BooleanField(default=True)
 
     class Meta:
@@ -99,3 +98,13 @@ class AlertaTranvia(models.Model):
 
     def __unicode__(self):
         return "Alerta - " + self.tranvia.placa
+
+class ReporteTranvia(models.Model):
+    tranvia = models.ForeignKey('Tranvia',related_name='reporte')
+    fecha = models.DateField(_("Fecha"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+
+    class Meta:
+        unique_together = ('tranvia', 'fecha')
+
+    def __unicode__(self):
+        return "Reporte Tranvia " + self.tranvia.placa + ": " + str(self.fecha) + self.tranvia.generar_reporte()

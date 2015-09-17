@@ -7,4 +7,3 @@ Fecha Fabricacion	2010-01-01
 Placa	BOI587
 Ruta	
 Modelo	Corsa
-Conductor Actual	Simon Ramirez

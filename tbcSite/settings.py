@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'vcubs',
     'movibuses',
     'tranvias',
-    'reportes',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,9 +78,12 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated'
+    # , ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 WSGI_APPLICATION = 'tbcSite.wsgi.application'

@@ -1,11 +1,20 @@
 from django.contrib import admin
 from usuarios.models import Usuario, ReservaMobiBus
-from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia
-from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus
+from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia, ReporteTranvia
+from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus, ReporteMoviBus
 from vcubs.models import EstacionVcub, Vcub
-from reportes.models import ReporteMoviBus, ReporteTranvia
 
 # Register your models here.
+
+class ChoiceInLineCondMoviBus(admin.TabularInline):
+    model = ConductorMoviBus
+    choice  = 0
+    extra = 1
+
+class ChoiceInLineCondTranvia(admin.TabularInline):
+    model = ConductorTranvia
+    choice  = 0
+    extra = 1
 
 class ChoiceInLineCoordTranvia(admin.TabularInline):
     model = CoordenadasTranvia
@@ -35,7 +44,7 @@ class ChoiceInLineAlerta(admin.TabularInline):
 class ConductorTranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['nombre']}),
-        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento', 'fecha_ingreso_sistema','calificacion'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento', 'fecha_ingreso_sistema','calificacion', 'kilometros_recorridos'], 'classes': ['collapse']}),
     ]
     list_display = ('nombre', 'cedula', 'fecha_de_nacimiento','fecha_ingreso_sistema','calificacion','dar_kilometros_recorridos')
     list_filter = ['calificacion']
@@ -44,7 +53,7 @@ class ConductorTranviaAdmin(admin.ModelAdmin):
 class ConductorMoviBusAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['nombre']}),
-        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento', 'fecha_ingreso_sistema','calificacion'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['cedula','fecha_de_nacimiento', 'fecha_ingreso_sistema','calificacion','kilometros_recorridos'], 'classes': ['collapse']}),
     ]
     list_display = ('nombre', 'cedula', 'fecha_de_nacimiento','fecha_ingreso_sistema','calificacion','dar_kilometros_recorridos')
     list_filter = ['calificacion']
@@ -53,20 +62,20 @@ class ConductorMoviBusAdmin(admin.ModelAdmin):
 class TranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['placa']}),
-        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','linea','estado_operativo'], 'classes': ['collapse']}),
     ]
-    inlines = [ChoiceInLineAlerta, ChoiceInLineCoordTranvia]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','conductor','estado_operativo')
+    inlines = [ChoiceInLineAlerta, ChoiceInLineCoordTranvia, ChoiceInLineCondTranvia]
+    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','linea','estado_operativo')
     list_filter = ['marca','linea',]
     search_fields = ['placa']
 
 class MoviBusAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['placa']}),
-        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo'], 'classes': ['collapse']}),
+        ('Informacion', {'fields': ['marca','modelo','kilometraje','fecha_fabricacion','cap_max','ruta','estado_operativo'], 'classes': ['collapse']}),
     ]
-    inlines = [ChoiceInLineCoordMoviBus]
-    list_display = ('placa','marca', 'modelo','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo')
+    inlines = [ChoiceInLineCoordMoviBus, ChoiceInLineCondMoviBus]
+    list_display = ('placa','marca', 'modelo','kilometraje','fecha_fabricacion','cap_max','ruta','estado_operativo')
     list_filter = ['marca','ruta',]
     search_fields = ['placa']
 

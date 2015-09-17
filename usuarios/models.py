@@ -23,8 +23,8 @@ class Usuario(models.Model):
 #Clase que modela una reserva de un usuario de moviBus
 
 class ReservaMobiBus(models.Model):
-    usuario = models.OneToOneField(Usuario, null = True, related_name='reserva')
-    movi_bus = models.OneToOneField(MoviBus, null = True, related_name='reserva')
+    usuario = models.ForeignKey('Usuario', related_name='reserva')
+    # movi_bus = models.ForeignKey('MoviBus', related_name='moviBusReserva')
     fecha = models.DateField(_("Fecha de Reserva"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
 
     class Meta:

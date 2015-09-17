@@ -1,38 +1,42 @@
 from rest_framework import serializers
 from usuarios.models import Usuario, ReservaMobiBus
-from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia
-from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus
+from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia, ReporteTranvia
+from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus, ReporteMoviBus
 from vcubs.models import EstacionVcub, Vcub
-from reportes.models import ReporteMoviBus, ReporteTranvia
+
 
 class ConductorMoviBusSerializer(serializers.ModelSerializer):
+    movibus = serializers.ReadOnlyField(source='MoviBus.placa')
     class Meta:
         model = ConductorMoviBus
-        fields = ('nombre', 'cedula', 'calificacion', 'kilometros_recorridos', 'fecha_ingreso_sistema', 'fecha_de_nacimiento')
+        fields = ('nombre', 'cedula', 'calificacion', 'kilometros_recorridos', 'fecha_ingreso_sistema', 'fecha_de_nacimiento','movibus')
 
 
 class MoviBusSerializer(serializers.ModelSerializer):
+    conductor = serializers.PrimaryKeyRelatedField(many=True, queryset=ConductorMoviBus.objects.all())
     coordenada = serializers.PrimaryKeyRelatedField(many=True, queryset=CoordenadasMoviBus.objects.all())
     reporte = serializers.PrimaryKeyRelatedField(many=True, queryset=ReporteMoviBus.objects.all())
-    reserva = serializers.PrimaryKeyRelatedField(many=True, queryset=ReservaMobiBus.objects.all())
     class Meta:
         model = MoviBus
-        fields = ('placa','marca','modelo','kilometraje','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo','coordenada','reporte','reserva')
+        fields = ('placa','marca','modelo','kilometraje','fecha_fabricacion','ruta','cap_max','conductor','estado_operativo','coordenada','reporte')
 
 class CoordenadasMoviBusSerializer(serializers.ModelSerializer):
+    movibus = serializers.ReadOnlyField(source='MoviBus.placa')
     class Meta:
         model = CoordenadasMoviBus
-        fields = ('fecha','latitud','longitud')
+        fields = ('fecha','latitud','longitud','movibus')
 
 class ReporteMoviBusSerializer(serializers.ModelSerializer):
+    movibus = serializers.ReadOnlyField(source='MoviBus.placa')
     class Meta:
         model = ReporteMoviBus
-        fields = ('fecha')
+        fields = ('fecha','movibus')
 
 class ConductorTranviaSerializer(serializers.ModelSerializer):
+    tranvia = serializers.ReadOnlyField(source='Tranvia.placa')
     class Meta:
         model = ConductorTranvia
-        fields = ('nombre', 'cedula', 'calificacion', 'kilometros_recorridos', 'fecha_ingreso_sistema', 'fecha_de_nacimiento')
+        fields = ('nombre', 'cedula', 'calificacion', 'kilometros_recorridos', 'fecha_ingreso_sistema', 'fecha_de_nacimiento','tranvia')
 
 class LineaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,28 +44,32 @@ class LineaSerializer(serializers.ModelSerializer):
         fields = ('numero', 'estacion_llegada', 'estacion_salida', 'kilometros_totales')
 
 class TranviaSerializer(serializers.ModelSerializer):
+    conductor = serializers.PrimaryKeyRelatedField(many=True, queryset=ConductorTranvia.objects.all())
     coordenada = serializers.PrimaryKeyRelatedField(many=True, queryset=CoordenadasTranvia.objects.all())
     reporte = serializers.PrimaryKeyRelatedField(many=True, queryset=ReporteTranvia.objects.all())
     alerta = serializers.PrimaryKeyRelatedField(many=True, queryset=AlertaTranvia.objects.all())
 
     class Meta:
         model = Tranvia
-        fields = ('placa','marca','modelo','kilometraje','fecha_fabricacion','cap_max','ruta','conductor','estado_operativo','coordenada','reporte', 'alerta')
+        fields = ('placa','marca','modelo','kilometraje','fecha_fabricacion','cap_max','conductor','estado_operativo','coordenada','reporte', 'alerta')
 
 class CoordenadasTranviaSerializer(serializers.ModelSerializer):
+    tranvia = serializers.ReadOnlyField(source='Tranvia.placa')
     class Meta:
         model = CoordenadasTranvia
-        fields = ('fecha','latitud','longitud')
+        fields = ('fecha','latitud','longitud','tranvia')
 
 class AlertaTranviaSerializer(serializers.ModelSerializer):
+    tranvia = serializers.ReadOnlyField(source='Tranvia.placa')
     class Meta:
         model = AlertaTranvia
-        fields = ('fecha','solicita_reposicion')
+        fields = ('fecha','solicita_reposicion','tranvia')
 
 class ReporteTranviaSerializer(serializers.ModelSerializer):
+    tranvia = serializers.ReadOnlyField(source='Tranvia.placa')
     class Meta:
         model = ReporteTranvia
-        fields = ('fecha')
+        fields = ('fecha','tranvia')
 
 class UsuarioSerializer(serializers.ModelSerializer):
     reserva = serializers.PrimaryKeyRelatedField(many=True, queryset=ReservaMobiBus.objects.all())
@@ -76,12 +84,13 @@ class ReservaMobiBusSerializer(serializers.ModelSerializer):
         fields = ('fecha', 'usuario')
 
 class EstacionVcubSerializer(serializers.ModelSerializer):
-    vcubs = serializers.PrimaryKeyRelatedField(many=True, queryset=Vcub.objects.all())
+    vcub = serializers.PrimaryKeyRelatedField(many=True, queryset=Vcub.objects.all())
     class Meta:
         model = EstacionVcub
-        fields = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','vcubs')
+        fields = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','vcub')
 
 class VcubSerializer(serializers.ModelSerializer):
+    estacion = serializers.ReadOnlyField(source='Estacion.nombre')
     class Meta:
         model = Vcub
         fields = ('registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo')
