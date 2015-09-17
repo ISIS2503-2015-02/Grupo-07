@@ -1,20 +1,25 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from Usuarios.models import Usuario, ReservaMobiBus
+from usuarios.models import Usuario, ReservaMobiBus
 from tranvias.models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia
 from movibuses.models import ConductorMoviBus, MoviBus, CoordenadasMoviBus
 from vcubs.models import EstacionVcub, Vcub
 from reportes.models import ReporteMoviBus, ReporteTranvia
-from tbcSite.serializers import UsuarioSerializer, ReservaMobiBusSerializer, ConductorTranviaSerializer, TranviaSerializer, LineaSerializer, AlertaTranviaSerializer. ConductorTranviaSerializer, ConductorMoviBusSerializer, MoviBusSerializer, CoordenadasMoviBusSerializer, EstacionVcubSerializer, VcubSerializer,ReporteTranviaSerializer, ReporteMoviBusSerializer
+from tbcSite.serializers import UsuarioSerializer, ReservaMobiBusSerializer, ConductorTranviaSerializer, TranviaSerializer, LineaSerializer, AlertaTranviaSerializer, CoordenadasTranviaSerializer, ConductorMoviBusSerializer, MoviBusSerializer, CoordenadasMoviBusSerializer, EstacionVcubSerializer, VcubSerializer,ReporteTranviaSerializer, ReporteMoviBusSerializer
+from rest_framework import permissions
 
-class UsuarioList(generics.ListCreateAPIView):
+class UsuarioList(generics.ListAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
 
 class ReservaMobiBusList(generics.ListCreateAPIView):
     queryset = ReservaMobiBus.objects.all()
     serializer_class = ReservaMobiBusSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.Usuario)
 
 class ConductorTranviaList(generics.ListCreateAPIView):
     queryset = ConductorTranvia.objects.all()
@@ -63,13 +68,15 @@ class ReporteMoviBusList(generics.ListCreateAPIView):
 class ReporteTranviaList(generics.ListCreateAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
-class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
+
+class UsuarioDetail(generics.RetrieveAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
 
 class ReservaMobiBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReservaMobiBus.objects.all()
     serializer_class = ReservaMobiBusSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
 
 class ConductorTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ConductorTranvia.objects.all()

@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'rest_framework',
     'main',
-    'pruebas',
     'usuarios',
     'vcubs',
     'movibuses',
