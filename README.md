@@ -35,17 +35,39 @@ El repositorio contiene un archivo generado por *pip* llamado **requirements.txt
 $ pip install -r requirements.txt
 ```
 
-Es necesario tener instaladas las librerias requeridas por *GeoDjango*, las instrucciones para Mac y Windows se encuentran en este enlace:
-- [GeoDjango Installation](https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/)
-
 ### Uso
 
-Sobre *gunicorn*:
+Inicialicen la base de datos *PostgreSQL* (solo la primera vez):
 ```sh
-$ gunicorn -c gunicorn.py.ini tbcSite.wsgi
+$ initdb /usr/local/var/postgres
 ```
 
-Sobre *uWSGI*:
+En caso de que la inicialización no sea exitosa, borren la carpeta **postgres**:
+```sh
+$ rm -rf /usr/local/var/postgres
+```
+
+Activen la base de datos *PostgreSQL*:
+```sh
+$ postgres -D /usr/local/var/postgres
+```
+
+Activen el balanceador para la base de datos *Pgbouncer*:
+```sh
+$ pgbouncer pgbouncer.ini
+```
+
+Para correr sobre el servidor de desarrollo Django:
+```sh
+$ python manage.py runserver
+```
+
+Para correr sobre *Gunicorn*:
+```sh
+$ gunicorn -c gunicorn.config.py tbcSite.wsgi
+```
+
+Para correr sobre *uWSGI*:
 ```sh
 $ uwsgi --ini uwsgi.py.ini
 ```
@@ -59,36 +81,4 @@ $ pip install -r requirements.txt
 En el momento que deban agregar nuevas dependencias con pip, deben actualizar el archivo **requirements.txt**
 ```sh
 $ pip freeze > requirements.txt
-```
-
-### Saltar autenticación
-
-Reemplacen el archivo **login.html** de *Django* por el archivo de mismo nombre que está en el folder **recursos_Django** del proyecto. Pueden hacer esto desde consola ubicados en la raíz del proyecto:
-```sh
-$ mv recursos_Django/login.html venv/lib/python2.7/site-packages/django/contrib/admin/templates/admin/
-```
-
-Reemplacen el archivo **middleware.py** de *Django* por el archivo de mismo nombre que está en el folder "recursos_Django" del proyecto. Pueden hacer esto desde consola ubicados en la raíz del proyecto:
-```sh
-$ mv recursos_Django/middleware.py venv/lib/python2.7/site-packages/django/contrib/auth/
-```
-
-De lo contrario cualquier *HTTP request* va a devolver la página de login. Una vez reemplacen los archivos van a estar autenticados permanentemente como *ramirezamayas*.
-
-### Django Rest Framewok
-Deben instalar *djangorestframework*:
-```sh
-$ sudo pip install djangorestframework
-```
-Deben instalar *markdown*:
-```sh
-$ sudo pip install markdown
-```
-Deben instalar *django-filter*:
-```sh
-$ sudo pip install django-filter
-```
-Deben instalar *pygments*:
-```sh
-$ sudo pip install pygments
 ```
