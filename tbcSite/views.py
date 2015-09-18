@@ -21,7 +21,7 @@ class UsuarioList(generics.ListAPIView):
 class ReservaMobiBusList(generics.ListCreateAPIView):
     queryset = ReservaMobiBus.objects.all()
     serializer_class = ReservaMobiBusSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -36,7 +36,7 @@ class ReservaMobiBusList(generics.ListCreateAPIView):
 class ConductorTranviaList(generics.ListCreateAPIView):
     queryset = ConductorTranvia.objects.all()
     serializer_class = ConductorTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -58,7 +58,7 @@ class TranviaList(generics.ListCreateAPIView):
 class CoordenadasTranviaList(generics.ListCreateAPIView):
     queryset = CoordenadasTranvia.objects.all()
     serializer_class = CoordenadasTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -80,7 +80,7 @@ class LineaList(generics.ListCreateAPIView):
 class AlertaTranviaList(generics.ListCreateAPIView):
     queryset = AlertaTranvia.objects.all()
     serializer_class = AlertaTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -93,7 +93,7 @@ class AlertaTranviaList(generics.ListCreateAPIView):
 class ConductorMoviBusList(generics.ListCreateAPIView):
     queryset = ConductorMoviBus.objects.all()
     serializer_class = ConductorMoviBusSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -115,7 +115,7 @@ class MoviBusList(generics.ListCreateAPIView):
 class CoordenadasMoviBusList(generics.ListCreateAPIView):
     queryset = CoordenadasMoviBus.objects.all()
     serializer_class = CoordenadasMoviBusSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -137,7 +137,7 @@ class EstacionVcubsList(generics.ListCreateAPIView):
 class VcubsList(generics.ListCreateAPIView):
     queryset = Vcub.objects.all()
     serializer_class = VcubSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -149,7 +149,7 @@ class VcubsList(generics.ListCreateAPIView):
 class ReporteMoviBusList(generics.ListCreateAPIView):
     queryset = ReporteMoviBus.objects.all()
     serializer_class = ReporteMoviBusSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -159,7 +159,7 @@ class ReporteMoviBusList(generics.ListCreateAPIView):
 class ReporteTranviaList(generics.ListCreateAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -181,7 +181,7 @@ class UsuarioDetail(generics.RetrieveAPIView):
 class ReservaMobiBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReservaMobiBus.objects.all()
     serializer_class = ReservaMobiBusSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -194,7 +194,7 @@ class ReservaMobiBusDetail(generics.RetrieveUpdateDestroyAPIView):
 class ConductorTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ConductorTranvia.objects.all()
     serializer_class = ConductorTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -219,7 +219,7 @@ class TranviaDetail(generics.RetrieveUpdateDestroyAPIView):
 class CoordenadasTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CoordenadasTranvia.objects.all()
     serializer_class = CoordenadasTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -244,7 +244,7 @@ class LineaDetail(generics.RetrieveUpdateDestroyAPIView):
 class AlertaTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AlertaTranvia.objects.all()
     serializer_class = AlertaTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -257,7 +257,7 @@ class AlertaTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
 class ConductorMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ConductorMoviBus.objects.all()
     serializer_class = ConductorMoviBusSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -282,7 +282,7 @@ class MoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
 class CoordenadasMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CoordenadasMoviBus.objects.all()
     serializer_class = CoordenadasMoviBusSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -307,7 +307,7 @@ class EstacionVcubsDetail(generics.RetrieveUpdateDestroyAPIView):
 class VcubsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vcub.objects.all()
     serializer_class = VcubSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -320,7 +320,7 @@ class VcubsDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReporteMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReporteMoviBus.objects.all()
     serializer_class = ReporteMoviBusSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -333,7 +333,7 @@ class ReporteMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReporteTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly,)
+    permission_classes = (permissions.AllowAny,IsOwnerOrReadOnly,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
