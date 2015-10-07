@@ -52,7 +52,7 @@ urlpatterns = [
     url(r'^movibuses/$', views.MoviBusList.as_view()),
     #url(r'^coordenadasMovibus/$', views.CoordenadasMoviBusList.as_view()),
     url(r'^estaciones/$', views.EstacionVcubsList.as_view()),
-    url(r'^vcubs/$', views.VcubsList.as_view()),
+    #url(r'^vcubs/$', views.VcubsList.as_view()),
     #url(r'^reportesMovibuses/$', views.ReporteMoviBusList.as_view()),
     #url(r'^reportesTranvias/$', views.ReporteTranviaList.as_view()),
     url(r'^usuarios/(?P<pk>[0-9]+)/$', views.UsuarioDetail.as_view()),
@@ -66,7 +66,7 @@ urlpatterns = [
     url(r'^movibuses/(?P<pk>[0-9]+)/$', views.MoviBusDetail.as_view()),
     #url(r'^coordenadasMovibus/(?P<pk>[0-9]+)/$', views.ConductorMoviBusDetail.as_view()),
     url(r'^estaciones/(?P<pk>[0-9]+)/$', views.EstacionVcubsDetail.as_view()),
-    url(r'^vcubs/(?P<pk>[0-9]+)/$', views.VcubsDetail.as_view()),
+    #url(r'^vcubs/(?P<pk>[0-9]+)/$', views.VcubsDetail.as_view()),
     #url(r'^reportesMovibuses/(?P<pk>[0-9]+)/$', views.ReservaMobiBusDetail.as_view()),
     #url(r'^reportesTranvias/(?P<pk>[0-9]+)/$', views.ReporteTranviaDetail.as_view()),
 
