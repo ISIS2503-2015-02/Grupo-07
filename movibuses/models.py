@@ -31,7 +31,7 @@ class MoviBus(models.Model):
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_max = models.IntegerField()
     ruta = models.CharField(max_length = 1, blank = True)
-    objects = models.GeoManager()
+    #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default=True)
 
     #Genera un reporte en un archivo txt
