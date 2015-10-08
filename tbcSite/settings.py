@@ -76,7 +76,6 @@ TEMPLATES = [
 
 #Rest Framework
 REST_FRAMEWORK = {
-<<<<<<< HEAD
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     # 'DEFAULT_PERMISSION_CLASSES': (
@@ -85,10 +84,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-=======
 	'DEFAULT_AUTHENTICATION_CLASSES': [],
 	'DEFAULT_PERMISSION_CLASSES': [],
->>>>>>> origin/master
 }
 
 WSGI_APPLICATION = 'tbcSite.wsgi.application'
