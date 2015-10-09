@@ -52,6 +52,16 @@ Activen la base de datos *PostgreSQL*:
 $ postgres -D /usr/local/var/postgres
 ```
 
+Instalen *Pgbouncer*
+```sh
+$ brew install pgbouncer
+```
+
+Creen el rol admin
+```sh
+$ createuser -d admin
+```
+
 Activen el balanceador para la base de datos *Pgbouncer*:
 ```sh
 $ pgbouncer pgbouncer.ini
