@@ -8,8 +8,19 @@ from vcubs.models import EstacionVcub, Vcub
 from tbcSite.serializers import UsuarioSerializer, ReservaMobiBusSerializer, ConductorTranviaSerializer, TranviaSerializer, LineaSerializer, AlertaTranviaSerializer, CoordenadasTranviaSerializer, ConductorMoviBusSerializer, MoviBusSerializer, CoordenadasMoviBusSerializer, EstacionVcubSerializer, VcubSerializer,ReporteTranviaSerializer, ReporteMoviBusSerializer
 from rest_framework import permissions
 from tbcSite.permissions import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
-class UsuarioList(generics.ListAPIView):
+
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'tranvias': reverse('tranvia-list', request=request, format=format),
+        'alertas': reverse('alerta-list', request=request, format=format)
+    })
+
+class UsuarioList(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     def get(self, request, *args, **kwargs):
@@ -166,7 +177,7 @@ class ReporteTranviaList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-class UsuarioDetail(generics.RetrieveAPIView):
+class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     def get(self, request, *args, **kwargs):
