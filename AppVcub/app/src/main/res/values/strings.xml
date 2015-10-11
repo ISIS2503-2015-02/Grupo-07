@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">App Vcub</string>
+    <string name="edit_message_prestamo">Ingrese ID Vcub a prestar</string>
+    <string name="edit_message_devolucion">Ingrese ID Vcub a devolver</string>
+    <string name="button_send">Enviar</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_display_message">DisplayMessageActivity</string>
+    <string name="action_search">Buscar</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="title_activity_reportar_prestamo__vcub">Reportar_prestamo_Vcub</string>
+    <string name="title_activity_reportar_prestamo">Reportar_prestamo</string>
+    <string name="title_activity_reportar_devolucion">Reportar_devolucion</string>
+    <string name="title_activity_solicitar_bicicletas">Solicitar_bicicletas</string>
+</resources>
