@@ -9,17 +9,17 @@ from vcubs.models import EstacionVcub, Vcub
 class ChoiceInLineCondMoviBus(admin.TabularInline):
     model = ConductorMoviBus
     choice  = 0
-    extra = 1
+    extra = 0
 
 class ChoiceInLineCondTranvia(admin.TabularInline):
     model = ConductorTranvia
     choice  = 0
-    extra = 1
+    extra = 0
 
 class ChoiceInLineCoordTranvia(admin.TabularInline):
     model = CoordenadasTranvia
     choice  = 0
-    extra = 1
+    extra = 0
 
 class ChoiceInLineReservaMoviBus(admin.TabularInline):
     model = ReservaMobiBus
@@ -29,7 +29,7 @@ class ChoiceInLineReservaMoviBus(admin.TabularInline):
 class ChoiceInLineCoordMoviBus(admin.TabularInline):
     model = CoordenadasMoviBus
     choice  = 0
-    extra = 1
+    extra = 0
 
 class ChoiceInlineEstacion(admin.TabularInline):
     model = Vcub

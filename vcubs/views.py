@@ -7,18 +7,7 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
-
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'tranvia': reverse('tranvia-list', request=request, format=format),
-        'alerta': reverse('alerta-list', request=request, format=format),
-        'conductor': reverse('alerta-list', request=request, format=format),
-        'alerta': reverse('alerta-list', request=request, format=format),
-    })
-
-
+from rest_framework import viewsets
 
 class EstacionVcubsList(generics.ListCreateAPIView):
     queryset = EstacionVcub.objects.all()
@@ -38,10 +27,6 @@ class VcubsList(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
-    def perform_create(self, serializer):
-        serializer.save(estacion=self.request.Estacion)
-
-
 
 
 class EstacionVcubsDetail(generics.RetrieveUpdateDestroyAPIView):

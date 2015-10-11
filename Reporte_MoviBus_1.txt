@@ -1,0 +1,9 @@
+Reporte MoviBus 1
+
+Capacidad Maxima	1
+Kilometraje	1.0
+Marca	1
+Fecha Fabricacion	2015-01-01
+Placa	1
+Ruta	1
+Modelo	1

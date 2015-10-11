@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from datetime import datetime
 from models import Usuario, ReservaMobiBus
+from movibuses.models import RecorridoMoviBus
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -9,7 +11,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = ('nombre','login','contrasenia','direccion','telefono','email','fecha_nacimiento', 'reserva')
 
 class ReservaMobiBusSerializer(serializers.ModelSerializer):
-    usuario = serializers.ReadOnlyField(source='Usuario.login')
+    fecha = serializers.ReadOnlyField(default = datetime.now)
+    recorrido = serializers.PrimaryKeyRelatedField(many=True,queryset = RecorridoMoviBus.objects.all())
     class Meta:
         model = ReservaMobiBus
-        fields = ('fecha', 'usuario')
+        fields = ('fecha', 'usuario', 'recorrido')

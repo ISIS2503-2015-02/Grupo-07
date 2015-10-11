@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia, ReporteTranvia
-from serializers import ConductorTranviaSerializer, TranviaSerializer, LineaSerializer, AlertaTranviaSerializer, CoordenadasTranviaSerializer, ReporteTranviaSerializer
+from models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasTranvia, ReporteTranvia, RecorridoTranvia
+from serializers import ConductorTranviaSerializer, TranviaSerializer, LineaSerializer, AlertaTranviaSerializer, CoordenadasTranviaSerializer, ReporteTranviaSerializer, RecorridoTranviaSerializer
 from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -19,9 +19,6 @@ class ConductorTranviaList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
-        serializer.save(tranvia=self.request.MoviBus)
-
 class TranviaList(generics.ListCreateAPIView):
     queryset = Tranvia.objects.all()
     serializer_class = TranviaSerializer
@@ -30,6 +27,7 @@ class TranviaList(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
 
 class CoordenadasTranviaList(generics.ListCreateAPIView):
     queryset = CoordenadasTranvia.objects.all()
@@ -40,9 +38,6 @@ class CoordenadasTranviaList(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        serializer.save(tranvia=self.request.Tranvia)
 
 class LineaList(generics.ListCreateAPIView):
     queryset = Linea.objects.all()
@@ -63,12 +58,19 @@ class AlertaTranviaList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
-        serializer.save(tranvia=self.request.Tranvia)
-
 class ReporteTranviaList(generics.ListCreateAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class RecorridoTranviaList(generics.ListCreateAPIView):
+    queryset = RecorridoTranvia.objects.all()
+    serializer_class = RecorridoTranviaSerializer
     permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -144,6 +146,19 @@ class AlertaTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReporteTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+class RecorridoTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RecorridoTranvia.objects.all()
+    serializer_class = RecorridoTranviaSerializer
     permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
