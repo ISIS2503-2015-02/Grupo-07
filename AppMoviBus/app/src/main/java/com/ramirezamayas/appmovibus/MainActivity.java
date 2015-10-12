@@ -1,33 +1,32 @@
-package com.ramirezamayas.appvcub;
+package com.ramirezamayas.appmovibus;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class Reportar_devolucion extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity {
+
+    /** Id movibus */
+    private static String idMovibus = "1";
+
+    /** Id proximo recorrido */
+    private static int idRecorrido = 1;
+
+    /** Getters and setters */
+    public static String darIdMovibus( ){ return idMovibus; }
+
+    public static int darIdRecorrido( ){ return idRecorrido; }
+
+    public static void aumentarIdRecorrido( ){ idRecorrido++; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-
-        TextView textview = new TextView(this);
-        textview.setTextSize(40);
-        textview.setText("El Vcub con id " + message + " fue devuelto.");
-
-        setContentView(textview);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        MainActivity.aumentarVcubs(1);
+        setContentView(R.layout.activity_main);
     }
 
     @Override
@@ -51,6 +50,16 @@ public class Reportar_devolucion extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void iniciar_recorrido(View view) {
+        Intent intent = new Intent(this, Iniciar_recorrido.class);
+        startActivity(intent);
+    }
+
+    public void reportar_emergencia(View view) {
+        Intent intent = new Intent(this, Reportar_emergencia.class);
+        startActivity(intent);
     }
 
     private void openSearch() {

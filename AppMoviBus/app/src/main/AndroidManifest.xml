@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ramirezamayas.appvcub" >
+    package="com.ramirezamayas.appmovibus" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +12,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -23,20 +22,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Reportar_prestamo"
-            android:label="@string/title_activity_reportar_prestamo"
+            android:name=".Iniciar_recorrido"
+            android:label="@string/title_activity_iniciar_recorrido"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ramirezamayas.appvcub.MainActivity" />
+                android:value="com.ramirezamayas.appmovibus.MainActivity" />
         </activity>
         <activity
-            android:name=".Reportar_devolucion"
-            android:label="@string/title_activity_reportar_devolucion"
+            android:name=".Reportar_emergencia"
+            android:label="@string/title_activity_reportar_emergencia"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ramirezamayas.appvcub.MainActivity" />
+                android:value="com.ramirezamayas.appmovibus.MainActivity" />
         </activity>
     </application>
 
