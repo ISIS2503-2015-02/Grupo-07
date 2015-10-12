@@ -48,6 +48,7 @@ class ReporteTranviaSerializer(serializers.ModelSerializer):
 
 class RecorridoTranviaSerializer(serializers.ModelSerializer):
     inicio = serializers.ReadOnlyField(default = datetime.now)
+    coordenada = serializers.PrimaryKeyRelatedField(many = True, queryset = CoordenadasTranvia.objects.all())
     class Meta:
         model = RecorridoTranvia
         fields = ('inicio','tranvia','linea','conductor')
