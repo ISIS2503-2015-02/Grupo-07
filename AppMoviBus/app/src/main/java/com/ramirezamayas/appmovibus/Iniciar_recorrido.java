@@ -44,8 +44,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
         textView.setTextSize(30);
         setContentView(textView);
 
-        double lat = gpsTracker.getLatitude();
-        double lon = gpsTracker.getLongitude();
+        MainActivity.aumentarIdRecorrido();
         new EnviarReportePosicion().execute();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -79,13 +78,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
         protected Void doInBackground(Void...param ) {
             try {
                 while (true){
-                    Log.d("Status", String.valueOf("entró"));
-                    try {
-                        Thread.sleep(20000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Log.d("Status", String.valueOf("salió"));
                     double lat = gpsTracker.getLatitude();
                     double lon = gpsTracker.getLongitude();
                     HttpClient client = new DefaultHttpClient();
@@ -111,7 +103,17 @@ public class Iniciar_recorrido extends ActionBarActivity {
 
                     if(d > 199 && d <300){
                         publishProgress("Reportando posicion (lat = " + lat + ", lon = " + lon + ")");
+                        MainActivity.aumentarIdRecorrido();
                     }
+                    Log.d("Status", String.valueOf("entró"));
+
+                    try {
+                        Thread.sleep(20000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("Status", String.valueOf("salió"));
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

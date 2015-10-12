@@ -14,7 +14,7 @@ public class MainActivity extends ActionBarActivity {
     private static String idMovibus = "1";
 
     /** Id proximo recorrido */
-    private static int idRecorrido = 1;
+    private static int idRecorrido = 0;
 
     /** Getters and setters */
     public static String darIdMovibus( ){ return idMovibus; }
