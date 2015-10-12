@@ -44,7 +44,7 @@ class Tranvia(models.Model):
     velocidad_promedio = models.FloatField(default = 0)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"),  default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_max = models.IntegerField()
-    linea = models.ForeignKey(Linea, null = True, blank = True)
+    linea = models.ForeignKey('Linea', related_name='tranvia')
     #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default = True)
 
@@ -59,7 +59,7 @@ class Tranvia(models.Model):
         reporte['Kilometraje'] = str(self.kilometraje)
         reporte['Fecha Fabricacion'] = self.fecha_fabricacion.strftime("%Y-%m-%d")
         reporte['Capacidad Maxima'] = str(self.cap_max)
-        reporte['Linea'] = str(self.linea.__unicode__)
+        reporte['Linea'] = str(self.linea.numero)
 
         f = open('Reporte_Tranvia_' + self.placa + '.txt','w')
         f.write('Reporte Tranvia ' + self.placa + '\n' + '\n')

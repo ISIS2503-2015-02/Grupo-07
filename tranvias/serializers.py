@@ -12,9 +12,10 @@ class ConductorTranviaSerializer(serializers.ModelSerializer):
 
 class LineaSerializer(serializers.ModelSerializer):
     recorrido = serializers.PrimaryKeyRelatedField(many=True, queryset=RecorridoTranvia.objects.all())
+    tranvia = serializers.PrimaryKeyRelatedField(many=True, queryset=Tranvia.objects.all())
     class Meta:
         model = Linea
-        fields = ('numero', 'estacion_llegada', 'estacion_salida', 'kilometros_totales','recorrido')
+        fields = ('numero', 'estacion_llegada', 'estacion_salida', 'kilometros_totales','recorrido','tranvia')
 
 class TranviaSerializer(serializers.ModelSerializer):
     conductor = serializers.PrimaryKeyRelatedField(many=True, queryset=ConductorTranvia.objects.all())
@@ -51,4 +52,4 @@ class RecorridoTranviaSerializer(serializers.ModelSerializer):
     coordenada = serializers.PrimaryKeyRelatedField(many = True, queryset = CoordenadasTranvia.objects.all())
     class Meta:
         model = RecorridoTranvia
-        fields = ('inicio','tranvia','linea','conductor')
+        fields = ('inicio','tranvia','linea','conductor','coordenada')

@@ -32,16 +32,6 @@ class CondMovibus(admin.TabularInline):
     choice = 0
     extra = 0
 
-class ReporteMovi(admin.TabularInline):
-    model = ReporteMoviBus
-    choice = 0
-    extra = 0
-
-class RecCondMovibus(admin.TabularInline):
-    model = RecorridoMoviBus
-    choice = 0
-    extra = 1
-
 class CoordRecMov(admin.TabularInline):
     model = CoordenadasMoviBus
     choice = 0
@@ -51,21 +41,6 @@ class CoordRecMov(admin.TabularInline):
 
 class CondTranvia(admin.TabularInline):
     model = ConductorTranvia
-    choice = 0
-    extra = 0
-
-class ReporteTran(admin.TabularInline):
-    model = ReporteTranvia
-    choice = 0
-    extra = 0
-
-class AlertaTran(admin.TabularInline):
-    model = AlertaTranvia
-    choice = 0
-    extra = 0
-
-class RecTranvia(admin.TabularInline):
-    model = RecorridoTranvia
     choice = 0
     extra = 0
 
@@ -94,18 +69,18 @@ class EstacionVcubAdmin(admin.ModelAdmin):
         ('Informacion', {'fields': ['fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo'], 'classes': ['collapse']}),
     ]
     inlines = [VcubEstacion]
-    list_display = ('nombre','estacion','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','necesita_refill',)
-    list_filter = ['nombre','estacion','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','necesita_refill',]
-    search_fields = ['nombre','estacion','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','necesita_refill',]
+    list_display = ('nombre','fecha_construccion','cap_actual','cap_max','lon','lat','estado_operativo','necesita_refill',)
+    list_filter = ['nombre','fecha_construccion','cap_actual','cap_max','lon','lat',]
+    search_fields = ['nombre','fecha_construccion','cap_actual','cap_max','lon','lat',]
 
 class VcubAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['registro']}),
         ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo'], 'classes': ['collapse']}),
     ]
-    list_display = ('registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo',)
-    list_filter = ['registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo',]
-    search_fields = ['registro','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo',]
+    list_display = ('registro','estacion','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo',)
+    list_filter = ['registro','estacion','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo',]
+    search_fields = ['registro','estacion','marca','modelo','fecha_fabricacion','estacion','en_transito','estado_operativo',]
 
 
 ################################################################################
@@ -117,7 +92,7 @@ class MoviBusAdmin(admin.ModelAdmin):
         (None,               {'fields': ['placa']}),
         ('Informacion', {'fields': ['marca','modelo','kilometraje','fecha_fabricacion','cap_max'], 'classes': ['collapse']}),
     ]
-    inlines = [CondMovibus,ReporteMovi]
+    inlines = [CondMovibus]
     list_display = ('placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max',)
     list_filter = ['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max',]
     search_fields =['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max',]
@@ -128,7 +103,6 @@ class ConductorMoviBusAdmin(admin.ModelAdmin):
         (None,               {'fields': ['cedula']}),
         ('Informacion', {'fields': ['nombre','fecha_de_nacimiento'], 'classes': ['collapse']}),
     ]
-    inlines = [RecCondMovibus]
     list_display = ('nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',)
     list_filter = ['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',]
     search_fields =['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',]
@@ -191,7 +165,7 @@ class TranviaAdmin(admin.ModelAdmin):
         (None,               {'fields': ['placa']}),
         ('Informacion', {'fields': ['marca','modelo','kilometraje','fecha_fabricacion','cap_max'], 'classes': ['collapse']}),
     ]
-    inlines = [CondTranvia, ReporteTran, AlertaTran, RecTranvia]
+    inlines = [CondTranvia]
     list_display = ('placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max','linea',)
     list_filter = ['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max','linea',]
     search_fields =['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max','linea',]
@@ -203,7 +177,6 @@ class ConductorTranviaAdmin(admin.ModelAdmin):
         (None,               {'fields': ['cedula']}),
         ('Informacion', {'fields': ['nombre','fecha_de_nacimiento'], 'classes': ['collapse']}),
     ]
-    inlines = [RecCondTranvia]
     list_display = ('nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','tranvia',)
     list_filter = ['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','tranvia',]
     search_fields =['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','tranvia',]
