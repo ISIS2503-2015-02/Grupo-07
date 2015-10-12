@@ -91,6 +91,7 @@ class ReporteMoviBus(models.Model):
 class RecorridoMoviBus(models.Model):
     inicio = models.DateTimeField(auto_now_add=True)
     fin = models.DateTimeField(auto_now_add=True)
+    movibus = models.ForeignKey('MoviBus', related_name='recorrido')
     reserva = models.ForeignKey('usuarios.ReservaMobiBus', related_name='recorrido')
     conductor = models.ForeignKey('ConductorMoviBus', related_name='recorrido')
 

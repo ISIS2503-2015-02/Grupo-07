@@ -5,6 +5,8 @@ from models import ConductorTranvia, Tranvia, Linea, AlertaTranvia, CoordenadasT
 
 class ConductorTranviaSerializer(serializers.ModelSerializer):
     fecha_ingreso_sistema = serializers.ReadOnlyField(default = datetime.now)
+    calificacion = serializers.ReadOnlyField(default = 0)
+    kilometros_recorridos = serializers.ReadOnlyField(default = 0)
     recorrido = serializers.PrimaryKeyRelatedField(many = True, queryset=RecorridoTranvia.objects.all())
     class Meta:
         model = ConductorTranvia
@@ -23,10 +25,10 @@ class TranviaSerializer(serializers.ModelSerializer):
     reporte = serializers.PrimaryKeyRelatedField(many=True, queryset=ReporteTranvia.objects.all())
     alerta = serializers.PrimaryKeyRelatedField(many=True, queryset=AlertaTranvia.objects.all())
     recorrido = serializers.PrimaryKeyRelatedField(many=True, queryset=RecorridoTranvia.objects.all())
-
+    velocidad_promedio = serializers.ReadOnlyField(default = 0)
     class Meta:
         model = Tranvia
-        fields = ('placa','marca','modelo','kilometraje','fecha_fabricacion','cap_max','conductor','estado_operativo','coordenada','reporte', 'alerta', 'recorrido')
+        fields = ('placa','marca','modelo','kilometraje','fecha_fabricacion','cap_max','linea','velocidad_promedio','conductor','estado_operativo','coordenada','reporte', 'alerta', 'recorrido')
 
 class CoordenadasTranviaSerializer(serializers.ModelSerializer):
     fecha = serializers.ReadOnlyField(default = datetime.now)
