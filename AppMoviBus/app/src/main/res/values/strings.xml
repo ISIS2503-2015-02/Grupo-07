@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">App MoviBus</string>
+    <string name="button_iniciar_recorrido">Iniciar recorrido</string>
+    <string name="button_detener_recorrido">Detener recorrido</string>
+    <string name="button_reportar_emergencia">Reportar emergencia</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="title_activity_iniciar_recorrido">Iniciar_recorrido</string>
+    <string name="title_activity_reportar_emergencia">Reportar_emergencia</string>
+</resources>

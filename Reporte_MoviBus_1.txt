@@ -1,9 +1,9 @@
 Reporte MoviBus 1
 
-Capacidad Maxima	1
-Kilometraje	1.0
+Capacidad Maxima	5
+Kilometraje	0.0
 Marca	1
-Fecha Fabricacion	2015-01-01
+Fecha Fabricacion	2015-10-12
 Placa	1
-Ruta	1
+Ruta	
 Modelo	1

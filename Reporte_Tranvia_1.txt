@@ -1,0 +1,9 @@
+Reporte Tranvia 1
+
+Capacidad Maxima	10
+Kilometraje	0.0
+Marca	1
+Fecha Fabricacion	2015-10-12
+Placa	1
+Modelo	1
+Linea	1

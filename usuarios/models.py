@@ -25,6 +25,7 @@ class Usuario(models.Model):
 class ReservaMobiBus(models.Model):
     usuario = models.ForeignKey('Usuario', related_name='reserva')
     fecha = models.DateTimeField(auto_now_add=True)
+    fecha_programada = models.DateTimeField(default = datetime.now())
 
     class Meta:
         unique_together = ('usuario', 'fecha')

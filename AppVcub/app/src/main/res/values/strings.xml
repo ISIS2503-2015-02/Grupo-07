@@ -2,7 +2,7 @@
     <string name="app_name">App Vcub</string>
     <string name="edit_message_prestamo">Ingrese ID Vcub a prestar</string>
     <string name="edit_message_devolucion">Ingrese ID Vcub a devolver</string>
-    <string name="button_send">Enviar</string>
+    <string name="button_send">Enviar!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_message">DisplayMessageActivity</string>
     <string name="action_search">Buscar</string>

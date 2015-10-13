@@ -1,6 +1,7 @@
 package com.ramirezamayas.appvcub;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.*;
@@ -14,26 +15,28 @@ public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.ramirezamayas.appmovibus.MESSAGE";
 
     /** Número de Vcubs disponibles */
-    private static int vcubs = 20;
+    private static int capacidad = 1;
+
+    /** Id estacion vcubs */
+    private static String idEstacion = "1";
 
 
     /** Getters and setters */
-    public static int darVcubs (){
-        return vcubs;
+    public static int darCapacidad (){
+        return capacidad;
     }
 
-    public static void aumentarVcubs(int n){
-        vcubs += n;
-    }
+    public static String darIdEstacion( ){ return idEstacion; }
 
-    public static void disminuirVcubs(int n){
-        vcubs -= n;
-    }
+    public static void aumentarCapacidad(int n){ capacidad += n; }
+
+    public static void disminuirCapacidad(int n){ capacidad -= n; }
 
     /** Métodos ciclo de vida app */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
     }
 
@@ -71,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 
     /** Llamado para reportar la devolución de un Vcub */
     public void reportar_devolucion(View view) {
-        Intent intent = new Intent(this, Reportar_prestamo.class);
+        Intent intent = new Intent(this, Reportar_devolucion.class);
         EditText editText = (EditText) findViewById(R.id.edit_message_devolucion);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);

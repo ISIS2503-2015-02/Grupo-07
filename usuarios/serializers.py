@@ -15,4 +15,4 @@ class ReservaMobiBusSerializer(serializers.ModelSerializer):
     recorrido = serializers.PrimaryKeyRelatedField(many=True,queryset = RecorridoMoviBus.objects.all())
     class Meta:
         model = ReservaMobiBus
-        fields = ('fecha', 'usuario', 'recorrido')
+        fields = ('fecha', 'usuario','fecha_programada','recorrido')
