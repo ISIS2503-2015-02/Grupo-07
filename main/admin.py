@@ -118,7 +118,7 @@ class RecorridoMoviBusAdmin(admin.ModelAdmin):
     readonly_fields = ('inicio',)
     fieldsets = [('Informacion', {'fields': ['reserva','movibus','conductor',]}),]
     inlines = [CoordRecMov]
-    list_display = ('inicio','fin','reserva','movibus','conductor',)
+    list_display = ('inicio','fin','reserva','movibus','conductor','velocidad_promedio','distancia')
     list_filter = ['inicio','fin','reserva','movibus','conductor',]
     search_fields = ['inicio','fin','reserva','movibus','conductor',]
 
@@ -192,7 +192,7 @@ class RecorridoTranviaAdmin(admin.ModelAdmin):
     readonly_fields = ('inicio',)
     fieldsets = [        ('Informacion', {'fields': ['tranvia','linea','conductor',]}),]
     inlines = [CoorRecTra]
-    list_display = ('inicio','fin','tranvia','linea','conductor',)
+    list_display = ('inicio','fin','tranvia','linea','conductor','distancia')
     list_filter = ['inicio','fin','tranvia','linea','conductor',]
     search_fields = ['inicio','fin','tranvia','linea','conductor',]
 

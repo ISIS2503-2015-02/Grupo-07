@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.gis.db import models
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils.translation import gettext as _
 from django.utils import timezone
 from usuarios.models import ReservaMobiBus
+from math import sin, cos, atan2, sqrt, floor
+from geopy.distance import vincenty
 
 #Clase que modela un conductor de MoviBus de tcb
 
@@ -94,6 +96,47 @@ class RecorridoMoviBus(models.Model):
     movibus = models.ForeignKey('MoviBus', related_name='recorrido')
     reserva = models.ForeignKey('usuarios.ReservaMobiBus', related_name='recorrido')
     conductor = models.ForeignKey('ConductorMoviBus', related_name='recorrido')
+
+    def velocidad_promedio(self):
+        coordenadas_totales = []
+        tiempo = 0
+        diferencia = 0
+        for coordenada in CoordenadasMoviBus.objects.all():
+            if coordenada.recorrido.reserva == self.reserva:
+                coordenadas_totales.append(coordenada)
+        cantidad = len(coordenadas_totales)
+        while cantidad > 1:
+            coordenada2 = coordenadas_totales.pop(0)
+            coordenada1 = coordenadas_totales.pop(0)
+            coordenadas_totales.append(coordenada2)
+
+            fecha1 = coordenada1.fecha
+            fecha2 = coordenada2.fecha
+            diferencia = fecha2 - fecha1
+            timedelta(0,8,562000)
+            tiempo = divmod(diferencia.days * 86400 + diferencia.seconds, 60)
+            cantidad = cantidad - 1
+        return tiempo
+
+    def distancia(self):
+        coordenadas_totales = []
+        dis = vincenty((0,0),(0,0))
+        for coordenada in CoordenadasMoviBus.objects.all():
+            if coordenada.recorrido.reserva == self.reserva:
+                coordenadas_totales.append(coordenada)
+        cantidad = len(coordenadas_totales)
+        while cantidad > 1:
+            coordenada1 = coordenadas_totales.pop(0)
+            coordenada2 = coordenadas_totales.pop(0)
+            coordenadas_totales.append(coordenada2)
+
+            lon1 = coordenada1.longitud
+            lat1 = coordenada1.latitud
+            lon2 = coordenada2.longitud
+            lat2 = coordenada2.latitud
+            dis = dis + vincenty((lat1,lon1),(lat2,lon2))
+            cantidad = cantidad - 1
+        return dis
 
     def __unicode__(self):
         return "Recorrido MoviBus " + self.inicio.strftime("%Y-%m-%d %H:%M:%S") + ": " + self.reserva.usuario.nombre
