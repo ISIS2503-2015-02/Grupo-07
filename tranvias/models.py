@@ -124,5 +124,25 @@ class RecorridoTranvia(models.Model):
     linea = models.ForeignKey('Linea', related_name='recorrido')
     conductor = models.ForeignKey('ConductorTranvia', related_name='recorrido')
 
+    def distancia(self):
+        coordenadas_totales = []
+        dis = vincenty((0,0),(0,0))
+        for coordenada in CoordenadasTranvia.objects.all():
+            if coordenada.inicio == self.inicio and coordenada.tranvia.placa == self.tranvia.placa:
+                coordenadas_totales.append(coordenada)
+        cantidad = len(coordenadas_totales)
+        while cantidad > 1:
+            coordenada1 = coordenadas_totales.pop(0)
+            coordenada2 = coordenadas_totales.pop(0)
+            coordenadas_totales.append(coordenada2)
+
+            lon1 = coordenada1.longitud
+            lat1 = coordenada1.latitud
+            lon2 = coordenada2.longitud
+            lat2 = coordenada2.latitud
+            dis = dis + vincenty((lat1,lon1),(lat2,lon2))
+            cantidad = cantidad - 1
+        return dis
+
     def __unicode__(self):
         return "Recorrido Tranvia " + self.inicio.strftime("%Y-%m-%d %H:%M:%S") + ": Linea(" + self.linea.numero + ")"

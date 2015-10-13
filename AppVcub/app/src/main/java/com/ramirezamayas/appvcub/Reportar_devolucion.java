@@ -83,15 +83,19 @@ public class Reportar_devolucion extends ActionBarActivity {
                 JSONObject json_estacion = new JSONObject();
                 JSONObject json_vcub = new JSONObject();
 
-                HttpPut put_estacion = new HttpPut("http://186.80.206.189:9347/estaciones/" + MainActivity.darIdEstacion() + "/");
-                json_estacion.put("nombre", 1);
-                json_estacion.put("fecha_construccion", "2015-01-01");
-                json_estacion.put("cap_actual", MainActivity.darCapacidad());
-                json_estacion.put("cap_max", 20);
+                /**
+
+                HttpPut put_estacion = new HttpPut("http://10.0.2.2:8000/estaciones/" + MainActivity.darIdEstacion() + "/");
+                json_estacion.put("nombre", "1");
+                json_estacion.put("fecha_construccion", "2015-10-12");
+                json_estacion.put("cap_actual", 9);
+                json_estacion.put("cap_max", 10);
                 json_estacion.put("lon", 1.0);
                 json_estacion.put("lat", 1.0);
-                json_estacion.put("vcub","[]");
+                json_estacion.put("estado_operativo", true);
+                json_estacion.put("vcub",[2]);
                 StringEntity se_estacion = new StringEntity( json_estacion.toString());
+                Log.d("Json String", json_estacion.toString());
                 se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                 put_estacion.setEntity(se_estacion);
                 response = client.execute(put_estacion);
@@ -102,18 +106,26 @@ public class Reportar_devolucion extends ActionBarActivity {
                 int d1 = response.getStatusLine().getStatusCode();
                 Log.d("Status", String.valueOf(d1));
 
-                HttpPut put_vcub = new HttpPut("http://186.80.206.189:9347/vcubs/" + Integer.parseInt(message[0]) + "/");
+                 */
+
+                int d1 = 200;
+
+                HttpClient client2 = new DefaultHttpClient();
+                HttpConnectionParams.setConnectionTimeout(client2.getParams(), 1000);
+                HttpResponse response2;
+
+                HttpPut put_vcub = new HttpPut("http://10.0.2.2:8000/vcubs/" + 2  + "/");
                 json_vcub.put("registro", "1");
                 json_vcub.put("marca", "1");
                 json_vcub.put("modelo", "1");
-                json_estacion.put("fecha_construccion", "2015-01-01");
+                json_vcub.put("fecha_fabricacion", "2015-01-01");
                 json_vcub.put("estacion", MainActivity.darIdEstacion());
                 json_vcub.put("en_transito", false);
                 json_vcub.put("estado_operativo", true);
                 StringEntity se_vcub = new StringEntity( json_vcub.toString());
                 se_vcub.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                 put_vcub.setEntity(se_vcub);
-                response = client.execute(put_vcub);
+                response = client2.execute(put_vcub);
 
                 if(response!=null){
                     InputStream in = response.getEntity().getContent();
