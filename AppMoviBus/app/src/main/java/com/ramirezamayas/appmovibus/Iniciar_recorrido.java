@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -77,43 +78,63 @@ public class Iniciar_recorrido extends ActionBarActivity {
         @Override
         protected Void doInBackground(Void...param ) {
             try {
-                while (true){
+                HttpClient client = new DefaultHttpClient();
+                HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
+                HttpResponse response;
+                JSONObject json_recorrido = new JSONObject();
+                JSONObject json_posicion = new JSONObject();
+
+                Log.d("Status", String.valueOf(MainActivity.darIdRecorrido()));
+
+                HttpPost put_recorrido = new HttpPost("http://10.0.2.2:9345/recorridosMovibus/");
+                json_recorrido.put("identificador", String.valueOf(MainActivity.darIdRecorrido()));
+                json_recorrido.put("reserva", MainActivity.darIdReserva());
+                json_recorrido.put("movibus", MainActivity.darIdMovibus());
+                json_recorrido.put("conductor", "1");
+                StringEntity se_recorrido = new StringEntity( json_recorrido.toString());
+                se_recorrido.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                put_recorrido.setEntity(se_recorrido);
+                response = client.execute(put_recorrido);
+                if(response!=null){
+                    InputStream in = response.getEntity().getContent();
+                }
+                int d2 = response.getStatusLine().getStatusCode();
+                Log.d("Status", String.valueOf(d2));
+
+                while (MainActivity.darDetenerRecorrido()){
+
+                    client = new DefaultHttpClient();
+                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
+
                     double lat = gpsTracker.getLatitude();
                     double lon = gpsTracker.getLongitude();
-                    HttpClient client = new DefaultHttpClient();
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
-                    HttpResponse response;
-                    JSONObject json_posicion = new JSONObject();
 
-                    HttpPut put_posicion = new HttpPut("http://186.80.206.189:9347/coordenadasMovibus/");
+                    HttpPost put_posicion = new HttpPost("http://10.0.2.2:9345/coordenadasMovibus/");
                     json_posicion.put("latitud", lat);
                     json_posicion.put("longitud", lon);
                     json_posicion.put("movibus", MainActivity.darIdMovibus());
-                    json_posicion.put("recorrido", MainActivity.darIdRecorrido());
-                    StringEntity se_estacion = new StringEntity( json_posicion.toString());
-                    se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    put_posicion.setEntity(se_estacion);
+                    json_posicion.put("recorrido", String.valueOf(MainActivity.darIdRecorrido()));
+                    StringEntity se_posicion = new StringEntity( json_posicion.toString());
+                    se_posicion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    put_posicion.setEntity(se_posicion);
                     response = client.execute(put_posicion);
-
                     if(response!=null){
                         InputStream in = response.getEntity().getContent();
                     }
-                    int d = response.getStatusLine().getStatusCode();
-                    Log.d("Status", String.valueOf(d));
+                    int d1 = response.getStatusLine().getStatusCode();
+                    Log.d("Status", String.valueOf(d1));
 
-                    if(d > 199 && d <300){
+                    if(d1 > 199 && d1 <300 && d1 > 199 && d1 <300){
                         publishProgress("Reportando posicion (lat = " + lat + ", lon = " + lon + ")");
-                        MainActivity.aumentarIdRecorrido();
                     }
-                    Log.d("Status", String.valueOf("entró"));
 
+                    Log.d("Status", String.valueOf("entró"));
                     try {
                         Thread.sleep(20000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     Log.d("Status", String.valueOf("salió"));
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,3 +157,4 @@ public class Iniciar_recorrido extends ActionBarActivity {
         Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
     }
 }
+

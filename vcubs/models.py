@@ -7,7 +7,7 @@ from django.utils import timezone
 #Clase que modela una estacion de vcub de tcb
 
 class EstacionVcub(models.Model):
-    nombre = models.CharField(max_length = 200, unique = True)
+    nombre = models.CharField(max_length = 200, primary_key = True)
     fecha_construccion = models.DateField(_("Fecha de Construccion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_actual = models.IntegerField()
     cap_max = models.IntegerField()
@@ -29,7 +29,7 @@ class EstacionVcub(models.Model):
 #Clase que modela una vcub de tcb
 
 class Vcub(models.Model):
-    registro = models.CharField(max_length = 200, unique = True)
+    registro = models.CharField(max_length = 200, primary_key = True)
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))

@@ -19,6 +19,13 @@
             android:text="@string/button_iniciar_recorrido"
             android:onClick="iniciar_recorrido"       />
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_detener_recorrido"
+            android:onClick="detener_recorrido"       />
+
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

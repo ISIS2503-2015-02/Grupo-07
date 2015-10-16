@@ -90,11 +90,11 @@ class VcubAdmin(admin.ModelAdmin):
 class MoviBusAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['placa']}),
-        ('Informacion', {'fields': ['marca','modelo','kilometraje','fecha_fabricacion','cap_max']}),
+        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max']}),
     ]
     inlines = [CondMovibus]
     list_display = ('placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','estado_operativo','cap_max',)
-    list_filter = ['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max',]
+    list_filter = ['placa','marca','modelo','fecha_fabricacion','cap_max',]
     search_fields =['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max',]
 
 class ConductorMoviBusAdmin(admin.ModelAdmin):
@@ -103,9 +103,9 @@ class ConductorMoviBusAdmin(admin.ModelAdmin):
         (None,               {'fields': ['cedula']}),
         ('Informacion', {'fields': ['nombre','fecha_de_nacimiento','movibus']}),
     ]
-    list_display = ('nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',)
-    list_filter = ['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',]
-    search_fields =['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',]
+    list_display = ('nombre','fecha_de_nacimiento','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',)
+    list_filter = ['nombre','fecha_de_nacimiento','fecha_ingreso_sistema','movibus',]
+    search_fields =['nombre','fecha_de_nacimiento','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','movibus',]
 
 class ReporteMoviBusAdmin(admin.ModelAdmin):
     readonly_fields = ('fecha',)
@@ -116,11 +116,12 @@ class ReporteMoviBusAdmin(admin.ModelAdmin):
 
 class RecorridoMoviBusAdmin(admin.ModelAdmin):
     readonly_fields = ('inicio',)
-    fieldsets = [('Informacion', {'fields': ['reserva','movibus','conductor',]}),]
+    fieldsets = [   (None,               {'fields': ['identificador']}),
+                    ('Informacion', {'fields': ['reserva','movibus','conductor',]}),]
     inlines = [CoordRecMov]
-    list_display = ('inicio','fin','reserva','movibus','conductor','velocidad_promedio','distancia')
-    list_filter = ['inicio','fin','reserva','movibus','conductor',]
-    search_fields = ['inicio','fin','reserva','movibus','conductor',]
+    list_display = ('identificador','inicio','reserva','movibus','conductor','distancia','velocidad_promedio')
+    list_filter = ['identificador','inicio','reserva','movibus','conductor',]
+    search_fields = ['identificador','inicio','reserva','movibus','conductor',]
 
 ################################################################################
 #                                    USUARIOS
@@ -139,11 +140,12 @@ class UsuarioAdmin(admin.ModelAdmin):
 
 class ReservaMoviBusAdmin(admin.ModelAdmin):
     readonly_fields = ('fecha',)
-    fieldsets = [('Informacion', {'fields': ['usuario','fecha_programada',]}),]
+    fieldsets = [      (None,               {'fields': ['identificador']}),
+                    ('Informacion', {'fields': ['usuario','fecha_programada',]}),]
     inlines = [RecoReserva]
-    list_display = ('fecha','usuario',)
-    list_filter = ['fecha','usuario',]
-    search_fields =['fecha','usuario',]
+    list_display = ('identificador','fecha','usuario',)
+    list_filter = ['identificador','fecha','usuario',]
+    search_fields =['identificador','fecha','usuario',]
 
 ################################################################################
 #                                    TRANVIAS
@@ -163,11 +165,11 @@ class LineaAdmin(admin.ModelAdmin):
 class TranviaAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['placa']}),
-        ('Informacion', {'fields': ['marca','modelo','kilometraje','fecha_fabricacion','cap_max','estado_operativo','linea']}),
+        ('Informacion', {'fields': ['marca','modelo','fecha_fabricacion','cap_max','estado_operativo','linea']}),
     ]
     inlines = [CondTranvia]
     list_display = ('placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max','linea')
-    list_filter = ['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max','linea',]
+    list_filter = ['placa','marca','modelo','fecha_fabricacion','cap_max','linea',]
     search_fields =['placa','marca','modelo','kilometraje','velocidad_promedio','fecha_fabricacion','cap_max','linea',]
 
 
@@ -178,7 +180,7 @@ class ConductorTranviaAdmin(admin.ModelAdmin):
         ('Informacion', {'fields': ['nombre','fecha_de_nacimiento','tranvia']}),
     ]
     list_display = ('nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','tranvia',)
-    list_filter = ['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','tranvia',]
+    list_filter = ['nombre','fecha_de_nacimiento','fecha_ingreso_sistema','tranvia',]
     search_fields =['nombre','fecha_de_nacimiento','calificacion','kilometros_recorridos','velocidad_promedio','fecha_ingreso_sistema','tranvia',]
 
 class ReporteTranviaAdmin(admin.ModelAdmin):
@@ -190,11 +192,12 @@ class ReporteTranviaAdmin(admin.ModelAdmin):
 
 class RecorridoTranviaAdmin(admin.ModelAdmin):
     readonly_fields = ('inicio',)
-    fieldsets = [        ('Informacion', {'fields': ['tranvia','linea','conductor',]}),]
+    fieldsets = [   (None,               {'fields': ['identificador']}),
+                    ('Informacion', {'fields': ['tranvia','linea','conductor',]}),]
     inlines = [CoorRecTra]
-    list_display = ('inicio','fin','tranvia','linea','conductor','distancia')
-    list_filter = ['inicio','fin','tranvia','linea','conductor',]
-    search_fields = ['inicio','fin','tranvia','linea','conductor',]
+    list_display = ('identificador','inicio','tranvia','linea','conductor','distancia','velocidad_promedio')
+    list_filter = ['identificador','inicio','tranvia','linea','conductor',]
+    search_fields = ['identificador','inicio','tranvia','linea','conductor',]
 
 
 admin.site.register(EstacionVcub, EstacionVcubAdmin)

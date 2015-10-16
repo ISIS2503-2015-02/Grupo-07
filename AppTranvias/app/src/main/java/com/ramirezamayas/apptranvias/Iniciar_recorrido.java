@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -83,15 +84,16 @@ public class Iniciar_recorrido extends ActionBarActivity {
                 JSONObject json_recorrido = new JSONObject();
                 JSONObject json_posicion = new JSONObject();
 
-                HttpPut put_recorrido = new HttpPut("http://186.80.206.189:9347/recorridoMovibus/");
-                json_recorrido.put("inicio", "2015-01-01");
-                json_recorrido.put("fin", "2015-01-01");
+                Log.d("Status", String.valueOf(MainActivity.darIdRecorrido()));
+
+                HttpPost put_recorrido = new HttpPost("http://10.0.2.2:9345/recorridosTranvia/");
+                json_recorrido.put("identificador", String.valueOf(MainActivity.darIdRecorrido()));
                 json_recorrido.put("tranvia", MainActivity.darIdTranvia());
                 json_recorrido.put("linea", "1");
                 json_recorrido.put("conductor", "1");
-                StringEntity se_estacion = new StringEntity( json_posicion.toString());
-                se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                put_recorrido.setEntity(se_estacion);
+                StringEntity se_recorrido = new StringEntity( json_recorrido.toString());
+                se_recorrido.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                put_recorrido.setEntity(se_recorrido);
                 response = client.execute(put_recorrido);
                 if(response!=null){
                     InputStream in = response.getEntity().getContent();
@@ -101,17 +103,20 @@ public class Iniciar_recorrido extends ActionBarActivity {
 
                 while (MainActivity.darDetenerRecorrido()){
 
+                    client = new DefaultHttpClient();
+                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
+
                     double lat = gpsTracker.getLatitude();
                     double lon = gpsTracker.getLongitude();
 
-                    HttpPut put_posicion = new HttpPut("http://186.80.206.189:9347/coordenadasMovibus/");
+                    HttpPost put_posicion = new HttpPost("http://10.0.2.2:9345/coordenadasTranvia/");
                     json_posicion.put("latitud", lat);
                     json_posicion.put("longitud", lon);
-                    json_posicion.put("movibus", MainActivity.darIdTranvia());
-                    json_posicion.put("recorrido", MainActivity.darIdRecorrido());
+                    json_posicion.put("tranvia", MainActivity.darIdTranvia());
+                    json_posicion.put("recorrido", String.valueOf(MainActivity.darIdRecorrido()));
                     StringEntity se_posicion = new StringEntity( json_posicion.toString());
-                    se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    put_posicion.setEntity(se_estacion);
+                    se_posicion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    put_posicion.setEntity(se_posicion);
                     response = client.execute(put_posicion);
                     if(response!=null){
                         InputStream in = response.getEntity().getContent();
@@ -121,7 +126,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
 
                     if(d1 > 199 && d1 <300 && d1 > 199 && d1 <300){
                         publishProgress("Reportando posicion (lat = " + lat + ", lon = " + lon + ")");
-                        MainActivity.aumentarIdRecorrido();
                     }
 
                     Log.d("Status", String.valueOf("entró"));
@@ -131,7 +135,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     Log.d("Status", String.valueOf("salió"));
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();

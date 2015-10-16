@@ -10,7 +10,7 @@ import time
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length = 200)
-    login = models.CharField(max_length = 200, unique = True)
+    login = models.CharField(max_length = 200, primary_key = True)
     contrasenia = models.CharField(max_length=200)
     direccion = models.CharField(max_length = 200, default = "")
     telefono = models.CharField(max_length = 200, default = "")
@@ -23,12 +23,10 @@ class Usuario(models.Model):
 #Clase que modela una reserva de un usuario de moviBus
 
 class ReservaMobiBus(models.Model):
+    identificador = models.CharField(primary_key = True, max_length = 200)
     usuario = models.ForeignKey('Usuario', related_name='reserva')
     fecha = models.DateTimeField(auto_now_add=True)
     fecha_programada = models.DateTimeField(default = datetime.now())
 
-    class Meta:
-        unique_together = ('usuario', 'fecha')
-
     def __unicode__(self):
-        return "Usuario:" + self.usuario.nombre + " - " + self.fecha.strftime("%Y-%m-%d %H:%M:%S")
+        return "Reserva Usuario No. " + self.identificador + " - " + self.fecha.strftime("%Y-%m-%d %H:%M:%S")

@@ -83,17 +83,14 @@ public class Reportar_devolucion extends ActionBarActivity {
                 JSONObject json_estacion = new JSONObject();
                 JSONObject json_vcub = new JSONObject();
 
-                /**
-
-                HttpPut put_estacion = new HttpPut("http://10.0.2.2:8000/estaciones/" + MainActivity.darIdEstacion() + "/");
+                HttpPut put_estacion = new HttpPut("http://10.0.2.2:9345/estaciones/" + MainActivity.darIdEstacion() + "/");
                 json_estacion.put("nombre", "1");
                 json_estacion.put("fecha_construccion", "2015-10-12");
-                json_estacion.put("cap_actual", 9);
+                json_estacion.put("cap_actual", MainActivity.darCapacidad());
                 json_estacion.put("cap_max", 10);
                 json_estacion.put("lon", 1.0);
                 json_estacion.put("lat", 1.0);
                 json_estacion.put("estado_operativo", true);
-                json_estacion.put("vcub",[2]);
                 StringEntity se_estacion = new StringEntity( json_estacion.toString());
                 Log.d("Json String", json_estacion.toString());
                 se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
@@ -106,15 +103,12 @@ public class Reportar_devolucion extends ActionBarActivity {
                 int d1 = response.getStatusLine().getStatusCode();
                 Log.d("Status", String.valueOf(d1));
 
-                 */
-
-                int d1 = 200;
 
                 HttpClient client2 = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client2.getParams(), 1000);
                 HttpResponse response2;
 
-                HttpPut put_vcub = new HttpPut("http://10.0.2.2:8000/vcubs/" + 2  + "/");
+                HttpPut put_vcub = new HttpPut("http://10.0.2.2:9345/vcubs/" + message[0]  + "/");
                 json_vcub.put("registro", "1");
                 json_vcub.put("marca", "1");
                 json_vcub.put("modelo", "1");

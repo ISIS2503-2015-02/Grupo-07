@@ -15,7 +15,7 @@ public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.ramirezamayas.appmovibus.MESSAGE";
 
     /** Número de Vcubs disponibles */
-    private static int capacidad = 1;
+    private static int capacidad = 10;
 
     /** Id estacion vcubs */
     private static String idEstacion = "1";

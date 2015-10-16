@@ -8,18 +8,29 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+
 public class MainActivity extends ActionBarActivity {
 
     /** Id movibus */
-    private static String idMovibus = "1";
+    private static String idMoviBus = "1";
 
-    /** Id proximo recorrido */
-    private static int idRecorrido = 0;
+    /** Id recorrido */
+    private static int idRecorrido = 1;
+
+    /** Id recorrido */
+    private static int idReserva = 1;
+
+    /** Detener recorrido */
+    private static boolean detenerRecorrido = true;
 
     /** Getters and setters */
-    public static String darIdMovibus( ){ return idMovibus; }
+    public static String darIdMovibus( ){ return idMoviBus; }
 
     public static int darIdRecorrido( ){ return idRecorrido; }
+
+    public static int darIdReserva( ){ return idReserva; }
+
+    public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
 
     public static void aumentarIdRecorrido( ){ idRecorrido++; }
 
@@ -53,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void iniciar_recorrido(View view) {
+        detenerRecorrido = true;
         Intent intent = new Intent(this, Iniciar_recorrido.class);
         startActivity(intent);
     }
@@ -60,6 +72,10 @@ public class MainActivity extends ActionBarActivity {
     public void reportar_emergencia(View view) {
         Intent intent = new Intent(this, Reportar_emergencia.class);
         startActivity(intent);
+    }
+
+    public void detener_recorrido(View view) {
+        detenerRecorrido = false;
     }
 
     private void openSearch() {
@@ -70,3 +86,4 @@ public class MainActivity extends ActionBarActivity {
         Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
     }
 }
+

@@ -12,11 +12,11 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-    /** Id movibus */
+    /** Id tranvia */
     private static String idTranvia = "1";
 
     /** Id proximo recorrido */
-    private static int idRecorrido = 0;
+    private static int idRecorrido = 1;
 
     /** Detener recorrido */
     private static boolean detenerRecorrido = true;

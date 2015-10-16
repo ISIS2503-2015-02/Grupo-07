@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 import os
+from django.db import connections
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'
@@ -97,12 +98,8 @@ DATABASES = {
 		'NAME': 'mydb',
 		'USER': 'admin',
 		'PASSWORD': '123',
-		'HOST': 'localhost',
+		'HOST': '157.253.229.84',
 		'PORT': '6432'
-	},
-	'secondary': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	}
 }
 

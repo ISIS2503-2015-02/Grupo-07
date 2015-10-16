@@ -1,9 +1,0 @@
-Reporte Tranvia BOI587
-
-Capacidad Maxima	5
-Kilometraje	1.0
-Marca	Chevrolet
-Fecha Fabricacion	2010-01-01
-Placa	BOI587
-Ruta	
-Modelo	Corsa

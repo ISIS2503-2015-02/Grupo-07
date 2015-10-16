@@ -77,13 +77,12 @@ public class Reportar_emergencia extends ActionBarActivity {
                 JSONObject json_estacion = new JSONObject();
                 JSONObject json_vcub = new JSONObject();
 
-                HttpPut put_estacion = new HttpPut("http://186.80.206.189:9347/MoviBus/" + MainActivity.darIdMovibus() + "/");
-                json_estacion.put("placa", "BOI587");
-                json_estacion.put("marca", "Chevrolet");
-                json_estacion.put("modelo", "1998");
-                json_estacion.put("velocidad_promedio", 10.0);
-                json_estacion.put("kilometraje", 1000);
+                HttpPut put_estacion = new HttpPut("http://10.0.2.2:9345/movibuses/" + MainActivity.darIdMovibus() + "/");
+                json_estacion.put("placa", "1");
+                json_estacion.put("marca", "1");
+                json_estacion.put("modelo", "1");
                 json_estacion.put("fecha_fabricacion", "2015-01-01");
+                json_estacion.put("ruta",1);
                 json_estacion.put("cap_max",50);
                 json_estacion.put("estado_operativo",false);
                 StringEntity se_estacion = new StringEntity( json_estacion.toString());
@@ -98,12 +97,12 @@ public class Reportar_emergencia extends ActionBarActivity {
                 Log.d("Status", String.valueOf(d));
 
                 if(d > 199 && d <300){
-                    return "Se ha notificado sobre la emergencia del movibus con id + " + MainActivity.darIdMovibus() + ". La ayuda viene en camino.";
+                    return "Se ha notificado sobre la emergencia del tranvia con id " + MainActivity.darIdMovibus() + ". La ayuda viene en camino.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return "No ha sido posible notificar la emergencia del movibus con id " + MainActivity.darIdMovibus() + ". Por favor intente de nuevo!";
+            return "No ha sido posible notificar la emergencia del tranvia con id " + MainActivity.darIdMovibus() + ". Por favor intente de nuevo!";
         }
 
         @Override
