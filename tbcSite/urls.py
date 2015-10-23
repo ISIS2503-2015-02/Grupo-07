@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import routers, serializers, viewsets
 from movibuses.views import ConductorMoviBusList, ConductorMoviBusDetail, MoviBusList, MoviBusDetail, CoordenadasMoviBusList, CoordenadasMoviBusDetail, ReporteMoviBusList, ReporteMoviBusDetail, RecorridoMoviBusList, RecorridoMoviBusDetail
 from tranvias.views import ConductorTranviaList, TranviaList, CoordenadasTranviaList, ReporteTranviaList, AlertaTranviaList, LineaList, ConductorTranviaDetail, TranviaDetail, CoordenadasTranviaDetail, ReporteTranviaDetail, AlertaTranviaDetail, LineaDetail, RecorridoTranviaList, RecorridoTranviaDetail
@@ -28,11 +28,13 @@ from rest_framework import renderers
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
+        User = get_user_model()
         model = User
         fields = ('url', 'username', 'email', 'is_staff')
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
+    User = get_user_model()
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

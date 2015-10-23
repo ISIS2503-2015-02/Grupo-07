@@ -37,6 +37,7 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.gis',
+	'django_stormpath',
 	'rest_framework',
 	'main',
 	'usuarios',
@@ -45,16 +46,20 @@ INSTALLED_APPS = (
 	'tranvias',
 )
 
+AUTHENTICATION_BACKENDS = (
+	'django_stormpath.backends.StormpathBackend',
+)
+
+AUTH_USER_MODEL = 'django_stormpath.StormpathUser'
+
+STORMPATH_ID = 'LI9XV9GH1LC2SGZY89ULIFP0X'
+STORMPATH_SECRET = '8q9GRW9TwdVGDqWXbyOZB+fstWG+byLk+PBHhCj7/zQ'
+STORMPATH_APPLICATION = 'https://api.stormpath.com/v1/applications/dt2VrW0681I4hVSLUmuzb'
+
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'django.middleware.security.SecurityMiddleware',
-	'tbcSite.middleware.DisableCSRF'
 )
 
 ROOT_URLCONF = 'tbcSite.urls'
@@ -77,14 +82,14 @@ TEMPLATES = [
 
 #Rest Framework
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated'
-    # , ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
+	# Use Django's standard `django.contrib.auth` permissions,
+	# or allow read-only access for unauthenticated users.
+	# 'DEFAULT_PERMISSION_CLASSES': (
+	#     'rest_framework.permissions.IsAuthenticated'
+	# , ),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.AllowAny',
+	),
 	'DEFAULT_AUTHENTICATION_CLASSES': [],
 	'DEFAULT_PERMISSION_CLASSES': [],
 }
@@ -98,7 +103,7 @@ DATABASES = {
 		'NAME': 'mydb',
 		'USER': 'admin',
 		'PASSWORD': '123',
-		'HOST': '157.253.229.84',
+		'HOST': '0.0.0.0',
 		'PORT': '6432'
 	}
 }
@@ -106,15 +111,18 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 LANGUAGE_CODE = 'es'
-
 TIME_ZONE = 'America/Bogota'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Static url path
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+
+# HTTPS configuration
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 1
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
