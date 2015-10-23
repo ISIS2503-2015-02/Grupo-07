@@ -11,19 +11,25 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-    /** Id movibus */
-    private static String idMoviBus = "1";
+    //ip host servidor
+    public static final String ip = "127.0.0.1";
 
-    /** Id recorrido */
-    private static int idRecorrido = 1;
+    //puerto host servidor
+    public static final String puerto = "9345";
 
-    /** Id recorrido */
-    private static int idReserva = 1;
+    //Identificador movibus
+    private static String idMoviBus;
 
-    /** Detener recorrido */
+    //Identificador recorrido
+    private static int idRecorrido;
+
+    //Identificador recorrido
+    private static int idReserva;
+
+    //Detener recorrido?
     private static boolean detenerRecorrido = true;
 
-    /** Getters and setters */
+    //Getters
     public static String darIdMovibus( ){ return idMoviBus; }
 
     public static int darIdRecorrido( ){ return idRecorrido; }
@@ -32,7 +38,36 @@ public class MainActivity extends ActionBarActivity {
 
     public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
 
+    //Setters
     public static void aumentarIdRecorrido( ){ idRecorrido++; }
+
+    //Inicia actividad Iniciar_recorrido
+    public void iniciar_recorrido(View view) {
+        detenerRecorrido = true;
+        Intent intent = new Intent(this, Iniciar_recorrido.class);
+        startActivity(intent);
+    }
+
+    //Inicia actividad Reportar_emergencia
+    public void reportar_emergencia(View view) {
+        Intent intent = new Intent(this, Reportar_emergencia.class);
+        startActivity(intent);
+    }
+
+    //Detiene la actividad Iniciar_recorrido
+    public void detener_recorrido(View view) {
+        detenerRecorrido = false;
+    }
+
+    //Toast search Action_bar
+    private void openSearch() {
+        Toast.makeText(this, "Search button pressed", Toast.LENGTH_SHORT).show();
+    }
+
+    //Toast settings Action_bar
+    private void openSettings() {
+        Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,29 +96,6 @@ public class MainActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void iniciar_recorrido(View view) {
-        detenerRecorrido = true;
-        Intent intent = new Intent(this, Iniciar_recorrido.class);
-        startActivity(intent);
-    }
-
-    public void reportar_emergencia(View view) {
-        Intent intent = new Intent(this, Reportar_emergencia.class);
-        startActivity(intent);
-    }
-
-    public void detener_recorrido(View view) {
-        detenerRecorrido = false;
-    }
-
-    private void openSearch() {
-        Toast.makeText(this, "Search button pressed", Toast.LENGTH_SHORT).show();
-    }
-
-    private void openSettings() {
-        Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
     }
 }
 

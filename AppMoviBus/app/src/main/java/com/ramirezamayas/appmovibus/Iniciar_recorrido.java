@@ -27,55 +27,17 @@ import java.io.InputStream;
 
 public class Iniciar_recorrido extends ActionBarActivity {
 
+    //TextView para comunicar el reporte de información
     private TextView textView;
 
+    //GPSTracker para obtener localización
     private GPSTracker gpsTracker;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Intent intent = getIntent();
-
-        gpsTracker = new GPSTracker(this);
-
-        textView = new TextView(this);
-        textView.setTextSize(30);
-        setContentView(textView);
-
-        MainActivity.aumentarIdRecorrido();
-        new EnviarReportePosicion().execute();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                openSearch();
-                return true;
-            case R.id.action_settings:
-                openSettings();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
+    //Tarea asincrónica que crea un recorrido y reporta posición cada 20 segundos
     private class EnviarReportePosicion extends AsyncTask<Void, String, Void> {
+
         @Override
+        //Metodo ejecutable de AsyncTask
         protected Void doInBackground(Void...param ) {
             try {
                 HttpClient client = new DefaultHttpClient();
@@ -146,6 +108,49 @@ public class Iniciar_recorrido extends ActionBarActivity {
         @Override
         protected void onProgressUpdate(String... params) {
             textView.setText(params[0]);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+
+        gpsTracker = new GPSTracker(this);
+
+        textView = new TextView(this);
+        textView.setTextSize(30);
+        setContentView(textView);
+
+        MainActivity.aumentarIdRecorrido();
+        new EnviarReportePosicion().execute();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                openSearch();
+                return true;
+            case R.id.action_settings:
+                openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
