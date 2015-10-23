@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.InputStream;
 
 
+
 public class Iniciar_recorrido extends ActionBarActivity {
 
     //TextView para comunicar el reporte de información
@@ -111,6 +112,16 @@ public class Iniciar_recorrido extends ActionBarActivity {
         }
     }
 
+    //Toast search Action_bar
+    private void openSearch() {
+        Toast.makeText(this, "Search button pressed", Toast.LENGTH_SHORT).show();
+    }
+
+    //Toast settings Action_bar
+    private void openSettings() {
+        Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,14 +163,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void openSearch() {
-        Toast.makeText(this, "Search button pressed", Toast.LENGTH_SHORT).show();
-    }
-
-    private void openSettings() {
-        Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
     }
 }
 
