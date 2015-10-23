@@ -5,7 +5,6 @@ from django.utils.translation import gettext as _
 from django.utils import timezone
 import time
 from math import sin, cos, atan2, sqrt, floor, radians
-from geopy.distance import vincenty
 import operator
 
 #Clase que modela un conductor de tranvia de tcb

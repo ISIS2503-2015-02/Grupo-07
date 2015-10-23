@@ -76,5 +76,5 @@ public class Movibus {
         this.cap_max = cap_max;
     }
 
-    
+
 }

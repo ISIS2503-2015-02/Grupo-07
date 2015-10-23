@@ -139,7 +139,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
         MainActivity.aumentarIdRecorrido();
         new EnviarReportePosicion().execute();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
