@@ -107,6 +107,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
         }
 
         @Override
+        //Actualización del TextView de UI
         protected void onProgressUpdate(String... params) {
             textView.setText(params[0]);
         }
