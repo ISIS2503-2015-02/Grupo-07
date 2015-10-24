@@ -16,10 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Usuario..."
+            android:hint="ID movibus"
             android:layout_weight="1"
             android:ems="10"
-            android:id="@+id/editText" />
+            android:id="@+id/edit_usuario" />
 
     </LinearLayout>
 
@@ -33,9 +33,9 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:layout_weight="1"
-            android:hint="Contraseña..."
+            android:hint="Contraseña"
             android:ems="10"
-            android:id="@+id/editText2" />
+            android:id="@+id/edit_contrasena" />
 
     </LinearLayout>
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login!"
-            android:onClick="validar_usuario"       />
+            android:onClick="login"       />
 
     </LinearLayout>
 

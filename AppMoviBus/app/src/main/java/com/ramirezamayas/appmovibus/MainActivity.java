@@ -11,10 +11,10 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "127.0.0.1";
+    public static final String IP = "https://127.0.0.1";
 
     //puerto host servidor
-    public static final String PUERTO = "9345";
+    public static final String PUERTO = ":9345/";
 
     //Identificador movibus
     private static String idMoviBus;
