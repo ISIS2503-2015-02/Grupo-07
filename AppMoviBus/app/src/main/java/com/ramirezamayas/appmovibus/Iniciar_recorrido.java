@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import java.io.InputStream;
 
 
-
 public class Iniciar_recorrido extends ActionBarActivity {
 
     //TextView para comunicar el reporte de información
@@ -35,7 +34,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
     private GPSTracker gpsTracker;
 
     //Tarea asincrónica que crea un recorrido y reporta posición cada 20 segundos
-    private class EnviarReportePosicion extends AsyncTask<Void, String, Void> {
+    private class EnviarReportePosicionTask extends AsyncTask<Void, String, Void> {
 
         @Override
         //Metodo ejecutable de AsyncTask
@@ -138,7 +137,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
         setContentView(textView);
 
         MainActivity.aumentarIdRecorrido();
-        new EnviarReportePosicion().execute();
+        new EnviarReportePosicionTask().execute();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

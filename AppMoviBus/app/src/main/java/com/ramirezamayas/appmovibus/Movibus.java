@@ -7,6 +7,20 @@ import java.util.Date;
  */
 public class Movibus {
 
+    public final static String PLACA = "placa";
+
+    public final static String MARCA = "marca";
+
+    public final static String MODELO = "modelo";
+
+    public final static String FECHA_FABRICACION = "fecha_fabricacion";
+
+    public final static String RUTA = "ruta";
+
+    public final static String CAP_MAX = "cap_max";
+
+    public final static String ESTADO_OPERATIVO = "estado_operativo";
+
     private String placa;
 
     private String marca;
@@ -19,13 +33,16 @@ public class Movibus {
 
     private int cap_max;
 
-    public Movibus(String placa, String marca, String modelo, String fecha_fabricacion, String ruta, int cap_max) {
+    private boolean estado_operativo;
+
+    public Movibus(String placa, String marca, String modelo, String fecha_fabricacion, String ruta, int cap_max, boolean estado_operativo) {
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.fecha_fabricacion = fecha_fabricacion;
         this.ruta = ruta;
         this.cap_max = cap_max;
+        this.estado_operativo = estado_operativo;
     }
 
     public String getPlaca() {
