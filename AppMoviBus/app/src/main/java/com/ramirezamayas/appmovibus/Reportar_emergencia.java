@@ -1,6 +1,5 @@
 package com.ramirezamayas.appmovibus;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,18 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
-
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -31,7 +19,7 @@ public class Reportar_emergencia extends ActionBarActivity {
 
     private TextView textView;
 
-    String urlEmergencia_ = "emergencia/";
+    String urlEmergencia_ = "movibuses/" + MainActivity.getMovibus().getPlaca() + "/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +68,7 @@ public class Reportar_emergencia extends ActionBarActivity {
                 con_emergencia.setDoInput(true);
                 con_emergencia.setRequestProperty("Content-Type", "application/json");
                 con_emergencia.setRequestProperty("Accept", "application/json");
-                con_emergencia.setRequestMethod("POST");
+                con_emergencia.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject movibus = new JSONObject();
                 movibus.put(Movibus.PLACA,MainActivity.getMovibus().getPlaca());
@@ -89,7 +77,7 @@ public class Reportar_emergencia extends ActionBarActivity {
                 movibus.put(Movibus.FECHA_FABRICACION,MainActivity.getMovibus().getFecha_fabricacion());
                 movibus.put(Movibus.RUTA,MainActivity.getMovibus().getRuta());
                 movibus.put(Movibus.CAP_MAX,MainActivity.getMovibus().getCap_max());
-                movibus.put(Movibus.ESTADO_OPERATIVO,MainActivity.getMovibus().isEstado_operativo());
+                movibus.put(Movibus.ESTADO_OPERATIVO,false);
                 movibus.put(Movibus.ULTIMO_RECORRIDO,MainActivity.getMovibus().getUltimo_recorrido());
                 movibus.put(Movibus.RESERVA_ACTUAL,MainActivity.getMovibus().getReserva_actual());
                 movibus.put(Movibus.CONDUCTOR_ACTUAL,MainActivity.getMovibus().getConductor_actual());
@@ -102,12 +90,12 @@ public class Reportar_emergencia extends ActionBarActivity {
                 Log.d("status_req_emergencia",Integer.toString(status_request_emergencia));
                 con_emergencia.disconnect();
                 if(status_request_emergencia > 199 && status_request_emergencia <300){
-                    return "Se ha notificado sobre la emergencia del tranvia con id " + MainActivity.darIdMovibus() + ". La ayuda viene en camino.";
+                    return "Se ha notificado sobre la emergencia del movibus con id " + MainActivity.getMovibus().getPlaca() + ". La ayuda viene en camino.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return "No ha sido posible notificar la emergencia del tranvia con id " + MainActivity.darIdMovibus() + ". Por favor intente de nuevo!";
+            return "No ha sido posible notificar la emergencia del movibus con id " + MainActivity.getMovibus().getPlaca() + ". Por favor intente de nuevo!";
         }
 
         @Override

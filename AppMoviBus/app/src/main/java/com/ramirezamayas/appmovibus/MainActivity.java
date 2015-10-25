@@ -16,7 +16,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -38,29 +37,11 @@ public class MainActivity extends ActionBarActivity {
     //Identificador movibus
     private static String idMoviBus;
 
-    //Identificador recorrido
-    private static int idRecorrido;
-
-    //Identificador recorrido
-    private static int idReserva;
-
     //Detener recorrido?
     private static boolean detenerRecorrido = true;
 
     //Getters
-    public static String darIdMovibus( ){ return idMoviBus; }
-
-    //Getters
-    public static int darIdRecorrido( ){ return idRecorrido; }
-
-    //Getters
-    public static int darIdReserva( ){ return idReserva; }
-
-    //Getters
     public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
-
-    //Setters
-    public static void aumentarIdRecorrido( ){ idRecorrido++; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
