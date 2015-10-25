@@ -26,7 +26,7 @@ public class Login extends ActionBarActivity {
 
     public final static String CONTRASENA = "contrasena";
 
-    String urlLogin = "login/";
+    String urlLogin_ = "login/";
 
     String messageUsuario;
 
@@ -79,25 +79,26 @@ public class Login extends ActionBarActivity {
         protected Integer doInBackground(String... credenciales) {
             try {
                 //Setup de la conexión
-                URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlLogin);
-                HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("Accept", "application/json");
-                con.setRequestMethod("POST");
+                URL urlLogin = new URL(MainActivity.IP + MainActivity.PUERTO + urlLogin_);
+                HttpURLConnection con_login = (HttpURLConnection)urlLogin.openConnection();
+                con_login.setDoOutput(true);
+                con_login.setDoInput(true);
+                con_login.setRequestProperty("Content-Type", "application/json");
+                con_login.setRequestProperty("Accept", "application/json");
+                con_login.setRequestMethod("POST");
                 //Setup del JSON
                 JSONObject cred   = new JSONObject();
                 cred.put("username",credenciales[0]);
                 cred.put("password",credenciales[1]);
                 //Incorporación del JSON a la conexión
-                OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
+                OutputStreamWriter out = new OutputStreamWriter(con_login.getOutputStream());
                 out.write(cred.toString());
                 out.flush();
                 //Lectura del resultado
-                int result = con.getResponseCode();
-                con.disconnect();
-                return result;
+                int status_request_login = con_login.getResponseCode();
+                Log.d("status_request_login",Integer.toString(status_request_login));
+                con_login.disconnect();
+                return status_request_login;
             } catch (Exception e) {
                 Log.d("Error:","falló autenticación de usuario.");
                 e.printStackTrace();

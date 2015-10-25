@@ -21,6 +21,12 @@ public class Movibus {
 
     public final static String ESTADO_OPERATIVO = "estado_operativo";
 
+    public final static String ULTIMO_RECORRIDO = "ultimo_recorrido";
+
+    public final static String RESERVA_ACTUAL = "reserva_actual";
+
+    public final static String CONDUCTOR_ACTUAL = "conductor_actual";
+
     private String placa;
 
     private String marca;
@@ -35,7 +41,13 @@ public class Movibus {
 
     private boolean estado_operativo;
 
-    public Movibus(String placa, String marca, String modelo, String fecha_fabricacion, String ruta, int cap_max, boolean estado_operativo) {
+    private String ultimo_recorrido;
+
+    private String reserva_actual;
+
+    private String conductor_actual;
+
+    public Movibus(String placa, String marca, String modelo, String fecha_fabricacion, String ruta, int cap_max, boolean estado_operativo, String ultimo_recorrido, String reserva_actual, String conductor_actual) {
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
@@ -43,6 +55,9 @@ public class Movibus {
         this.ruta = ruta;
         this.cap_max = cap_max;
         this.estado_operativo = estado_operativo;
+        this.ultimo_recorrido = ultimo_recorrido;
+        this.reserva_actual = reserva_actual;
+        this.conductor_actual = conductor_actual;
     }
 
     public String getPlaca() {
@@ -93,5 +108,35 @@ public class Movibus {
         this.cap_max = cap_max;
     }
 
+    public boolean isEstado_operativo() {
+        return estado_operativo;
+    }
 
+    public void setEstado_operativo(boolean estado_operativo) {
+        this.estado_operativo = estado_operativo;
+    }
+
+    public String getUltimo_recorrido() {
+        return ultimo_recorrido;
+    }
+
+    public void setUltimo_recorrido(String ultimo_recorrido) {
+        this.ultimo_recorrido = ultimo_recorrido;
+    }
+
+    public String getReserva_actual() {
+        return reserva_actual;
+    }
+
+    public void setReserva_actual(String reserva_actual) {
+        this.reserva_actual = reserva_actual;
+    }
+
+    public String getConductor_actual() {
+        return conductor_actual;
+    }
+
+    public void setConductor_actual(String conductor_actual) {
+        this.conductor_actual = conductor_actual;
+    }
 }

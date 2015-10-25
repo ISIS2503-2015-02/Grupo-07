@@ -23,6 +23,9 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class Iniciar_recorrido extends ActionBarActivity {
@@ -33,60 +36,110 @@ public class Iniciar_recorrido extends ActionBarActivity {
     //GPSTracker para obtener localización
     private GPSTracker gpsTracker;
 
+    //URL recorridos Movibus
+    private String urlRecorridos = "recorridosMovibus/";
+
+    //URL coordenadas Movibus
+    private String urlCoordenadas = "coordenadasMovibus/";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Instanciación del GPSTracker
+        gpsTracker = new GPSTracker(this);
+        //Display del TextView
+        textView = new TextView(this);
+        textView.setTextSize(30);
+        setContentView(textView);
+        //Ejecución actividad asincrónica de reporte de posición
+        MainActivity.getMovibus().setUltimo_recorrido(MainActivity.getMovibus().getUltimo_recorrido() + 1);
+        new EnviarReportePosicionTask().execute();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                openSearch();
+                return true;
+            case R.id.action_settings:
+                openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     //Tarea asincrónica que crea un recorrido y reporta posición cada 20 segundos
     private class EnviarReportePosicionTask extends AsyncTask<Void, String, Void> {
 
         @Override
         //Metodo ejecutable de AsyncTask
-        protected Void doInBackground(Void...param ) {
+        protected Void doInBackground(Void... nada) {
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
-                HttpResponse response;
-                JSONObject json_recorrido = new JSONObject();
-                JSONObject json_posicion = new JSONObject();
-
-                Log.d("Status", String.valueOf(MainActivity.darIdRecorrido()));
-
-                HttpPost put_recorrido = new HttpPost("http://10.0.2.2:9345/recorridosMovibus/");
-                json_recorrido.put("identificador", String.valueOf(MainActivity.darIdRecorrido()));
-                json_recorrido.put("reserva", MainActivity.darIdReserva());
-                json_recorrido.put("movibus", MainActivity.darIdMovibus());
-                json_recorrido.put("conductor", "1");
-                StringEntity se_recorrido = new StringEntity( json_recorrido.toString());
-                se_recorrido.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                put_recorrido.setEntity(se_recorrido);
-                response = client.execute(put_recorrido);
-                if(response!=null){
-                    InputStream in = response.getEntity().getContent();
-                }
-                int d2 = response.getStatusLine().getStatusCode();
-                Log.d("Status", String.valueOf(d2));
-
+                //Setup de la conexión
+                URL url_recorrido = new URL(MainActivity.IP + MainActivity.PUERTO + urlRecorridos);
+                HttpURLConnection con_recorrido = (HttpURLConnection)url_recorrido.openConnection();
+                con_recorrido.setDoOutput(true);
+                con_recorrido.setDoInput(true);
+                con_recorrido.setRequestProperty("Content-Type", "application/json");
+                con_recorrido.setRequestProperty("Accept", "application/json");
+                con_recorrido.setRequestMethod("POST");
+                //Setup del JSON
+                JSONObject recorrido   = new JSONObject();
+                recorrido.put("identificador", MainActivity.getMovibus().getUltimo_recorrido());
+                recorrido.put("reserva", MainActivity.getMovibus().getReserva_actual());
+                recorrido.put("movibus",MainActivity.getMovibus().getPlaca());
+                recorrido.put("conductor", MainActivity.getMovibus().getConductor_actual());
+                //Incorporación del JSON a la conexión
+                OutputStreamWriter out_recorrido = new OutputStreamWriter(con_recorrido.getOutputStream());
+                out_recorrido.write(recorrido.toString());
+                out_recorrido.flush();
+                out_recorrido.close();
+                //Verificación estado y cierre de conexión
+                int status_request_recorrido = con_recorrido.getResponseCode();
+                Log.d("status_req_recorrido",Integer.toString(status_request_recorrido));
+                con_recorrido.disconnect();
+                //Ciclo para el reporte de posición
                 while (MainActivity.darDetenerRecorrido()){
-
-                    client = new DefaultHttpClient();
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
-
+                    //Posición a reportar
                     double lat = gpsTracker.getLatitude();
                     double lon = gpsTracker.getLongitude();
+                    //Setup de la conexión
+                    URL url_coordenadas = new URL(MainActivity.IP + MainActivity.PUERTO + urlCoordenadas);
+                    HttpURLConnection con_coordenadas = (HttpURLConnection)url_recorrido.openConnection();
+                    con_coordenadas.setDoOutput(true);
+                    con_coordenadas.setDoInput(true);
+                    con_coordenadas.setRequestProperty("Content-Type", "application/json");
+                    con_coordenadas.setRequestProperty("Accept", "application/json");
+                    con_coordenadas.setRequestMethod("POST");
+                    //Setup del JSON
+                    JSONObject coordenada   = new JSONObject();
+                    recorrido.put("latitud", lat);
+                    recorrido.put("longitud", lon);
+                    recorrido.put("movibus",MainActivity.getMovibus().getPlaca());
+                    recorrido.put("recorrido", MainActivity.getMovibus().getUltimo_recorrido());
+                    //Incorporación del JSON a la conexión
+                    OutputStreamWriter out_coordenadas = new OutputStreamWriter(con_recorrido.getOutputStream());
+                    out_coordenadas.write(recorrido.toString());
+                    out_coordenadas.flush();
+                    out_coordenadas.close();
+                    //Verificación estado y cierre de conexión
+                    int status_request_coordenadas = con_coordenadas.getResponseCode();
+                    Log.d("status_req_coordenadas",Integer.toString(status_request_recorrido));
+                    con_coordenadas.disconnect();
 
-                    HttpPost put_posicion = new HttpPost("http://10.0.2.2:9345/coordenadasMovibus/");
-                    json_posicion.put("latitud", lat);
-                    json_posicion.put("longitud", lon);
-                    json_posicion.put("movibus", MainActivity.darIdMovibus());
-                    json_posicion.put("recorrido", String.valueOf(MainActivity.darIdRecorrido()));
-                    StringEntity se_posicion = new StringEntity( json_posicion.toString());
-                    se_posicion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    put_posicion.setEntity(se_posicion);
-                    response = client.execute(put_posicion);
-                    if(response!=null){
-                        InputStream in = response.getEntity().getContent();
-                    }
-                    int d1 = response.getStatusLine().getStatusCode();
-                    Log.d("Status", String.valueOf(d1));
-
-                    if(d1 > 199 && d1 <300 && d1 > 199 && d1 <300){
+                    if(status_request_recorrido > 199 && status_request_recorrido <300 && status_request_coordenadas > 199 && status_request_coordenadas <300){
                         publishProgress("Reportando posicion (lat = " + lat + ", lon = " + lon + ")");
                     }
 
@@ -120,48 +173,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
     //Toast settings Action_bar
     private void openSettings() {
         Toast.makeText(this, "Settings button pressed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Intent intent = getIntent();
-
-        gpsTracker = new GPSTracker(this);
-
-        textView = new TextView(this);
-        textView.setTextSize(30);
-        setContentView(textView);
-
-        MainActivity.aumentarIdRecorrido();
-        new EnviarReportePosicionTask().execute();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                openSearch();
-                return true;
-            case R.id.action_settings:
-                openSettings();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }
 

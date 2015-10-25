@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     String urlInfo = "movibuses/";
 
     //Movibus del app
-    Movibus movibus;
+    private static Movibus movibus;
 
     //Identificador movibus
     private static String idMoviBus;
@@ -143,12 +143,19 @@ public class MainActivity extends ActionBarActivity {
                 String ruta = jObject.getString(Movibus.RUTA);
                 int cap_max = jObject.getInt(Movibus.CAP_MAX);
                 boolean estado_operativo = jObject.getBoolean(Movibus.ESTADO_OPERATIVO);
+                String ultimo_recorrido = jObject.getString(Movibus.ULTIMO_RECORRIDO);
+                String reserva_actual = jObject.getString(Movibus.RESERVA_ACTUAL);
+                String conductor_actual = jObject.getString(Movibus.CONDUCTOR_ACTUAL);
                 //Instanciación del movibus
-                movibus = new Movibus(placa,marca,modelo,fecha_fabricacion,ruta,cap_max,estado_operativo);
+                movibus = new Movibus(placa,marca,modelo,fecha_fabricacion,ruta,cap_max,estado_operativo,ultimo_recorrido,reserva_actual,conductor_actual);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Movibus getMovibus() {
+        return movibus;
     }
 
     //Inicia actividad Iniciar_recorrido
