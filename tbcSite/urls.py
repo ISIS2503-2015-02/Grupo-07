@@ -24,6 +24,7 @@ from usuarios.views import UsuarioList, ReservaMobiBusList, UsuarioDetail, Reser
 from vcubs.views import EstacionVcubsList, EstacionVcubsDetail, VcubsList, VcubsDetail
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import renderers
+from auth.views import Auth
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,6 +46,8 @@ router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
+    url(r'auth/$', Auth.as_view()),
+
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
