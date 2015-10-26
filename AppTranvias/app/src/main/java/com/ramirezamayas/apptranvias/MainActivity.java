@@ -30,13 +30,13 @@ public class MainActivity extends ActionBarActivity {
     //puerto host servidor
     public static final String PUERTO = ":9345/";
 
-    //URL recuperacion info movibus
+    //URL recuperacion info tranvías
     String urlInfo = "tranvias/";
 
-    //Movibus del app
+    //Tranvía del app
     private static Tranvia tranvia;
 
-    //Identificador movibus
+    //Identificador tranvía
     private static String idTranvia;
 
     //Detener recorrido?
@@ -47,16 +47,13 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //Recuperación del ID compartido por Login
         Intent intent = getIntent();
         idTranvia = intent.getStringExtra(Login.USUARIO);
         urlInfo += idTranvia + "/";
-
-        //Recuperación del ID del movibus identificado
+        //Recuperación de la info del tranvia identificado
         new RecuperarInfoTask().execute();
     }
 

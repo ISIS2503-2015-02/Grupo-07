@@ -21,29 +21,44 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class Reportar_prestamo extends ActionBarActivity {
 
     private TextView textView;
 
+    //URL recuperacion info estacion
+    private String urlPrestamoEstacion = "estaciones/";
+
+    //URL recuperacion info vcub
+    private String urlPrestamoVcub = "vcub/";
+
+    //ID vcub a devolver
+    private String idVcub;
+
+    //Vcub del app
+    private Vcub vcub;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        //Recuperación info vcub desde Main
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-
+        idVcub = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         textView = new TextView(this);
         textView.setTextSize(30);
-        MainActivity.aumentarCapacidad(1);
-        new EnviarReportePrestamo().execute(message);
-
         setContentView(textView);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Ejecución actividad asincrónica de reporte de devolución
+        MainActivity.getEstacion().setCap_actual(MainActivity.getEstacion().getCap_actual() - 1);
+        new EnviarReportePrestamo().execute(idVcub);
     }
 
     @Override
@@ -73,64 +88,95 @@ public class Reportar_prestamo extends ActionBarActivity {
         @Override
         protected String doInBackground(String... message) {
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
-                HttpResponse response;
-                JSONObject json_estacion = new JSONObject();
-                JSONObject json_vcub = new JSONObject();
+                //Setup de la conexión
+                URL url_prestamo = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoEstacion);
+                HttpURLConnection con_prestamo = (HttpURLConnection)url_prestamo.openConnection();
+                con_prestamo.setDoOutput(true);
+                con_prestamo.setDoInput(true);
+                con_prestamo.setRequestProperty("Content-Type", "application/json");
+                con_prestamo.setRequestProperty("Accept", "application/json");
+                con_prestamo.setRequestMethod("PUT");
+                //Setup del JSON
+                JSONObject prestamo   = new JSONObject();
+                prestamo.put(Estacion.NOMBRE, MainActivity.getEstacion().getNombre());
+                prestamo.put(Estacion.FECHA_CONSTRUCCION,MainActivity.getEstacion().getFecha_construccion());
+                prestamo.put(Estacion.CAP_ACTUAL,MainActivity.getEstacion().getCap_actual());
+                prestamo.put(Estacion.CAP_MAX,MainActivity.getEstacion().getCap_max());
+                prestamo.put(Estacion.LAT,MainActivity.getEstacion().getLat());
+                prestamo.put(Estacion.LON,MainActivity.getEstacion().getLon());
+                prestamo.put(Estacion.ESTADO_OPERATIVO,MainActivity.getEstacion().isEstado_operativo());
+                //Incorporación del JSON a la conexión
+                OutputStreamWriter out_prestamo = new OutputStreamWriter(con_prestamo.getOutputStream());
+                out_prestamo.write(prestamo.toString());
+                out_prestamo.flush();
+                out_prestamo.close();
+                //Verificación estado y cierre de conexión
+                int status_request_prestamo_estacion = con_prestamo.getResponseCode();
+                Log.d("status_req_prestamo_e",Integer.toString(status_request_prestamo_estacion));
+                con_prestamo.disconnect();
 
-                HttpPut put_estacion = new HttpPut("http://10.0.2.2:9345/estaciones/" + MainActivity.darIdEstacion() + "/");
-                json_estacion.put("nombre", "1");
-                json_estacion.put("fecha_construccion", "2015-10-12");
-                json_estacion.put("cap_actual", MainActivity.darCapacidad());
-                json_estacion.put("cap_max", 10);
-                json_estacion.put("lon", 1.0);
-                json_estacion.put("lat", 1.0);
-                json_estacion.put("estado_operativo", true);
-                StringEntity se_estacion = new StringEntity( json_estacion.toString());
-                Log.d("Json String", json_estacion.toString());
-                se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                put_estacion.setEntity(se_estacion);
-                response = client.execute(put_estacion);
-
-                if(response!=null){
-                    InputStream in = response.getEntity().getContent();
+                //Setup de la conexión
+                URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoVcub + idVcub + "/");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setDoOutput(true);
+                con.setDoInput(true);
+                con.setRequestMethod("GET");
+                StringBuilder result = new StringBuilder();
+                //Lectura del resultado
+                if (con.getResponseCode() == 201) {
+                    InputStream in = new BufferedInputStream(con.getInputStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    con.disconnect();
                 }
-                int d1 = response.getStatusLine().getStatusCode();
-                Log.d("Status", String.valueOf(d1));
+                JSONObject jObject = new JSONObject(result.toString());
+                String registro = jObject.getString(Vcub.REGISTRO);
+                String marca = jObject.getString(Vcub.MARCA);
+                String modelo = jObject.getString(Vcub.MODELO);
+                String fecha_fabricacion = jObject.getString(Vcub.FECHA_FABRICACION);
+                String estacion = jObject.getString(Vcub.ESTACION);
+                boolean en_transito = jObject.getBoolean(Vcub.EN_TRANSITO);
+                boolean estado_operativo = jObject.getBoolean(Vcub.ESTADO_OPERATIVO);
+                //Instanciación del vcub
+                vcub = new Vcub(registro,marca,modelo,fecha_fabricacion,estacion,en_transito,estado_operativo);
 
+                //Setup de la conexión
+                URL url_prestamoVcub = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoVcub);
+                HttpURLConnection con_prestamoVcub = (HttpURLConnection)url_prestamoVcub.openConnection();
+                con_prestamoVcub.setDoOutput(true);
+                con_prestamoVcub.setDoInput(true);
+                con_prestamoVcub.setRequestProperty("Content-Type", "application/json");
+                con_prestamoVcub.setRequestProperty("Accept", "application/json");
+                con_prestamoVcub.setRequestMethod("PUT");
+                //Setup del JSON
+                JSONObject prestamoVcub   = new JSONObject();
+                prestamoVcub.put(Vcub.REGISTRO, vcub.getRegistro());
+                prestamoVcub.put(Vcub.MARCA,vcub.getMarca());
+                prestamoVcub.put(Vcub.MODELO,vcub.getModelo());
+                prestamoVcub.put(Vcub.FECHA_FABRICACION,vcub.getFecha_fabricacion());
+                prestamoVcub.put(Vcub.ESTACION,vcub.getEstacion());
+                prestamoVcub.put(Vcub.EN_TRANSITO,true);
+                prestamoVcub.put(Vcub.ESTADO_OPERATIVO,vcub.isEstado_operativo());
+                //Incorporación del JSON a la conexión
+                OutputStreamWriter out_prestamoVcub = new OutputStreamWriter(con_prestamo.getOutputStream());
+                out_prestamoVcub.write(prestamo.toString());
+                out_prestamoVcub.flush();
+                out_prestamoVcub.close();
+                //Verificación estado y cierre de conexión
+                int status_request_prestamo_vcub = con_prestamo.getResponseCode();
+                Log.d("status_req_prestamo_v",Integer.toString(status_request_prestamo_vcub));
+                con_prestamo.disconnect();
 
-                HttpClient client2 = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client2.getParams(), 1000);
-                HttpResponse response2;
-
-                HttpPut put_vcub = new HttpPut("http://10.0.2.2:9345/vcubs/" + message[0]  + "/");
-                json_vcub.put("registro", "1");
-                json_vcub.put("marca", "1");
-                json_vcub.put("modelo", "1");
-                json_vcub.put("fecha_fabricacion", "2015-01-01");
-                json_vcub.put("estacion", MainActivity.darIdEstacion());
-                json_vcub.put("en_transito", true);
-                json_vcub.put("estado_operativo", true);
-                StringEntity se_vcub = new StringEntity( json_vcub.toString());
-                se_vcub.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                put_vcub.setEntity(se_vcub);
-                response = client2.execute(put_vcub);
-
-                if(response!=null){
-                    InputStream in = response.getEntity().getContent();
-                }
-                int d2 = response.getStatusLine().getStatusCode();
-                Log.d("Status", String.valueOf(d2));
-
-                if(d1 > 199 && d1 <300 && d2 > 199 && d2 <300){
-                    return "El vcub con id " + message[0] + " ha sido prestada.";
+                if(status_request_prestamo_estacion > 199 && status_request_prestamo_estacion <300 && status_request_prestamo_vcub > 199 && status_request_prestamo_vcub <300){
+                    return "El vcub con id " + vcub.getRegistro() + " ha sido prestada.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            MainActivity.disminuirCapacidad(1);
-            return "El vcub con id " + message[0] + " no ha sido prestada con éxito. Por favor intente de nuevo!";
+            return "El vcub con id " + vcub.getRegistro() + " no ha sido prestada con éxito. Por favor intente de nuevo!";
         }
 
         @Override
