@@ -1,6 +1,5 @@
 package com.ramirezamayas.appmovibus;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,38 +9,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
-
-import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class Reportar_emergencia extends ActionBarActivity {
 
     private TextView textView;
 
+    String urlEmergencia_ = "movibuses/" + MainActivity.getMovibus().getPlaca() + "/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Intent intent = getIntent();
-
+        //Display del TextView
         textView = new TextView(this);
         textView.setTextSize(30);
+        setContentView(textView);
+        //Ejecución actividad asincrónica reporte emergencia
         new EnviarReporteEmergencia().execute();
 
-        setContentView(textView);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -67,42 +57,45 @@ public class Reportar_emergencia extends ActionBarActivity {
         }
     }
 
-    private class EnviarReporteEmergencia extends AsyncTask<String, Void, String> {
+    private class EnviarReporteEmergencia extends AsyncTask<Void, Void, String> {
         @Override
-        protected String doInBackground(String... message) {
+        protected String doInBackground(Void... nada) {
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 1000);
-                HttpResponse response;
-                JSONObject json_estacion = new JSONObject();
-                JSONObject json_vcub = new JSONObject();
-
-                HttpPut put_estacion = new HttpPut("http://10.0.2.2:9345/movibuses/" + MainActivity.darIdMovibus() + "/");
-                json_estacion.put("placa", "1");
-                json_estacion.put("marca", "1");
-                json_estacion.put("modelo", "1");
-                json_estacion.put("fecha_fabricacion", "2015-01-01");
-                json_estacion.put("ruta",1);
-                json_estacion.put("cap_max",50);
-                json_estacion.put("estado_operativo",false);
-                StringEntity se_estacion = new StringEntity( json_estacion.toString());
-                se_estacion.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                put_estacion.setEntity(se_estacion);
-                response = client.execute(put_estacion);
-
-                if(response!=null){
-                    InputStream in = response.getEntity().getContent();
-                }
-                int d = response.getStatusLine().getStatusCode();
-                Log.d("Status", String.valueOf(d));
-
-                if(d > 199 && d <300){
-                    return "Se ha notificado sobre la emergencia del tranvia con id " + MainActivity.darIdMovibus() + ". La ayuda viene en camino.";
+                //Setup de la conexión
+                URL urlEmergencia = new URL(MainActivity.IP + MainActivity.PUERTO + urlEmergencia_);
+                HttpURLConnection con_emergencia = (HttpURLConnection)urlEmergencia.openConnection();
+                con_emergencia.setDoOutput(true);
+                con_emergencia.setDoInput(true);
+                con_emergencia.setRequestProperty("Content-Type", "application/json");
+                con_emergencia.setRequestProperty("Accept", "application/json");
+                con_emergencia.setRequestMethod("PUT");
+                //Setup del JSON
+                JSONObject movibus = new JSONObject();
+                movibus.put(Movibus.PLACA,MainActivity.getMovibus().getPlaca());
+                movibus.put(Movibus.MARCA,MainActivity.getMovibus().getMarca());
+                movibus.put(Movibus.MODELO,MainActivity.getMovibus().getModelo());
+                movibus.put(Movibus.FECHA_FABRICACION,MainActivity.getMovibus().getFecha_fabricacion());
+                movibus.put(Movibus.RUTA,MainActivity.getMovibus().getRuta());
+                movibus.put(Movibus.CAP_MAX,MainActivity.getMovibus().getCap_max());
+                movibus.put(Movibus.ESTADO_OPERATIVO,false);
+                movibus.put(Movibus.ULTIMO_RECORRIDO,MainActivity.getMovibus().getUltimo_recorrido());
+                movibus.put(Movibus.RESERVA_ACTUAL,MainActivity.getMovibus().getReserva_actual());
+                movibus.put(Movibus.CONDUCTOR_ACTUAL,MainActivity.getMovibus().getConductor_actual());
+                //Incorporación del JSON a la conexión
+                OutputStreamWriter out = new OutputStreamWriter(con_emergencia.getOutputStream());
+                out.write(movibus.toString());
+                out.flush();
+                //Verificación estado y cierre de conexión
+                int status_request_emergencia = con_emergencia.getResponseCode();
+                Log.d("status_req_emergencia",Integer.toString(status_request_emergencia));
+                con_emergencia.disconnect();
+                if(status_request_emergencia > 199 && status_request_emergencia <300){
+                    return "Se ha notificado sobre la emergencia del movibus con id " + MainActivity.getMovibus().getPlaca() + ". La ayuda viene en camino.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return "No ha sido posible notificar la emergencia del tranvia con id " + MainActivity.darIdMovibus() + ". Por favor intente de nuevo!";
+            return "No ha sido posible notificar la emergencia del movibus con id " + MainActivity.getMovibus().getPlaca() + ". Por favor intente de nuevo!";
         }
 
         @Override

@@ -1,11 +1,9 @@
-package com.ramirezamayas.appmovibus;
-
-import java.util.Date;
+package com.ramirezamayas.apptranvias;
 
 /**
- * Created by RamirezAmayaS on 10/23/15.
+ * Created by RamirezAmayaS on 10/25/15.
  */
-public class Movibus {
+public class Tranvia {
 
     public final static String PLACA = "placa";
 
@@ -15,15 +13,13 @@ public class Movibus {
 
     public final static String FECHA_FABRICACION = "fecha_fabricacion";
 
-    public final static String RUTA = "ruta";
-
     public final static String CAP_MAX = "cap_max";
+
+    public final static String LINEA = "linea";
 
     public final static String ESTADO_OPERATIVO = "estado_operativo";
 
     public final static String ULTIMO_RECORRIDO = "ultimo_recorrido";
-
-    public final static String RESERVA_ACTUAL = "reserva_actual";
 
     public final static String CONDUCTOR_ACTUAL = "conductor_actual";
 
@@ -35,28 +31,25 @@ public class Movibus {
 
     private String fecha_fabricacion;
 
-    private String ruta;
-
     private int cap_max;
+
+    private int linea;
 
     private boolean estado_operativo;
 
     private String ultimo_recorrido;
 
-    private String reserva_actual;
-
     private String conductor_actual;
 
-    public Movibus(String placa, String marca, String modelo, String fecha_fabricacion, String ruta, int cap_max, boolean estado_operativo, String ultimo_recorrido, String reserva_actual, String conductor_actual) {
+    public Tranvia(String placa, String marca, String modelo, String fecha_fabricacion, int cap_max, int linea, boolean estado_operativo, String ultimo_recorrido, String conductor_actual) {
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.fecha_fabricacion = fecha_fabricacion;
-        this.ruta = ruta;
         this.cap_max = cap_max;
+        this.linea = linea;
         this.estado_operativo = estado_operativo;
         this.ultimo_recorrido = ultimo_recorrido;
-        this.reserva_actual = reserva_actual;
         this.conductor_actual = conductor_actual;
     }
 
@@ -64,48 +57,48 @@ public class Movibus {
         return placa;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public String getFecha_fabricacion() {
-        return fecha_fabricacion;
-    }
-
-    public String getRuta() {
-        return ruta;
-    }
-
-    public int getCap_max() {
-        return cap_max;
-    }
-
     public void setPlaca(String placa) {
         this.placa = placa;
+    }
+
+    public String getMarca() {
+        return marca;
     }
 
     public void setMarca(String marca) {
         this.marca = marca;
     }
 
+    public String getModelo() {
+        return modelo;
+    }
+
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getFecha_fabricacion() {
+        return fecha_fabricacion;
     }
 
     public void setFecha_fabricacion(String fecha_fabricacion) {
         this.fecha_fabricacion = fecha_fabricacion;
     }
 
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
+    public int getCap_max() {
+        return cap_max;
     }
 
     public void setCap_max(int cap_max) {
         this.cap_max = cap_max;
+    }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
     }
 
     public boolean isEstado_operativo() {
@@ -122,14 +115,6 @@ public class Movibus {
 
     public void setUltimo_recorrido(String ultimo_recorrido) {
         this.ultimo_recorrido = ultimo_recorrido;
-    }
-
-    public String getReserva_actual() {
-        return reserva_actual;
-    }
-
-    public void setReserva_actual(String reserva_actual) {
-        this.reserva_actual = reserva_actual;
     }
 
     public String getConductor_actual() {

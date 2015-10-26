@@ -16,7 +16,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -33,34 +32,16 @@ public class MainActivity extends ActionBarActivity {
     String urlInfo = "movibuses/";
 
     //Movibus del app
-    Movibus movibus;
+    private static Movibus movibus;
 
     //Identificador movibus
     private static String idMoviBus;
-
-    //Identificador recorrido
-    private static int idRecorrido;
-
-    //Identificador recorrido
-    private static int idReserva;
 
     //Detener recorrido?
     private static boolean detenerRecorrido = true;
 
     //Getters
-    public static String darIdMovibus( ){ return idMoviBus; }
-
-    //Getters
-    public static int darIdRecorrido( ){ return idRecorrido; }
-
-    //Getters
-    public static int darIdReserva( ){ return idReserva; }
-
-    //Getters
     public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
-
-    //Setters
-    public static void aumentarIdRecorrido( ){ idRecorrido++; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,12 +124,19 @@ public class MainActivity extends ActionBarActivity {
                 String ruta = jObject.getString(Movibus.RUTA);
                 int cap_max = jObject.getInt(Movibus.CAP_MAX);
                 boolean estado_operativo = jObject.getBoolean(Movibus.ESTADO_OPERATIVO);
+                String ultimo_recorrido = jObject.getString(Movibus.ULTIMO_RECORRIDO);
+                String reserva_actual = jObject.getString(Movibus.RESERVA_ACTUAL);
+                String conductor_actual = jObject.getString(Movibus.CONDUCTOR_ACTUAL);
                 //Instanciación del movibus
-                movibus = new Movibus(placa,marca,modelo,fecha_fabricacion,ruta,cap_max,estado_operativo);
+                movibus = new Movibus(placa,marca,modelo,fecha_fabricacion,ruta,cap_max,estado_operativo,ultimo_recorrido,reserva_actual,conductor_actual);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Movibus getMovibus() {
+        return movibus;
     }
 
     //Inicia actividad Iniciar_recorrido

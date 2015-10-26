@@ -1,4 +1,4 @@
-package com.ramirezamayas.appmovibus;
+package com.ramirezamayas.apptranvias;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -96,7 +95,7 @@ public class Login extends ActionBarActivity {
                 out.flush();
                 //Lectura del resultado
                 int status_request_login = con_login.getResponseCode();
-                Log.d("status_request_login",Integer.toString(status_request_login));
+                Log.d("status_request_login", Integer.toString(status_request_login));
                 con_login.disconnect();
                 return status_request_login;
             } catch (Exception e) {
