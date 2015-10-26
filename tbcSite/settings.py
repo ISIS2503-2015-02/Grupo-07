@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 	#'django.contrib.gis',
 	'django_stormpath',
 	'rest_framework',
+	'mapreduce',
 	'main',
 	'usuarios',
 	'vcubs',
