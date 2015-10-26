@@ -11,4 +11,5 @@
     <string name="title_activity_reportar_prestamo">Reportar_prestamo</string>
     <string name="title_activity_reportar_devolucion">Reportar_devolucion</string>
     <string name="title_activity_solicitar_bicicletas">Solicitar_bicicletas</string>
+    <string name="title_activity_login">Login</string>
 </resources>

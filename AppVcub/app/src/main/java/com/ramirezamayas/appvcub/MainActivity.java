@@ -1,43 +1,56 @@
 package com.ramirezamayas.appvcub;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 public class MainActivity extends ActionBarActivity {
 
-    /** Mensaje enviado entre actividades */
-    public final static String EXTRA_MESSAGE = "com.ramirezamayas.appmovibus.MESSAGE";
+    //ip host servidor
+    public static final String IP = "https://127.0.0.1";
 
-    /** Número de Vcubs disponibles */
-    private static int capacidad = 10;
+    //puerto host servidor
+    public static final String PUERTO = ":9345/";
 
-    /** Id estacion vcubs */
-    private static String idEstacion = "1";
+    //puerto host servidor
+    public static final String EXTRA_MESSAGE = "message";
 
+    //URL recuperacion info estacion
+    private String urlInfo = "estaciones/";
 
-    /** Getters and setters */
-    public static int darCapacidad (){
-        return capacidad;
-    }
+    //Estacion del app
+    private static Estacion estacion;
 
-    public static String darIdEstacion( ){ return idEstacion; }
+    //ID estación vcub
+    private static String idEstacion;
 
-    public static void aumentarCapacidad(int n){ capacidad += n; }
-
-    public static void disminuirCapacidad(int n){ capacidad -= n; }
-
-    /** Métodos ciclo de vida app */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        //Recuperación del ID compartido por Login
+        Intent intent = getIntent();
+        idEstacion = intent.getStringExtra(Login.USUARIO);
+        urlInfo += idEstacion + "/";
+        //Recuperación de la info de la estación identificada
+        new RecuperarInfoTask().execute();
     }
 
     @Override
@@ -63,6 +76,57 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    //Tarea asincrónica para la recuperación de la información del movibus autenticado
+    class RecuperarInfoTask extends AsyncTask<Void, Void, String> {
+
+        //Método ejecutable de AsyncTask
+        protected String doInBackground(Void... nada) {
+            try {
+                //Setup de la conexión
+                URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlInfo);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setDoOutput(true);
+                con.setDoInput(true);
+                con.setRequestMethod("GET");
+                StringBuilder result = new StringBuilder();
+                //Lectura del resultado
+                if (con.getResponseCode() == 201) {
+                    InputStream in = new BufferedInputStream(con.getInputStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    con.disconnect();
+                }
+                return result.toString();
+            } catch (Exception e) {
+                Log.d("Error:", "falló recuperación de info de movibus.");
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String result) {
+            JSONObject jObject = null;
+            try {
+                //Recuperación de la información del movibus
+                jObject = new JSONObject(result);
+                String nombre = jObject.getString(Estacion.NOMBRE);
+                String fecha_construcion = jObject.getString(Estacion.FECHA_CONSTRUCCION);
+                int cap_actual = jObject.getInt(Estacion.CAP_ACTUAL);
+                int cap_max = jObject.getInt(Estacion.CAP_MAX);
+                int lon = jObject.getInt(Estacion.LON);
+                int lat = jObject.getInt(Estacion.LAT);
+                boolean estado_operativo = jObject.getBoolean(Estacion.ESTADO_OPERATIVO);
+                //Instanciación del movibus
+                estacion = new Estacion(nombre, fecha_construcion, cap_actual, cap_max, lon, lat, estado_operativo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /** Llamado para reportar el prestamo de un Vcub */
     public void reportar_prestamo(View view) {
         Intent intent = new Intent(this, Reportar_prestamo.class);
@@ -79,6 +143,10 @@ public class MainActivity extends ActionBarActivity {
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    public static Estacion getEstacion() {
+        return estacion;
     }
 
     /** Placeholders de la Action Bar */
