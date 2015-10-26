@@ -36,34 +36,23 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	#'django.contrib.gis',
-	'django_stormpath',
+	'django.contrib.gis',
 	'rest_framework',
+	'rest_framework.authtoken',
 	'main',
 	'usuarios',
 	'vcubs',
 	'movibuses',
-	'tranvias',
+	'tranvias'
 )
 
-AUTHENTICATION_BACKENDS = (
-	'django_stormpath.backends.StormpathBackend',
-)
+# Middleware classes
+MIDDLEWARE_CLASSES = ()
 
-AUTH_USER_MODEL = 'django_stormpath.StormpathUser'
-
-STORMPATH_ID = 'LI9XV9GH1LC2SGZY89ULIFP0X'
-STORMPATH_SECRET = '8q9GRW9TwdVGDqWXbyOZB+fstWG+byLk+PBHhCj7/zQ'
-STORMPATH_APPLICATION = 'https://api.stormpath.com/v1/applications/dt2VrW0681I4hVSLUmuzb'
-
-MIDDLEWARE_CLASSES = (
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-)
-
+# Root urls file
 ROOT_URLCONF = 'tbcSite.urls'
 
+# Templates configuration
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -80,18 +69,17 @@ TEMPLATES = [
 	},
 ]
 
-#Rest Framework
+# Rest Framework
 REST_FRAMEWORK = {
 	# Use Django's standard `django.contrib.auth` permissions,
 	# or allow read-only access for unauthenticated users.
-	# 'DEFAULT_PERMISSION_CLASSES': (
-	#     'rest_framework.permissions.IsAuthenticated'
-	# , ),
-	'DEFAULT_PERMISSION_CLASSES': (
-		'rest_framework.permissions.AllowAny',
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.TokenAuthentication',
 	),
-	'DEFAULT_AUTHENTICATION_CLASSES': [],
-	'DEFAULT_PERMISSION_CLASSES': [],
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.IsAuthenticated',
+		'rest_framework.permissions.DjangoModelPermissions'
+	)
 }
 
 WSGI_APPLICATION = 'tbcSite.wsgi.application'
@@ -121,8 +109,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 # HTTPS configuration
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# SECURE_HSTS_SECONDS = 1
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 1
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True

@@ -1,5 +1,0 @@
-[uwsgi]
-http = 127.0.0.1:9345
-wsgi-file = tbcSite/wsgi.py
-master = True
-workers = 9

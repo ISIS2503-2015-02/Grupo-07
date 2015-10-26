@@ -1,5 +1,5 @@
-# Grupo-07
-Repositorio de código del grupo 07 de Arquitectura y Diseño de Software, Universidad de los Andes, 2015-20.
+# solumovil
+solumovil es un servicio que busca mejorar la forma en que se maneja el sistema de transporte público, Universidad de los Andes, 2015-20.
 
 ### Instalación
 Deben tener virtualenv instalado globalmente:
@@ -62,6 +62,11 @@ Creen el rol admin
 $ createuser -d admin
 ```
 
+Creen la base de datos
+```sh
+$ createdb mydb
+``
+
 Activen el balanceador para la base de datos *Pgbouncer*:
 ```sh
 $ pgbouncer pgbouncer.ini
@@ -75,11 +80,6 @@ $ python manage.py runserver
 Para correr sobre *Gunicorn*:
 ```sh
 $ gunicorn -c gunicorn.config.py tbcSite.wsgi
-```
-
-Para correr sobre *uWSGI*:
-```sh
-$ uwsgi --ini uwsgi.py.ini
 ```
 
 ### Nuevas dependencias

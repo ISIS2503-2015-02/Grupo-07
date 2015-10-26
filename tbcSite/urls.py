@@ -24,7 +24,6 @@ from usuarios.views import UsuarioList, ReservaMobiBusList, UsuarioDetail, Reser
 from vcubs.views import EstacionVcubsList, EstacionVcubsDetail, VcubsList, VcubsDetail
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import renderers
-from auth.views import Auth
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -46,14 +45,8 @@ router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
-    url(r'auth/$', Auth.as_view()),
-
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^cache/$', CacheView.as_view()),
-    # url(r'^cache/(?P<ide>[0-9]+)/$', CacheView.as_view()),
-    url(r'^', include(router.urls)),
     url(r'^tbcSite/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^usuarios/$', UsuarioList.as_view()),
     url(r'^reservasUsuario/$', ReservaMobiBusList.as_view()),
@@ -87,6 +80,11 @@ urlpatterns = [
     url(r'^recorridosMovibus/(?P<pk>[0-9]+)/$', RecorridoMoviBusDetail.as_view()),
     url(r'^recorridosTranvia/$', RecorridoTranviaList.as_view()),
     url(r'^recorridosTranvia/(?P<pk>[0-9]+)/$', RecorridoTranviaDetail.as_view()),
+]
+
+from rest_framework.authtoken import views
+urlpatterns += [
+    url(r'^api-token-auth/', views.obtain_auth_token)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

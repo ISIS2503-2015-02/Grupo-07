@@ -1,1 +1,1 @@
-gunicorn -c gunicorn.config.py tbcSite.wsgi
+web: gunicorn -c gunicorn.config.py tbcSite.wsgi --log-file -
