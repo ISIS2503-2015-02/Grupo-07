@@ -37,7 +37,7 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	#'django.contrib.gis',
-	'django_stormpath',
+#	'django_stormpath',
 	'rest_framework',
 	'main',
 	'usuarios',
@@ -46,15 +46,15 @@ INSTALLED_APPS = (
 	'tranvias',
 )
 
-AUTHENTICATION_BACKENDS = (
-	'django_stormpath.backends.StormpathBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+# 	'django_stormpath.backends.StormpathBackend',
+# )
 
-AUTH_USER_MODEL = 'django_stormpath.StormpathUser'
+# AUTH_USER_MODEL = 'django_stormpath.StormpathUser'
 
-STORMPATH_ID = 'LI9XV9GH1LC2SGZY89ULIFP0X'
-STORMPATH_SECRET = '8q9GRW9TwdVGDqWXbyOZB+fstWG+byLk+PBHhCj7/zQ'
-STORMPATH_APPLICATION = 'https://api.stormpath.com/v1/applications/dt2VrW0681I4hVSLUmuzb'
+# STORMPATH_ID = 'LI9XV9GH1LC2SGZY89ULIFP0X'
+# STORMPATH_SECRET = '8q9GRW9TwdVGDqWXbyOZB+fstWG+byLk+PBHhCj7/zQ'
+# STORMPATH_APPLICATION = 'https://api.stormpath.com/v1/applications/dt2VrW0681I4hVSLUmuzb'
 
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -115,6 +115,8 @@ TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+AUTH_USER_MODEL = 'movibuses.MoviBus'
 
 # Static url path
 STATIC_URL = '/static/'

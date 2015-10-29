@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 from django.utils import timezone
 from usuarios.models import ReservaMobiBus
 from math import sin, cos, atan2, sqrt, floor, radians
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 import operator
 
 #Clase que modela un conductor de MoviBus de tcb
@@ -57,8 +58,74 @@ class ConductorMoviBus(models.Model):
 
 #Clase que modela un MoviBus de tcb
 
-class MoviBus(models.Model):
-    placa = models.CharField(max_length = 200, primary_key = True)
+# class MoviBus(models.Model):
+#     placa = models.CharField(max_length = 200, primary_key = True)
+#     marca = models.CharField(max_length = 200)
+#     modelo = models.CharField(max_length = 200)
+#     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
+#     cap_max = models.IntegerField()
+#     ruta = models.CharField(max_length = 1, blank = True)
+#     #objects = models.CharField(max_length = 200)
+#     estado_operativo = models.BooleanField(default=True)
+#
+#     def kilometraje(self):
+#         kilometros = 0.0
+#         for recorrido in RecorridoMoviBus.objects.all():
+#             if recorrido.movibus.placa == self.placa:
+#                 kilometros += recorrido.dar_kilometros()
+#         return kilometros
+#
+#     def velocidad_promedio(self):
+#         velocidad = 0.0
+#         for recorrido in RecorridoMoviBus.objects.all():
+#             if recorrido.movibus.placa == self.placa:
+#                 if velocidad > 0:
+#                     velocidad = (velocidad + recorrido.dar_velocidad())/2
+#                 else:
+#                     velocidad = recorrido.dar_velocidad()
+#         return velocidad
+#
+#     def mejor_conductor(self):
+#         contador = 0
+#         conductores = {}
+#         for recorrido in RecorridoMoviBus.objects.all():
+#             if recorrido.movibus.placa == self.placa:
+#                 conductores[recorrido.conductor.cedula] = 0
+#         for recorrido in RecorridoMoviBus.objects.all():
+#             if recorrido.movibus.placa == self.placa:
+#                 conductores[recorrido.conductor.cedula] += 1
+#         return conductores
+#
+#     def generar_reporte(self):
+#         cedula = max(self.mejor_conductor().iteritems(), key=operator.itemgetter(1))[0]
+#         reporte = {}
+#         reporte['Placa'] = str(self.placa)
+#         reporte['Marca'] = str(self.marca)
+#         reporte['Modelo'] = str(self.modelo)
+#         reporte['Velocidad Promedio'] = str(self.velocidad_promedio())
+#         reporte['Kilometraje'] = str(self.kilometraje())
+#         reporte['Fecha Fabricacion'] = self.fecha_fabricacion.strftime("%Y-%m-%d")
+#         reporte['Capacidad Maxima'] = str(self.cap_max)
+#         for conductor in ConductorMoviBus.objects.all():
+#             if conductor.cedula == cedula:
+#                 reporte['Conductor mas destacado'] = conductor.nombre
+#
+#         f = open('Reporte_Movibus_' + self.placa + '.csv','w')
+#         f.write('Reporte Movibus ' + self.placa + '\n' + '\n')
+#         f.write('')
+#         line = "\n".join("%s,%s" % (i, reporte[i]) for i in reporte)
+#         f.write(line)
+#         f.close()
+#         return ""
+#
+#     generar_reporte.admin_order_field = 'generar_reporte'
+#     generar_reporte.short_description = 'Generar Reporte'
+#
+#     def __unicode__(self):
+#         return self.placa
+
+class MoviBus(AbstractBaseUser, PermissionsMixin):
+    placa = models.CharField(max_length = 200, unique = True,primary_key = True)
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
@@ -66,6 +133,38 @@ class MoviBus(models.Model):
     ruta = models.CharField(max_length = 1, blank = True)
     #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default=True)
+    is_active = models.BooleanField(default = True)
+
+    #Autenticacion
+    USERNAME_FIELD = 'placa'
+    REQUIRED_FIELDS = []
+
+    def get_full_name(self):
+        return "Movibus No. " + self.placa
+
+    def get_short_name(self):
+        return self.placa
+
+    class Meta:
+        verbose_name = _('movibus')
+        verbose_name_plural = _('movibuses')
+
+    def get_absolute_url(self):
+        return "/movibuses/%s/" % urlquote(self.placa)
+
+    # def create_user(self, placa, marca, modelo, fecha_fabricacion, cap_max, password=None):
+    #     self.placa = placa
+    #     self.marca = marca
+    #     self.modelo = modelo
+    #     self.fecha_fabricacion = fecha_fabricacion
+    #     self.cap_max = cap_max
+    #
+    # def create_superuser(self, placa, marca, modelo, fecha_fabricacion, cap_max, password):
+    #     self.placa = placa
+    #     self.marca = marca
+    #     self.modelo = modelo
+    #     self.fecha_fabricacion = fecha_fabricacion
+    #     self.cap_max = cap_max
 
     def kilometraje(self):
         kilometros = 0.0
