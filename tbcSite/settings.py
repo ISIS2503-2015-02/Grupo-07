@@ -39,7 +39,6 @@ INSTALLED_APPS = (
 	#'django.contrib.gis',
 	'django_stormpath',
 	'rest_framework',
-	'mapreduce',
 	'main',
 	'usuarios',
 	'vcubs',
@@ -58,6 +57,7 @@ STORMPATH_SECRET = '8q9GRW9TwdVGDqWXbyOZB+fstWG+byLk+PBHhCj7/zQ'
 STORMPATH_APPLICATION = 'https://api.stormpath.com/v1/applications/dt2VrW0681I4hVSLUmuzb'
 
 MIDDLEWARE_CLASSES = (
+	'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',

@@ -6,18 +6,18 @@ from django.utils import timezone
 from usuarios.models import ReservaMobiBus
 from math import sin, cos, atan2, sqrt, floor, radians
 import operator
-from djangoappengine.mapreduce import pipeline as django_pipeline
-from mapreduce import base_handler
+#from djangoappengine.mapreduce import pipeline as django_pipeline
+#from mapreduce import base_handler
 
 
 #Clase que modela un conductor de MoviBus de tcb
 
-def movibus_reserva(MoviBus):
-    yield "%s\t%s\n" % (MoviBus.placa, MoviBus.reserva.id)
+#def movibus_reserva(MoviBus):
+#    yield "%s\t%s\n" % (MoviBus.placa, MoviBus.reserva.id)
 
-class MoviBusReservaPipeline(base_handler.PipelineBase):
-    def run(self):
-        yield django_pipeline.DjangoModelMap(MoviBus, movibus_reserva)
+#class MoviBusReservaPipeline(base_handler.PipelineBase):
+#    def run(self):
+#        yield django_pipeline.DjangoModelMap(MoviBus, movibus_reserva)
 
 class ConductorMoviBus(models.Model):
     nombre = models.CharField(max_length = 200)
