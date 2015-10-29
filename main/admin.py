@@ -1,6 +1,6 @@
 from django.contrib import admin
 from vcubs.models import EstacionVcub, Vcub
-from usuarios.models import Usuario, ReservaMobiBus
+from usuarios.models import ReservaMobiBus
 from movibuses.models import MoviBus, ConductorMoviBus, ReporteMoviBus, RecorridoMoviBus, CoordenadasMoviBus
 from tranvias.models import Tranvia, ConductorTranvia, ReporteTranvia, RecorridoTranvia, CoordenadasTranvia, Linea, AlertaTranvia
 
@@ -127,15 +127,15 @@ class RecorridoMoviBusAdmin(admin.ModelAdmin):
 #                                    USUARIOS
 ################################################################################
 
-class UsuarioAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {'fields': ['login']}),
-        ('Informacion', {'fields': ['nombre','contrasenia','direccion','telefono','email','fecha_nacimiento']}),
-    ]
-    inlines = [ReservaUsuario]
-    list_display = ('nombre','contrasenia','direccion','telefono','email','fecha_nacimiento',)
-    list_filter = ['nombre','contrasenia','direccion','telefono','email','fecha_nacimiento',]
-    search_fields =['nombre','contrasenia','direccion','telefono','email','fecha_nacimiento',]
+# class UsuarioAdmin(admin.ModelAdmin):
+#     fieldsets = [
+#         (None, {'fields': ['usuario']}),
+#         ('Informacion', {'fields': ['usuario','nombre','direccion','telefono','fecha_nacimiento','tipo_usuario']}),
+#     ]
+#     inlines = [ReservaUsuario]
+#     list_display = ('usuario','nombre','direccion','telefono','fecha_nacimiento','tipo_usuario')
+#     list_filter = ['usuario','nombre','direccion','telefono','fecha_nacimiento','tipo_usuario']
+#     search_fields =['usuario','nombre','direccion','telefono','fecha_nacimiento','tipo_usuario']
 
 
 class ReservaMoviBusAdmin(admin.ModelAdmin):
@@ -206,7 +206,7 @@ admin.site.register(MoviBus,MoviBusAdmin)
 admin.site.register(ConductorMoviBus,ConductorMoviBusAdmin)
 admin.site.register(ReporteMoviBus,ReporteMoviBusAdmin)
 admin.site.register(RecorridoMoviBus,RecorridoMoviBusAdmin)
-admin.site.register(Usuario, UsuarioAdmin)
+# admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(ReservaMobiBus,ReservaMoviBusAdmin)
 admin.site.register(Linea,LineaAdmin)
 admin.site.register(Tranvia,TranviaAdmin)

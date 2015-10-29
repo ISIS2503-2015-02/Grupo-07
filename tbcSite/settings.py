@@ -30,6 +30,7 @@ DEBUG = True
 
 # Application definition
 INSTALLED_APPS = (
+	# Django default packages
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -37,8 +38,12 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.gis',
+
+	# Django rest framework
 	'rest_framework',
 	'rest_framework.authtoken',
+
+	# Custom packages
 	'main',
 	'usuarios',
 	'vcubs',
@@ -47,7 +52,11 @@ INSTALLED_APPS = (
 )
 
 # Middleware classes
-MIDDLEWARE_CLASSES = ()
+MIDDLEWARE_CLASSES = (
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+)
 
 # Root urls file
 ROOT_URLCONF = 'tbcSite.urls'
@@ -78,7 +87,6 @@ REST_FRAMEWORK = {
 	),
 	'DEFAULT_PERMISSION_CLASSES': (
 		'rest_framework.permissions.IsAuthenticated',
-		'rest_framework.permissions.DjangoModelPermissions'
 	)
 }
 
@@ -109,8 +117,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 # HTTPS configuration
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 1
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# SECURE_HSTS_SECONDS = 1
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True

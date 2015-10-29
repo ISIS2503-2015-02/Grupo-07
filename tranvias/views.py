@@ -12,7 +12,6 @@ from rest_framework.reverse import reverse
 class ConductorTranviaList(generics.ListCreateAPIView):
     queryset = ConductorTranvia.objects.all()
     serializer_class = ConductorTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -32,7 +31,6 @@ class TranviaList(generics.ListCreateAPIView):
 class CoordenadasTranviaList(generics.ListCreateAPIView):
     queryset = CoordenadasTranvia.objects.all()
     serializer_class = CoordenadasTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -51,7 +49,6 @@ class LineaList(generics.ListCreateAPIView):
 class AlertaTranviaList(generics.ListCreateAPIView):
     queryset = AlertaTranvia.objects.all()
     serializer_class = AlertaTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -61,7 +58,6 @@ class AlertaTranviaList(generics.ListCreateAPIView):
 class ReporteTranviaList(generics.ListCreateAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -71,7 +67,6 @@ class ReporteTranviaList(generics.ListCreateAPIView):
 class RecorridoTranviaList(generics.ListCreateAPIView):
     queryset = RecorridoTranvia.objects.all()
     serializer_class = RecorridoTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -82,7 +77,6 @@ class RecorridoTranviaList(generics.ListCreateAPIView):
 class ConductorTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ConductorTranvia.objects.all()
     serializer_class = ConductorTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -107,7 +101,6 @@ class TranviaDetail(generics.RetrieveUpdateDestroyAPIView):
 class CoordenadasTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CoordenadasTranvia.objects.all()
     serializer_class = CoordenadasTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -132,7 +125,6 @@ class LineaDetail(generics.RetrieveUpdateDestroyAPIView):
 class AlertaTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AlertaTranvia.objects.all()
     serializer_class = AlertaTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -146,7 +138,6 @@ class AlertaTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReporteTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReporteTranvia.objects.all()
     serializer_class = ReporteTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -159,7 +150,6 @@ class ReporteTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
 class RecorridoTranviaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RecorridoTranvia.objects.all()
     serializer_class = RecorridoTranviaSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 

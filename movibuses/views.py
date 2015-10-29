@@ -14,7 +14,6 @@ from rest_framework import renderers
 class ConductorMoviBusList(generics.ListCreateAPIView):
     queryset = ConductorMoviBus.objects.all()
     serializer_class = ConductorMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -33,7 +32,6 @@ class MoviBusList(generics.ListCreateAPIView):
 class CoordenadasMoviBusList(generics.ListCreateAPIView):
     queryset = CoordenadasMoviBus.objects.all()
     serializer_class = CoordenadasMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -43,7 +41,6 @@ class CoordenadasMoviBusList(generics.ListCreateAPIView):
 class ReporteMoviBusList(generics.ListCreateAPIView):
     queryset = ReporteMoviBus.objects.all()
     serializer_class = ReporteMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -53,7 +50,6 @@ class ReporteMoviBusList(generics.ListCreateAPIView):
 class RecorridoMoviBusList(generics.ListCreateAPIView):
     queryset = RecorridoMoviBus.objects.all()
     serializer_class = RecorridoMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -65,7 +61,6 @@ class RecorridoMoviBusList(generics.ListCreateAPIView):
 class ConductorMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ConductorMoviBus.objects.all()
     serializer_class = ConductorMoviBusSerializer
-    permission_classes = (permissions.AllowAny)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -90,7 +85,6 @@ class MoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
 class CoordenadasMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CoordenadasMoviBus.objects.all()
     serializer_class = CoordenadasMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -103,7 +97,6 @@ class CoordenadasMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReporteMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReporteMoviBus.objects.all()
     serializer_class = ReporteMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -116,7 +109,6 @@ class ReporteMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
 class RecorridoMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RecorridoMoviBus.objects.all()
     serializer_class = RecorridoMoviBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 

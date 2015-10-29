@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from models import Usuario, ReservaMobiBus
+from models import ReservaMobiBus
+from django.contrib.auth.models import User
 from serializers import UsuarioSerializer, ReservaMobiBusSerializer
 from rest_framework import permissions
 from rest_framework.decorators import api_view
@@ -9,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 class UsuarioList(generics.ListCreateAPIView):
-    queryset = Usuario.objects.all()
+    queryset = User.objects.all()
     serializer_class = UsuarioSerializer
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -20,7 +21,6 @@ class UsuarioList(generics.ListCreateAPIView):
 class ReservaMobiBusList(generics.ListCreateAPIView):
     queryset = ReservaMobiBus.objects.all()
     serializer_class = ReservaMobiBusSerializer
-    permission_classes = (permissions.AllowAny,)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -29,7 +29,7 @@ class ReservaMobiBusList(generics.ListCreateAPIView):
         return self.create(request, *args, **kwargs)
 
 class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Usuario.objects.all()
+    queryset = User.objects.all()
     serializer_class = UsuarioSerializer
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -43,7 +43,6 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReservaMobiBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReservaMobiBus.objects.all()
     serializer_class = ReservaMobiBusSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 

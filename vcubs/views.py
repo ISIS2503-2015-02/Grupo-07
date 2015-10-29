@@ -21,7 +21,6 @@ class EstacionVcubsList(generics.ListCreateAPIView):
 class VcubsList(generics.ListCreateAPIView):
     queryset = Vcub.objects.all()
     serializer_class = VcubSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -44,7 +43,6 @@ class EstacionVcubsDetail(generics.RetrieveUpdateDestroyAPIView):
 class VcubsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vcub.objects.all()
     serializer_class = VcubSerializer
-    permission_classes = (permissions.AllowAny,)
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
