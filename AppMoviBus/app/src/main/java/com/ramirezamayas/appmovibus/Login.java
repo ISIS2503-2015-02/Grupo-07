@@ -26,7 +26,7 @@ public class Login extends ActionBarActivity {
 
     public final static String CONTRASENA = "contrasena";
 
-    String urlLogin_ = "login/";
+    String urlLogin_ = "api-token-auth/";
 
     String messageUsuario;
 

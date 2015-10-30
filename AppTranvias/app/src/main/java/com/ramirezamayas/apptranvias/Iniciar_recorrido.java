@@ -42,6 +42,8 @@ public class Iniciar_recorrido extends ActionBarActivity {
     //URL coordenadas Movibus
     private String urlCoordenadas = "coordenadasTranvia/";
 
+    private int prueba = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +95,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
                 con_recorrido.setDoOutput(true);
                 con_recorrido.setDoInput(true);
                 con_recorrido.setRequestProperty("Content-Type", "application/json");
-                con_recorrido.setRequestProperty("Accept", "application/json");
+                con_recorrido.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_recorrido.setRequestMethod("POST");
                 //Setup del JSON
                 JSONObject recorrido   = new JSONObject();
@@ -117,11 +119,11 @@ public class Iniciar_recorrido extends ActionBarActivity {
                     double lon = gpsTracker.getLongitude();
                     //Setup de la conexión
                     URL url_coordenadas = new URL(MainActivity.IP + MainActivity.PUERTO + urlCoordenadas);
-                    HttpURLConnection con_coordenadas = (HttpURLConnection)url_recorrido.openConnection();
+                    HttpURLConnection con_coordenadas = (HttpURLConnection)url_coordenadas.openConnection();
                     con_coordenadas.setDoOutput(true);
                     con_coordenadas.setDoInput(true);
                     con_coordenadas.setRequestProperty("Content-Type", "application/json");
-                    con_coordenadas.setRequestProperty("Accept", "application/json");
+                    con_coordenadas.setRequestProperty("Authorization", "Token " + Login.auth_token);
                     con_coordenadas.setRequestMethod("POST");
                     //Setup del JSON
                     JSONObject coordenada   = new JSONObject();
@@ -130,7 +132,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
                     recorrido.put("tranvia",MainActivity.getTranvia().getPlaca());
                     recorrido.put("recorrido", MainActivity.getTranvia().getUltimo_recorrido());
                     //Incorporación del JSON a la conexión
-                    OutputStreamWriter out_coordenadas = new OutputStreamWriter(con_recorrido.getOutputStream());
+                    OutputStreamWriter out_coordenadas = new OutputStreamWriter(con_coordenadas.getOutputStream());
                     out_coordenadas.write(recorrido.toString());
                     out_coordenadas.flush();
                     out_coordenadas.close();
@@ -139,7 +141,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
                     Log.d("status_req_coordenadas",Integer.toString(status_request_recorrido));
                     con_coordenadas.disconnect();
 
-                    if(status_request_recorrido > 199 && status_request_recorrido <300 && status_request_coordenadas > 199 && status_request_coordenadas <300){
+                    if(status_request_recorrido == 201 && status_request_coordenadas ==201){
                         publishProgress("Reportando posicion (lat = " + lat + ", lon = " + lon + ")");
                     }
 

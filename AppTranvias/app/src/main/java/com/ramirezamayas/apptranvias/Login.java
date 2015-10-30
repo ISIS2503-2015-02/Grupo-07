@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,7 +29,9 @@ public class Login extends ActionBarActivity {
 
     public final static String CONTRASENA = "contrasena";
 
-    String urlLogin_ = "login/";
+    public static String auth_token;
+
+    String urlLogin_ = "api-token-auth/";
 
     String messageUsuario;
 
@@ -94,8 +100,19 @@ public class Login extends ActionBarActivity {
                 out.write(cred.toString());
                 out.flush();
                 //Lectura del resultado
-                int status_request_login = con_login.getResponseCode();
+                Integer status_request_login = con_login.getResponseCode();
                 Log.d("status_request_login", Integer.toString(status_request_login));
+                StringBuilder result = new StringBuilder();
+                if(con_login.getResponseCode()==200){
+                    InputStream in = new BufferedInputStream(con_login.getInputStream());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                }
+                JSONObject jObject = new JSONObject(result.toString());
+                auth_token = jObject.getString("token");
                 con_login.disconnect();
                 return status_request_login;
             } catch (Exception e) {
@@ -105,7 +122,8 @@ public class Login extends ActionBarActivity {
             }
         }
 
-        protected void onPostExecute(int responseCode) {
+        @Override
+        protected void onPostExecute(Integer responseCode) {
             if(responseCode==200){
                 iniciarMainActivity();
             }
