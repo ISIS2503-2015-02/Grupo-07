@@ -9,9 +9,7 @@ class User:
 def return_true(*args, **kwargs):
     return True
 
-    User.has_module_perms = return_true
-    User.has_perm = return_true
-
 class Middleware(object):
+    @staticmethod
     def process_request(self, request):
         request.user = User()

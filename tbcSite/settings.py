@@ -36,8 +36,6 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	#'django.contrib.gis',
-#	'django_stormpath',
 	'rest_framework',
 	'main',
 	'usuarios',
@@ -45,16 +43,6 @@ INSTALLED_APPS = (
 	'movibuses',
 	'tranvias',
 )
-
-# AUTHENTICATION_BACKENDS = (
-# 	'django_stormpath.backends.StormpathBackend',
-# )
-
-# AUTH_USER_MODEL = 'django_stormpath.StormpathUser'
-
-# STORMPATH_ID = 'LI9XV9GH1LC2SGZY89ULIFP0X'
-# STORMPATH_SECRET = '8q9GRW9TwdVGDqWXbyOZB+fstWG+byLk+PBHhCj7/zQ'
-# STORMPATH_APPLICATION = 'https://api.stormpath.com/v1/applications/dt2VrW0681I4hVSLUmuzb'
 
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -84,9 +72,6 @@ TEMPLATES = [
 REST_FRAMEWORK = {
 	# Use Django's standard `django.contrib.auth` permissions,
 	# or allow read-only access for unauthenticated users.
-	# 'DEFAULT_PERMISSION_CLASSES': (
-	#     'rest_framework.permissions.IsAuthenticated'
-	# , ),
 	'DEFAULT_PERMISSION_CLASSES': (
 		'rest_framework.permissions.AllowAny',
 	),
@@ -121,10 +106,3 @@ AUTH_USER_MODEL = 'movibuses.MoviBus'
 # Static url path
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
-
-# HTTPS configuration
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# SECURE_HSTS_SECONDS = 1
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True

@@ -51,8 +51,6 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^cache/$', CacheView.as_view()),
-    # url(r'^cache/(?P<ide>[0-9]+)/$', CacheView.as_view()),
     url(r'^', include(router.urls)),
     url(r'^tbcSite/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^usuarios/$', UsuarioList.as_view()),
