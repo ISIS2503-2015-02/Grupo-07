@@ -65,7 +65,7 @@ class RecorridoMoviBusList(generics.ListCreateAPIView):
 class ConductorMoviBusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ConductorMoviBus.objects.all()
     serializer_class = ConductorMoviBusSerializer
-    permission_classes = (permissions.AllowAny)
+    permission_classes = permissions.AllowAny
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
