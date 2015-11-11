@@ -87,8 +87,8 @@ public class MainActivity extends ActionBarActivity {
                 //Setup de la conexión
                 URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlInfo);
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
