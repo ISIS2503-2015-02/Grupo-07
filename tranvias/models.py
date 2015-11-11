@@ -75,7 +75,6 @@ class Tranvia(models.Model):
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"),  default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_max = models.IntegerField()
     linea = models.ForeignKey('Linea', related_name='tranvia')
-    #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default = True)
 
     #Genera un reporte en un archivo txt
@@ -228,7 +227,7 @@ class RecorridoTranvia(models.Model):
             timedelta(0,8,562000)
             actual = divmod(diferencia.days * 86400 + diferencia.seconds, 60)
             tiempo[1] += actual[1]
-            if (tiempo[0] + actual[0] > 60):
+            if tiempo[0] + actual[0] > 60:
                 tiempo[1] += 1
             tiempo[0] = (tiempo[0] + actual[0]) % 60
             cantidad = cantidad - 1
