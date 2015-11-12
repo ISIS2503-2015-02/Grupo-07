@@ -77,10 +77,9 @@ public class Iniciar_recorrido extends ActionBarActivity {
                 //Setup de la conexión
                 URL url_recorrido = new URL(MainActivity.IP + MainActivity.PUERTO + urlRecorridos);
                 HttpURLConnection con_recorrido = (HttpURLConnection)url_recorrido.openConnection();
-                con_recorrido.setDoOutput(true);
-                con_recorrido.setDoInput(true);
                 con_recorrido.setRequestProperty("Content-Type", "application/json");
                 con_recorrido.setRequestProperty("Accept", "application/json");
+                con_recorrido.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_recorrido.setRequestMethod("POST");
                 //Setup del JSON
                 JSONObject recorrido   = new JSONObject();
@@ -109,6 +108,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
                     con_coordenadas.setDoInput(true);
                     con_coordenadas.setRequestProperty("Content-Type", "application/json");
                     con_coordenadas.setRequestProperty("Accept", "application/json");
+                    con_coordenadas.setRequestProperty("Authorization", "Token " + Login.auth_token);
                     con_coordenadas.setRequestMethod("POST");
                     //Setup del JSON
                     JSONObject coordenada   = new JSONObject();
