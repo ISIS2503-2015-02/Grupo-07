@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('cedula', models.CharField(max_length=200, serialize=False, primary_key=True)),
                 ('calificacion', models.IntegerField(default=0)),
                 ('fecha_ingreso_sistema', models.DateTimeField(auto_now_add=True)),
-                ('fecha_de_nacimiento', models.DateField(default=datetime.datetime(1980, 1, 1, 17, 56, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Nacimiento', blank=True)),
+                ('fecha_de_nacimiento', models.DateField(default=datetime.datetime(1980, 1, 1, 18, 0, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Nacimiento', blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
                 ('placa', models.CharField(max_length=200, serialize=False, primary_key=True)),
                 ('marca', models.CharField(max_length=200)),
                 ('modelo', models.CharField(max_length=200)),
-                ('fecha_fabricacion', models.DateField(default=datetime.datetime(2010, 1, 1, 17, 56, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Fabricacion')),
+                ('fecha_fabricacion', models.DateField(default=datetime.datetime(2010, 1, 1, 18, 0, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Fabricacion')),
                 ('cap_max', models.IntegerField()),
                 ('estado_operativo', models.BooleanField(default=True)),
                 ('linea', models.ForeignKey(related_name='tranvia', to='tranvias.Linea')),

@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='EstacionVcub',
             fields=[
                 ('nombre', models.CharField(max_length=200, serialize=False, primary_key=True)),
-                ('fecha_construccion', models.DateField(default=datetime.datetime(2010, 1, 1, 17, 56, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Construccion', blank=True)),
+                ('fecha_construccion', models.DateField(default=datetime.datetime(2010, 1, 1, 18, 0, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Construccion', blank=True)),
                 ('cap_actual', models.IntegerField()),
                 ('cap_max', models.IntegerField()),
                 ('lon', models.FloatField()),
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('registro', models.CharField(max_length=200, serialize=False, primary_key=True)),
                 ('marca', models.CharField(max_length=200)),
                 ('modelo', models.CharField(max_length=200)),
-                ('fecha_fabricacion', models.DateField(default=datetime.datetime(2010, 1, 1, 17, 56, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Fabricacion', blank=True)),
+                ('fecha_fabricacion', models.DateField(default=datetime.datetime(2010, 1, 1, 18, 0, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Fabricacion', blank=True)),
                 ('en_transito', models.BooleanField(default=True)),
                 ('estado_operativo', models.BooleanField(default=True)),
                 ('estacion', models.ForeignKey(related_name='vcub', to='vcubs.EstacionVcub')),

@@ -56,7 +56,7 @@ class ConductorMoviBus(models.Model):
     def __unicode__(self):
         return self.nombre
 
-class MoviBus(AbstractBaseUser, PermissionsMixin):
+class MoviBus(models.Model):
     placa = models.CharField(max_length = 200, unique = True,primary_key = True)
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)

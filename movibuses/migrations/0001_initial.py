@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('cedula', models.CharField(max_length=200, serialize=False, primary_key=True)),
                 ('calificacion', models.IntegerField(default=0)),
                 ('fecha_ingreso_sistema', models.DateTimeField(auto_now_add=True)),
-                ('fecha_de_nacimiento', models.DateField(default=datetime.datetime(1980, 1, 1, 17, 56, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Nacimiento', blank=True)),
+                ('fecha_de_nacimiento', models.DateField(default=datetime.datetime(1980, 1, 1, 18, 0, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Nacimiento', blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -35,14 +35,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MoviBus',
             fields=[
-                ('placa', models.CharField(max_length=200, serialize=False, primary_key=True)),
+                ('placa', models.CharField(max_length=200, unique=True, serialize=False, primary_key=True)),
                 ('marca', models.CharField(max_length=200)),
                 ('modelo', models.CharField(max_length=200)),
-                ('fecha_fabricacion', models.DateField(default=datetime.datetime(2010, 1, 1, 17, 56, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Fabricacion', blank=True)),
+                ('fecha_fabricacion', models.DateField(default=datetime.datetime(2010, 1, 1, 18, 0, 0, 775217, tzinfo=utc), verbose_name=b'Fecha de Fabricacion', blank=True)),
                 ('cap_max', models.IntegerField()),
                 ('ruta', models.CharField(max_length=1, blank=True)),
                 ('estado_operativo', models.BooleanField(default=True)),
+                ('is_active', models.BooleanField(default=True)),
             ],
+            options={
+                'verbose_name': 'movibus',
+                'verbose_name_plural': 'movibuses',
+            },
         ),
         migrations.CreateModel(
             name='RecorridoMoviBus',

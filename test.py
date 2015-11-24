@@ -51,7 +51,7 @@ print "=" * 100
 # so save it in a constant called TOKEN.
 URL = 'http://127.0.0.1:8000/api-token-auth/'
 data = {
-	'username': 'pablo',
+	'username': 'yerson',
 	'password': '123'
 }
 ans = requests.post(URL, data=data, verify=False)
