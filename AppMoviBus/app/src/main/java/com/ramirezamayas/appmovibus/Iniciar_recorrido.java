@@ -77,8 +77,9 @@ public class Iniciar_recorrido extends ActionBarActivity {
                 //Setup de la conexión
                 URL url_recorrido = new URL(MainActivity.IP + MainActivity.PUERTO + urlRecorridos);
                 HttpURLConnection con_recorrido = (HttpURLConnection)url_recorrido.openConnection();
+                con_recorrido.setDoOutput(true);
+                con_recorrido.setDoInput(true);
                 con_recorrido.setRequestProperty("Content-Type", "application/json");
-                con_recorrido.setRequestProperty("Accept", "application/json");
                 con_recorrido.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_recorrido.setRequestMethod("POST");
                 //Setup del JSON
@@ -126,7 +127,7 @@ public class Iniciar_recorrido extends ActionBarActivity {
                     Log.d("status_req_coordenadas",Integer.toString(status_request_recorrido));
                     con_coordenadas.disconnect();
 
-                    if(status_request_recorrido > 199 && status_request_recorrido <300 && status_request_coordenadas > 199 && status_request_coordenadas <300){
+                    if(status_request_recorrido == 201 && status_request_coordenadas ==201){
                         publishProgress("Reportando posicion (lat = " + lat + ", lon = " + lon + ")");
                     }
 

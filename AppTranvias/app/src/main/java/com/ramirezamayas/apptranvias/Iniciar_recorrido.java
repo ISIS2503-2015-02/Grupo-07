@@ -42,8 +42,6 @@ public class Iniciar_recorrido extends ActionBarActivity {
     //URL coordenadas Movibus
     private String urlCoordenadas = "coordenadasTranvia/";
 
-    private int prueba = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

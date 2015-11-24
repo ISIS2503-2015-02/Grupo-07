@@ -40,6 +40,8 @@ public class MainActivity extends ActionBarActivity {
     //Detener recorrido?
     private static boolean detenerRecorrido = true;
 
+    private static boolean first = true;
+
     //Getters
     public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
 
@@ -47,12 +49,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Recuperación del ID compartido por Login
-        Intent intent = getIntent();
-        idMoviBus = intent.getStringExtra(Login.USUARIO);
-        urlInfo += idMoviBus + "/";
-        //Recuperación del movibus identificado
-        new RecuperarInfoTask().execute();
+        if(first) {
+            first = false;
+            //Recuperación del ID compartido por Login
+            Intent intent = getIntent();
+            idMoviBus = intent.getStringExtra(Login.USUARIO);
+            urlInfo += idMoviBus + "/";
+            //Recuperación del movibus identificado
+            new RecuperarInfoTask().execute();
+        }
     }
 
     @Override
@@ -152,6 +157,8 @@ public class MainActivity extends ActionBarActivity {
     //Detiene la actividad Iniciar_recorrido
     public void detener_recorrido(View view) {
         detenerRecorrido = false;
+        int recorridoActual = Integer.parseInt(movibus.getUltimo_recorrido());
+        movibus.setUltimo_recorrido(Integer.toString(recorridoActual + 1));
     }
 
     //Toast search Action_bar
