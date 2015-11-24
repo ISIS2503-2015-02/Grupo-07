@@ -30,8 +30,8 @@ headers = {
 	'Authorization': 'Token %s' % ADMIN_TOKEN
 }
 data = {
-	'nombre': 'Ana',
-	'username': 'pablo',
+	'nombre': 'Yerson',
+	'username': 'yerson',
 	'password': '123'
 }
 ans = requests.post(URL, data=data, headers=headers)
