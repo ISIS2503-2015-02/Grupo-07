@@ -95,6 +95,7 @@ public class Reportar_prestamo extends ActionBarActivity {
                 con_prestamo.setDoInput(true);
                 con_prestamo.setRequestProperty("Content-Type", "application/json");
                 con_prestamo.setRequestProperty("Accept", "application/json");
+                con_prestamo.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_prestamo.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject prestamo   = new JSONObject();
@@ -120,6 +121,7 @@ public class Reportar_prestamo extends ActionBarActivity {
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setDoOutput(true);
                 con.setDoInput(true);
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
@@ -150,6 +152,7 @@ public class Reportar_prestamo extends ActionBarActivity {
                 con_prestamoVcub.setDoInput(true);
                 con_prestamoVcub.setRequestProperty("Content-Type", "application/json");
                 con_prestamoVcub.setRequestProperty("Accept", "application/json");
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_prestamoVcub.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject prestamoVcub   = new JSONObject();

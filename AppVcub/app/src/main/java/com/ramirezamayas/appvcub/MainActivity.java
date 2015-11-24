@@ -41,16 +41,21 @@ public class MainActivity extends ActionBarActivity {
     //ID estación vcub
     private static String idEstacion;
 
+    private static boolean first = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Recuperación del ID compartido por Login
-        Intent intent = getIntent();
-        idEstacion = intent.getStringExtra(Login.USUARIO);
-        urlInfo += idEstacion + "/";
-        //Recuperación de la info de la estación identificada
-        new RecuperarInfoTask().execute();
+        if (first) {
+            first = false;
+            //Recuperación del ID compartido por Login
+            Intent intent = getIntent();
+            idEstacion = intent.getStringExtra(Login.USUARIO);
+            urlInfo += idEstacion + "/";
+            //Recuperación de la info de la estación identificada
+            new RecuperarInfoTask().execute();
+        }
     }
 
     @Override
@@ -87,6 +92,8 @@ public class MainActivity extends ActionBarActivity {
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setDoOutput(true);
                 con.setDoInput(true);
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
@@ -101,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 return result.toString();
             } catch (Exception e) {
-                Log.d("Error:", "falló recuperación de info de movibus.");
+                Log.d("Error:", "falló recuperación de info de estación.");
                 e.printStackTrace();
                 return null;
             }

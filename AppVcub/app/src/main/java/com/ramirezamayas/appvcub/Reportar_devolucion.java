@@ -99,6 +99,7 @@ public class Reportar_devolucion extends ActionBarActivity {
                 con_devolucion.setDoInput(true);
                 con_devolucion.setRequestProperty("Content-Type", "application/json");
                 con_devolucion.setRequestProperty("Accept", "application/json");
+                con_devolucion.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_devolucion.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject devolucion   = new JSONObject();
@@ -124,6 +125,7 @@ public class Reportar_devolucion extends ActionBarActivity {
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setDoOutput(true);
                 con.setDoInput(true);
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
@@ -154,6 +156,7 @@ public class Reportar_devolucion extends ActionBarActivity {
                 con_devolucionVcub.setDoInput(true);
                 con_devolucionVcub.setRequestProperty("Content-Type", "application/json");
                 con_devolucionVcub.setRequestProperty("Accept", "application/json");
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_devolucionVcub.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject devolucionVcub   = new JSONObject();
