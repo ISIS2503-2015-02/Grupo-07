@@ -23,13 +23,13 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "https://127.0.0.1";
+    public static final String IP = "http://157.253.209.62";
 
     //puerto host servidor
     public static final String PUERTO = ":9345/";
 
     //URL recuperacion info movibus
-    String urlInfo = "movibuses/";
+    String urlInfo = "movibuses/" + idMoviBus + "/";
 
     //Movibus del app
     private static Movibus movibus;
@@ -40,6 +40,8 @@ public class MainActivity extends ActionBarActivity {
     //Detener recorrido?
     private static boolean detenerRecorrido = true;
 
+    private static boolean first = true;
+
     //Getters
     public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
 
@@ -47,12 +49,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Recuperación del ID compartido por Login
-        Intent intent = getIntent();
-        idMoviBus = intent.getStringExtra(Login.USUARIO);
-        urlInfo += idMoviBus + "/";
-        //Recuperación del movibus identificado
-        new RecuperarInfoTask().execute();
+        if(first) {
+            first = false;
+            //Recuperación del ID compartido por Login
+            Intent intent = getIntent();
+            idMoviBus = intent.getStringExtra(Login.USUARIO);
+            urlInfo += idMoviBus + "/";
+            //Recuperación del movibus identificado
+            new RecuperarInfoTask().execute();
+        }
     }
 
     @Override
@@ -87,8 +92,8 @@ public class MainActivity extends ActionBarActivity {
                 //Setup de la conexión
                 URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlInfo);
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
@@ -121,9 +126,9 @@ public class MainActivity extends ActionBarActivity {
                 String ruta = jObject.getString(Movibus.RUTA);
                 int cap_max = jObject.getInt(Movibus.CAP_MAX);
                 boolean estado_operativo = jObject.getBoolean(Movibus.ESTADO_OPERATIVO);
-                String ultimo_recorrido = jObject.getString(Movibus.ULTIMO_RECORRIDO);
-                String reserva_actual = jObject.getString(Movibus.RESERVA_ACTUAL);
-                String conductor_actual = jObject.getString(Movibus.CONDUCTOR_ACTUAL);
+                String ultimo_recorrido = "0";
+                String reserva_actual = "1";
+                String conductor_actual = "1";
                 //Instanciación del movibus
                 movibus = new Movibus(placa,marca,modelo,fecha_fabricacion,ruta,cap_max,estado_operativo,ultimo_recorrido,reserva_actual,conductor_actual);
             } catch (JSONException e) {
@@ -152,6 +157,8 @@ public class MainActivity extends ActionBarActivity {
     //Detiene la actividad Iniciar_recorrido
     public void detener_recorrido(View view) {
         detenerRecorrido = false;
+        int recorridoActual = Integer.parseInt(movibus.getUltimo_recorrido());
+        movibus.setUltimo_recorrido(Integer.toString(recorridoActual + 1));
     }
 
     //Toast search Action_bar

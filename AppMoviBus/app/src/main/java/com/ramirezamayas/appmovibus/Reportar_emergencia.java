@@ -64,10 +64,8 @@ public class Reportar_emergencia extends ActionBarActivity {
                 //Setup de la conexión
                 URL urlEmergencia = new URL(MainActivity.IP + MainActivity.PUERTO + urlEmergencia_);
                 HttpURLConnection con_emergencia = (HttpURLConnection)urlEmergencia.openConnection();
-                con_emergencia.setDoOutput(true);
-                con_emergencia.setDoInput(true);
                 con_emergencia.setRequestProperty("Content-Type", "application/json");
-                con_emergencia.setRequestProperty("Accept", "application/json");
+                con_emergencia.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_emergencia.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject movibus = new JSONObject();

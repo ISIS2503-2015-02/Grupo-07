@@ -13,7 +13,6 @@ class EstacionVcub(models.Model):
     cap_max = models.IntegerField()
     lon = models.FloatField()
     lat = models.FloatField()
-    #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default=True)
 
     def necesita_refill(self):
@@ -34,7 +33,6 @@ class Vcub(models.Model):
     modelo = models.CharField(max_length = 200)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     estacion = models.ForeignKey('EstacionVcub',related_name='vcub')
-    #objects = models.CharField(max_length = 200)
     en_transito = models.BooleanField(default=True)
     estado_operativo = models.BooleanField(default=True)
 

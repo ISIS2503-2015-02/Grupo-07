@@ -25,13 +25,13 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "https://127.0.0.1";
+    public static final String IP = "http://157.253.223.168";
 
     //puerto host servidor
     public static final String PUERTO = ":9345/";
 
     //URL recuperacion info tranvías
-    String urlInfo = "tranvias/";
+    public static String urlInfo = "tranvias/";
 
     //Tranvía del app
     private static Tranvia tranvia;
@@ -42,6 +42,8 @@ public class MainActivity extends ActionBarActivity {
     //Detener recorrido?
     private static boolean detenerRecorrido = true;
 
+    private static boolean first = true;
+
     //Getters
     public static boolean darDetenerRecorrido(){ return detenerRecorrido; }
 
@@ -49,12 +51,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Recuperación del ID compartido por Login
-        Intent intent = getIntent();
-        idTranvia = intent.getStringExtra(Login.USUARIO);
-        urlInfo += idTranvia + "/";
-        //Recuperación de la info del tranvia identificado
-        new RecuperarInfoTask().execute();
+        if(first){
+            first = false;
+            //Recuperación del ID compartido por Login
+            Intent intent = getIntent();
+            idTranvia = intent.getStringExtra(Login.USUARIO);
+            urlInfo += idTranvia + "/";
+            //Recuperación de la info del tranvia identificado
+            new RecuperarInfoTask().execute();
+        }
     }
 
     @Override
@@ -80,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    //Tarea asincrónica para la recuperación de la información del movibus autenticado
+    //Tarea asincrónica para la recuperación de la información del tranvía autenticado
     class RecuperarInfoTask extends AsyncTask<Void, Void, String> {
 
         //Método ejecutable de AsyncTask
@@ -89,12 +94,12 @@ public class MainActivity extends ActionBarActivity {
                 //Setup de la conexión
                 URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlInfo);
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
-                if(con.getResponseCode()==201){
+                if(con.getResponseCode()==200){
                     InputStream in = new BufferedInputStream(con.getInputStream());
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     String line;
@@ -105,7 +110,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 return result.toString();
             } catch (Exception e) {
-                Log.d("Error:", "falló recuperación de info de movibus.");
+                Log.d("Error:", "falló recuperación de info de tranvía.");
                 e.printStackTrace();
                 return null;
             }
@@ -114,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
             JSONObject jObject = null;
             try {
-                //Recuperación de la información del movibus
+                //Recuperación de la información del tranvia
                 jObject = new JSONObject(result);
                 String placa = jObject.getString(Tranvia.PLACA);
                 String marca = jObject.getString(Tranvia.MARCA);
@@ -123,10 +128,11 @@ public class MainActivity extends ActionBarActivity {
                 int cap_max = jObject.getInt(Tranvia.CAP_MAX);
                 int linea = jObject.getInt(Tranvia.LINEA);
                 boolean estado_operativo = jObject.getBoolean(Tranvia.ESTADO_OPERATIVO);
-                String ultimo_recorrido = jObject.getString(Tranvia.ULTIMO_RECORRIDO);
-                String conductor_actual = jObject.getString(Tranvia.CONDUCTOR_ACTUAL);
+                String ultimo_recorrido = "0";
+                String conductor_actual = "1";
                 //Instanciación del movibus
                 tranvia = new Tranvia(placa,marca,modelo,fecha_fabricacion,cap_max,linea,estado_operativo,ultimo_recorrido,conductor_actual);
+                Log.d("conductor_tranvia",tranvia.getConductor_actual());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -153,6 +159,8 @@ public class MainActivity extends ActionBarActivity {
     //Detiene la actividad Iniciar_recorrido
     public void detener_recorrido(View view) {
         detenerRecorrido = false;
+        int recorridoActual = Integer.parseInt(tranvia.getUltimo_recorrido());
+        tranvia.setUltimo_recorrido(Integer.toString(recorridoActual + 1));
     }
 
     //Toast search Action_bar

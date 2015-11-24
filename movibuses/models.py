@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 from django.utils import timezone
 from usuarios.models import ReservaMobiBus
 from math import sin, cos, atan2, sqrt, floor, radians
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 import operator
 
 #Clase que modela un conductor de MoviBus de tcb
@@ -55,17 +56,32 @@ class ConductorMoviBus(models.Model):
     def __unicode__(self):
         return self.nombre
 
-#Clase que modela un MoviBus de tcb
-
-class MoviBus(models.Model):
-    placa = models.CharField(max_length = 200, primary_key = True)
+class MoviBus(AbstractBaseUser, PermissionsMixin):
+    placa = models.CharField(max_length = 200, unique = True,primary_key = True)
     marca = models.CharField(max_length = 200)
     modelo = models.CharField(max_length = 200)
     fecha_fabricacion = models.DateField(_("Fecha de Fabricacion"), blank=True, default = datetime(2010, 1, 1, 13, 0, 0, 775217,tzinfo = timezone.get_current_timezone()))
     cap_max = models.IntegerField()
     ruta = models.CharField(max_length = 1, blank = True)
-    #objects = models.CharField(max_length = 200)
     estado_operativo = models.BooleanField(default=True)
+    is_active = models.BooleanField(default = True)
+
+    #Autenticacion
+    USERNAME_FIELD = 'placa'
+    REQUIRED_FIELDS = []
+
+    def get_full_name(self):
+        return "Movibus No. " + self.placa
+
+    def get_short_name(self):
+        return self.placa
+
+    class Meta:
+        verbose_name = _('movibus')
+        verbose_name_plural = _('movibuses')
+
+    def get_absolute_url(self):
+        return "/movibuses/%s/" % urlquote(self.placa)
 
     def kilometraje(self):
         kilometros = 0.0
@@ -199,7 +215,7 @@ class RecorridoMoviBus(models.Model):
             timedelta(0,8,562000)
             actual = divmod(diferencia.days * 86400 + diferencia.seconds, 60)
             tiempo[1] += actual[1]
-            if (tiempo[0] + actual[0] > 60):
+            if tiempo[0] + actual[0] > 60:
                 tiempo[1] += 1
             tiempo[0] = (tiempo[0] + actual[0]) % 60
             cantidad = cantidad - 1

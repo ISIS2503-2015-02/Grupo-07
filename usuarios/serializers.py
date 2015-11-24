@@ -18,7 +18,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
 class ReservaMobiBusSerializer(serializers.ModelSerializer):
     fecha = serializers.ReadOnlyField(default = datetime.now)
-    #recorrido = serializers.PrimaryKeyRelatedField(many=True,queryset = RecorridoMoviBus.objects.all())
     class Meta:
         model = ReservaMobiBus
         fields = ('identificador','fecha', 'usuario','fecha_programada',)

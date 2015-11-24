@@ -38,11 +38,9 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.gis',
-
 	# Django rest framework
 	'rest_framework',
 	'rest_framework.authtoken',
-
 	# Custom packages
 	'main',
 	'usuarios',
@@ -111,6 +109,8 @@ TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+AUTH_USER_MODEL = 'movibuses.MoviBus'
 
 # Static url path
 STATIC_URL = '/static/'
