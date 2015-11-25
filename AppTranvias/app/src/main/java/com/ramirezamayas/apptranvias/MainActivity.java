@@ -25,10 +25,10 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "http://157.253.158.108";
+    public static final String IP = "http://127.0.0.1";
 
     //puerto host servidor
-    public static final String PUERTO = ":9345/";
+    public static final String PUERTO = ":8000/";
 
     //URL recuperacion info tranvías
     public static String urlInfo = "tranvias/";
