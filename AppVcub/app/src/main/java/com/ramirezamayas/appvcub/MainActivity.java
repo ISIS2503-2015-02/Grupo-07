@@ -24,7 +24,7 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "https://127.0.0.1";
+    public static final String IP = "http://157.253.158.108";
 
     //puerto host servidor
     public static final String PUERTO = ":9345/";
@@ -90,14 +90,12 @@ public class MainActivity extends ActionBarActivity {
                 //Setup de la conexión
                 URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlInfo);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
                 con.setRequestProperty("Content-Type", "application/json");
                 con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
-                if (con.getResponseCode() == 201) {
+                if (con.getResponseCode() == 200) {
                     InputStream in = new BufferedInputStream(con.getInputStream());
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     String line;
@@ -117,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
             JSONObject jObject = null;
             try {
-                //Recuperación de la información del movibus
+                //Recuperación de la información de la estacion
                 jObject = new JSONObject(result);
                 String nombre = jObject.getString(Estacion.NOMBRE);
                 String fecha_construcion = jObject.getString(Estacion.FECHA_CONSTRUCCION);

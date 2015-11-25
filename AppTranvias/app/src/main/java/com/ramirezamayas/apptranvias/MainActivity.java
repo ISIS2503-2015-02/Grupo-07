@@ -25,7 +25,7 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "http://157.253.223.168";
+    public static final String IP = "http://157.253.158.108";
 
     //puerto host servidor
     public static final String PUERTO = ":9345/";

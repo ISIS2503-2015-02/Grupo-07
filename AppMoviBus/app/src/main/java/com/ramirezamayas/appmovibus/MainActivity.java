@@ -23,13 +23,13 @@ import java.net.URL;
 public class MainActivity extends ActionBarActivity {
 
     //ip host servidor
-    public static final String IP = "http://157.253.209.62";
+    public static final String IP = "http://157.253.158.108";
 
     //puerto host servidor
     public static final String PUERTO = ":9345/";
 
     //URL recuperacion info movibus
-    String urlInfo = "movibuses/" + idMoviBus + "/";
+    public static String urlInfo = "movibuses/";
 
     //Movibus del app
     private static Movibus movibus;
@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
-                if(con.getResponseCode()==201){
+                if(con.getResponseCode()==200){
                     InputStream in = new BufferedInputStream(con.getInputStream());
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     String line;

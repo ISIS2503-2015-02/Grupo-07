@@ -104,27 +104,26 @@ public class Iniciar_recorrido extends ActionBarActivity {
                     double lon = gpsTracker.getLongitude();
                     //Setup de la conexión
                     URL url_coordenadas = new URL(MainActivity.IP + MainActivity.PUERTO + urlCoordenadas);
-                    HttpURLConnection con_coordenadas = (HttpURLConnection)url_recorrido.openConnection();
+                    HttpURLConnection con_coordenadas = (HttpURLConnection)url_coordenadas.openConnection();
                     con_coordenadas.setDoOutput(true);
                     con_coordenadas.setDoInput(true);
                     con_coordenadas.setRequestProperty("Content-Type", "application/json");
-                    con_coordenadas.setRequestProperty("Accept", "application/json");
                     con_coordenadas.setRequestProperty("Authorization", "Token " + Login.auth_token);
                     con_coordenadas.setRequestMethod("POST");
                     //Setup del JSON
                     JSONObject coordenada   = new JSONObject();
-                    recorrido.put("latitud", lat);
-                    recorrido.put("longitud", lon);
-                    recorrido.put("movibus",MainActivity.getMovibus().getPlaca());
-                    recorrido.put("recorrido", MainActivity.getMovibus().getUltimo_recorrido());
+                    coordenada.put("latitud", lat);
+                    coordenada.put("longitud", lon);
+                    coordenada.put("movibus",MainActivity.getMovibus().getPlaca());
+                    coordenada.put("recorrido", MainActivity.getMovibus().getUltimo_recorrido());
                     //Incorporación del JSON a la conexión
-                    OutputStreamWriter out_coordenadas = new OutputStreamWriter(con_recorrido.getOutputStream());
-                    out_coordenadas.write(recorrido.toString());
+                    OutputStreamWriter out_coordenadas = new OutputStreamWriter(con_coordenadas.getOutputStream());
+                    out_coordenadas.write(coordenada.toString());
                     out_coordenadas.flush();
                     out_coordenadas.close();
                     //Verificación estado y cierre de conexión
                     int status_request_coordenadas = con_coordenadas.getResponseCode();
-                    Log.d("status_req_coordenadas",Integer.toString(status_request_recorrido));
+                    Log.d("status_req_coordenadas",Integer.toString(status_request_coordenadas));
                     con_coordenadas.disconnect();
 
                     if(status_request_recorrido == 201 && status_request_coordenadas ==201){

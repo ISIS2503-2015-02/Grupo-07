@@ -38,7 +38,7 @@ public class Reportar_prestamo extends ActionBarActivity {
     private String urlPrestamoEstacion = "estaciones/";
 
     //URL recuperacion info vcub
-    private String urlPrestamoVcub = "vcub/";
+    private String urlPrestamoVcub = "vcubs/";
 
     //ID vcub a devolver
     private String idVcub;
@@ -89,10 +89,8 @@ public class Reportar_prestamo extends ActionBarActivity {
         protected String doInBackground(String... message) {
             try {
                 //Setup de la conexión
-                URL url_prestamo = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoEstacion);
+                URL url_prestamo = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoEstacion + MainActivity.getEstacion().getNombre() + "/");
                 HttpURLConnection con_prestamo = (HttpURLConnection)url_prestamo.openConnection();
-                con_prestamo.setDoOutput(true);
-                con_prestamo.setDoInput(true);
                 con_prestamo.setRequestProperty("Content-Type", "application/json");
                 con_prestamo.setRequestProperty("Accept", "application/json");
                 con_prestamo.setRequestProperty("Authorization", "Token " + Login.auth_token);
@@ -119,13 +117,11 @@ public class Reportar_prestamo extends ActionBarActivity {
                 //Setup de la conexión
                 URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoVcub + idVcub + "/");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
                 con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
-                if (con.getResponseCode() == 201) {
+                if (con.getResponseCode() == 200) {
                     InputStream in = new BufferedInputStream(con.getInputStream());
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     String line;
@@ -146,16 +142,14 @@ public class Reportar_prestamo extends ActionBarActivity {
                 vcub = new Vcub(registro,marca,modelo,fecha_fabricacion,estacion,en_transito,estado_operativo);
 
                 //Setup de la conexión
-                URL url_prestamoVcub = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoVcub);
+                URL url_prestamoVcub = new URL(MainActivity.IP + MainActivity.PUERTO + urlPrestamoVcub + idVcub + "/");
                 HttpURLConnection con_prestamoVcub = (HttpURLConnection)url_prestamoVcub.openConnection();
-                con_prestamoVcub.setDoOutput(true);
-                con_prestamoVcub.setDoInput(true);
                 con_prestamoVcub.setRequestProperty("Content-Type", "application/json");
                 con_prestamoVcub.setRequestProperty("Accept", "application/json");
-                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
+                con_prestamoVcub.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_prestamoVcub.setRequestMethod("PUT");
                 //Setup del JSON
-                JSONObject prestamoVcub   = new JSONObject();
+                JSONObject prestamoVcub = new JSONObject();
                 prestamoVcub.put(Vcub.REGISTRO, vcub.getRegistro());
                 prestamoVcub.put(Vcub.MARCA,vcub.getMarca());
                 prestamoVcub.put(Vcub.MODELO,vcub.getModelo());
@@ -164,14 +158,14 @@ public class Reportar_prestamo extends ActionBarActivity {
                 prestamoVcub.put(Vcub.EN_TRANSITO,true);
                 prestamoVcub.put(Vcub.ESTADO_OPERATIVO,vcub.isEstado_operativo());
                 //Incorporación del JSON a la conexión
-                OutputStreamWriter out_prestamoVcub = new OutputStreamWriter(con_prestamo.getOutputStream());
-                out_prestamoVcub.write(prestamo.toString());
+                OutputStreamWriter out_prestamoVcub = new OutputStreamWriter(con_prestamoVcub.getOutputStream());
+                out_prestamoVcub.write(prestamoVcub.toString());
                 out_prestamoVcub.flush();
                 out_prestamoVcub.close();
                 //Verificación estado y cierre de conexión
-                int status_request_prestamo_vcub = con_prestamo.getResponseCode();
+                int status_request_prestamo_vcub = con_prestamoVcub.getResponseCode();
                 Log.d("status_req_prestamo_v",Integer.toString(status_request_prestamo_vcub));
-                con_prestamo.disconnect();
+                con_prestamoVcub.disconnect();
 
                 if(status_request_prestamo_estacion > 199 && status_request_prestamo_estacion <300 && status_request_prestamo_vcub > 199 && status_request_prestamo_vcub <300){
                     return "El vcub con id " + vcub.getRegistro() + " ha sido prestada.";

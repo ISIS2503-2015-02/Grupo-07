@@ -42,7 +42,7 @@ public class Reportar_devolucion extends ActionBarActivity {
     private String urlDevolucionEstacion = "estaciones/";
 
     //URL recuperacion info vcub
-    private String urlDevolucionVcub = "vcub/";
+    private String urlDevolucionVcub = "vcubs/";
 
     //ID vcub a devolver
     private String idVcub;
@@ -93,10 +93,8 @@ public class Reportar_devolucion extends ActionBarActivity {
         protected String doInBackground(String... message) {
             try {
                 //Setup de la conexión
-                URL url_devolucion = new URL(MainActivity.IP + MainActivity.PUERTO + urlDevolucionEstacion);
+                URL url_devolucion = new URL(MainActivity.IP + MainActivity.PUERTO + urlDevolucionEstacion + MainActivity.getEstacion().getNombre() + "/");
                 HttpURLConnection con_devolucion = (HttpURLConnection)url_devolucion.openConnection();
-                con_devolucion.setDoOutput(true);
-                con_devolucion.setDoInput(true);
                 con_devolucion.setRequestProperty("Content-Type", "application/json");
                 con_devolucion.setRequestProperty("Accept", "application/json");
                 con_devolucion.setRequestProperty("Authorization", "Token " + Login.auth_token);
@@ -123,13 +121,11 @@ public class Reportar_devolucion extends ActionBarActivity {
                 //Setup de la conexión
                 URL url = new URL(MainActivity.IP + MainActivity.PUERTO + urlDevolucionVcub + idVcub + "/");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
                 con.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con.setRequestMethod("GET");
                 StringBuilder result = new StringBuilder();
                 //Lectura del resultado
-                if (con.getResponseCode() == 201) {
+                if (con.getResponseCode() == 200) {
                     InputStream in = new BufferedInputStream(con.getInputStream());
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     String line;
@@ -150,13 +146,10 @@ public class Reportar_devolucion extends ActionBarActivity {
                 vcub = new Vcub(registro,marca,modelo,fecha_fabricacion,estacion,en_transito,estado_operativo);
 
                 //Setup de la conexión
-                URL url_devolucionVcub = new URL(MainActivity.IP + MainActivity.PUERTO + urlDevolucionVcub);
+                URL url_devolucionVcub = new URL(MainActivity.IP + MainActivity.PUERTO + urlDevolucionVcub + idVcub + "/");
                 HttpURLConnection con_devolucionVcub = (HttpURLConnection)url_devolucionVcub.openConnection();
-                con_devolucionVcub.setDoOutput(true);
-                con_devolucionVcub.setDoInput(true);
                 con_devolucionVcub.setRequestProperty("Content-Type", "application/json");
-                con_devolucionVcub.setRequestProperty("Accept", "application/json");
-                con.setRequestProperty("Authorization", "Token " + Login.auth_token);
+                con_devolucionVcub.setRequestProperty("Authorization", "Token " + Login.auth_token);
                 con_devolucionVcub.setRequestMethod("PUT");
                 //Setup del JSON
                 JSONObject devolucionVcub   = new JSONObject();
@@ -168,14 +161,14 @@ public class Reportar_devolucion extends ActionBarActivity {
                 devolucionVcub.put(Vcub.EN_TRANSITO,false);
                 devolucionVcub.put(Vcub.ESTADO_OPERATIVO,vcub.isEstado_operativo());
                 //Incorporación del JSON a la conexión
-                OutputStreamWriter out_devolucionVcub = new OutputStreamWriter(con_devolucion.getOutputStream());
-                out_devolucionVcub.write(devolucion.toString());
+                OutputStreamWriter out_devolucionVcub = new OutputStreamWriter(con_devolucionVcub.getOutputStream());
+                out_devolucionVcub.write(devolucionVcub.toString());
                 out_devolucionVcub.flush();
                 out_devolucionVcub.close();
                 //Verificación estado y cierre de conexión
-                int status_request_devolucion_vcub = con_devolucion.getResponseCode();
+                int status_request_devolucion_vcub = con_devolucionVcub.getResponseCode();
                 Log.d("status_req_devolucion_v",Integer.toString(status_request_devolucion_vcub));
-                con_devolucion.disconnect();
+                con_devolucionVcub.disconnect();
 
                 if(status_request_devolucion_estacion > 199 && status_request_devolucion_estacion <300 && status_request_devolucion_vcub > 199 && status_request_devolucion_vcub <300){
                     return "El vcub con id " + vcub.getRegistro() + " ha sido devuelta.";

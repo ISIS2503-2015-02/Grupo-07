@@ -122,7 +122,7 @@ public class Login extends ActionBarActivity {
             }
         }
 
-        protected void onPostExecute(int responseCode) {
+        protected void onPostExecute(Integer responseCode) {
             if(responseCode==200){
                 iniciarMainActivity();
             }
